@@ -10,10 +10,9 @@ use App\Models\Exam_credential;
 class ScheduleController extends Controller
 {
     
-    public function getCourse($id){
-        $course = Course::where('id_courses',$id)->first();
-        // dd($course->Cstatus);
-        return view('create-schedule',compact('course'));
+    public function index(){
+        
+        return view('create-schedule');
     }
 
     public function update(Request $req){

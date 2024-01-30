@@ -27,7 +27,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/course-list',[CourseListController::class,'index']);
-Route::get('/create-schedule/{id}',[ScheduleController::class,'getCourse']);
+Route::get('/create-schedule',[ScheduleController::class,'index']);
 Route::post('/schedule-created',[ScheduleController::class,'update'])->name('schedule-created');
 Route::get('/create-question/{id}',[QuestionController::class,'getCourse']);
 Route::post('/question-created',[QuestionController::class,'store'])->name('question-created');

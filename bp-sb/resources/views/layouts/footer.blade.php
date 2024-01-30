@@ -1,9 +1,9 @@
-<footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://github.com/TahrimKabir">Tahrim Kabir</a>.</strong>
+<footer class="main-footer text-center">
+    <strong>Copyright &copy;  <a href="#">NSTU Software Development Team</a>.</strong>
     All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
+    {{-- <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.2.0
-    </div>
+    </div> --}}
   </footer>
 
   <!-- Control Sidebar -->
