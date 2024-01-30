@@ -1,8 +1,7 @@
-
 {{-- start --}}
 @extends('dashboard')
 @section('style')
-@include('layouts.selectbox')
+    @include('layouts.selectbox')
 @endsection
 
 @section('main')
@@ -10,7 +9,6 @@
 
     <!-- Content Wrapper. Contains page content -->
 @section('edit')
-    
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         {{-- <div class="content-header">
@@ -36,58 +34,60 @@
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-md-8 justify-content-center mt-5">
-                    <div class="card">
-                        <div class="card-header clr-dark-green text-white">
-                            <h2 class="display-6 mb-0 text-center">
-                                Fix Exam Schedule
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <form action="" method="post" >
-                                <div class="row">
-                                    <div class="col-12">
-                                    <label for="name" class="d-block mb-0">Exam Name
-                                        <input type="text" name="exam" id="exam" class="form-control">
-                                    </label>
+                        <div class="card">
+                            <div class="card-header clr-dark-green text-white">
+                                <h2 class="display-6 mb-0 text-center">
+                                    Fix Exam Schedule
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <form action="" method="post">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="name" class="d-block mb-0">Exam Name
+                                                <input type="text" name="exam" id="exam" class="form-control">
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-md-6">
-                                        <label for="course" class="d-block mb-0">Select Course
-                                            <select name="course" id="course" class="select2 form-control" style="width:100%;">
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="course" class="d-block mb-0">Select Course
+                                                <select name="course" id="course" class="select2 form-control"
+                                                    style="width:100%;">
 
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6 mt-md-0 mt-2">
-                                        <label for="type" class="d-block mb-0">Select Type
-                                            <select name="type" id="type" class="select2 form-control" style="width:100%;">
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-6 mt-md-0 mt-2">
+                                            <label for="type" class="d-block mb-0">Select Type
+                                                <select name="type" id="type" class="select2 form-control"
+                                                    style="width:100%;">
 
-                                            </select>
-                                        </label>
+                                                </select>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-12">
-                                        <label for="details" class="d-block mb-0">Exam Details
-                                            <textarea name="details" id="details" cols="30" rows="3" class="form-control">
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <label for="details" class="d-block mb-0">Exam Details
+                                                <textarea name="details" id="details" cols="30" rows="3" class="form-control">
 
                                             </textarea>
-                                        </label>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-12 d-flex">
-                                        <button class="btn btn-sm clr-dark-green ml-auto">
-                                            create
-                                        </button>
+                                    <div class="row mt-2">
+                                        <div class="col-12 d-flex">
+                                            <button class="btn btn-sm clr-dark-green ml-auto">
+                                                create
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    </div>
-                 </div>
+                </div>
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->

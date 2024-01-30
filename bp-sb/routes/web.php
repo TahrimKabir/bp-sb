@@ -8,6 +8,7 @@ use  App\Http\Controllers\QuestionListController;
 use  App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamListController;
+use App\Http\Controllers\ScheduleListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,17 +28,20 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/course-list',[CourseListController::class,'index']);
-Route::get('/create-schedule',[ScheduleController::class,'index']);
-Route::post('/schedule-created',[ScheduleController::class,'update'])->name('schedule-created');
-Route::get('/create-question/{id}',[QuestionController::class,'getCourse']);
-Route::post('/question-created',[QuestionController::class,'store'])->name('question-created');
+
+// Route::post('/schedule-created',[ScheduleController::class,'update'])->name('schedule-created');
+// Route::get('/create-question/{id}',[QuestionController::class,'getCourse']);
+// Route::post('/question-created',[QuestionController::class,'store'])->name('question-created');
 
 
-Route::get('/generate-certificate/{id}', [CertificateController::class, 'generateCertificate']);
+// Route::get('/generate-certificate/{id}', [CertificateController::class, 'generateCertificate']);
 
-Route::get('/question/{id}',[QuestionListController::class,'index']);
-Route::get('/edit/question/{id}',[QuestionListController::class,'edit']);
-Route::post('/question-updated',[QuestionListController::class,'update'])->name('question-updated');
+// Route::get('/question/{id}',[QuestionListController::class,'index']);
+// Route::get('/edit/question/{id}',[QuestionListController::class,'edit']);
+// Route::post('/question-updated',[QuestionListController::class,'update'])->name('question-updated');
 // exam
 Route::get('/create-exam',[ExamController::class,'index']);
 Route::get('/exam-list',[ExamListController::class,'index']);
+
+Route::get('/create-schedule',[ScheduleController::class,'index']);
+Route::get('/schedule-list',[ScheduleListController::class,'index']);

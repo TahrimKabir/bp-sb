@@ -77,19 +77,46 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
-                            <a href="{{ asset('/course-list') }}" class="nav-link">
+                            <a href="{{ asset('/create-exam') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Exam</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
+                            <a href="{{ asset('/exam-list') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Exam List</p>
                             </a>
                         </li>
                     </ul>
+                    
                 </li>
+                {{-- schedule --}}
+                <li class="nav-item menu-open">
+                  <a href="#" class="nav-link active">
+                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                      <p>
+                          Exam Schedule
+                          <i class="right fas fa-angle-left"></i>
+                      </p>
+                  </a>
+                 
+                  <ul class="nav nav-treeview">
+
+                    <li class="nav-item">
+                        <a href="{{ asset('/create-schedule') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Fix Schedule</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ asset('/schedule-list') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Schedule List</p>
+                        </a>
+                    </li>
+                </ul>
+              </li>
 
 
             </ul>
