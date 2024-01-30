@@ -38,7 +38,7 @@
         </li> --}}
 
         <!-- Messages Dropdown Menu -->
-        <li class="nav-item dropdown">
+        {{-- <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 Logout
 
@@ -56,7 +56,7 @@
                     @csrf
                 </form>
             </div>
-        </li>
+        </li> --}}
 
 
 
