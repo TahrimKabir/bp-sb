@@ -7,6 +7,7 @@ use  App\Http\Controllers\QuestionController;
 use  App\Http\Controllers\QuestionListController;
 use  App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\ExamListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,3 +40,4 @@ Route::get('/edit/question/{id}',[QuestionListController::class,'edit']);
 Route::post('/question-updated',[QuestionListController::class,'update'])->name('question-updated');
 // exam
 Route::get('/create-exam',[ExamController::class,'index']);
+Route::get('/exam-list',[ExamListController::class,'index']);
