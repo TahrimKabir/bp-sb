@@ -1,0 +1,24 @@
+[class*=sidebar-dark-] {
+    background-color: #034412;
+}
+.nav-link {
+    display: block;
+    padding: 0.25rem 0.75rem;
+}
+.nav-pills .nav-link {
+     border-radius: 0.15rem; 
+}
+// logo
+.user-panel img {
+    height: auto;
+    width: 10rem;
+}
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #226431;
+    color: #fff;
+}
+
+.clr-dark-green{
+    background-color: #034412;
+    color: #fff;
+}
