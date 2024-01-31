@@ -42,7 +42,9 @@ Route::get('/course-list',[CourseListController::class,'index']);
 // exam
 Route::get('/create-exam',[ExamController::class,'index']);
 Route::post('/exam-added',[ExamController::class,'store'])->name('store-exam');
+// exam-list
 Route::get('/exam-list',[ExamListController::class,'index']);
+
 
 Route::get('/create-schedule',[ScheduleController::class,'index']);
 Route::get('/schedule-list',[ScheduleListController::class,'index']);

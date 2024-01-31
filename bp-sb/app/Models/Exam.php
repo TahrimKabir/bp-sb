@@ -10,4 +10,8 @@ class Exam extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = ['exam_id','exam_name','course_id','type','details','status'];
+
+    public function course(){
+        return $this->belongsTo(Course::class,'course_id','course_id');
+    }
 }

@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-12">
-                                        <label for="exam" class="d-block mb-0">Select Course
+                                        <label for="exam" class="d-block mb-0">Select Exam
                                             <select name="exam_id" id="exam" class="select2 form-control" style="width:100%;">
 
                                             </select>
@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-12">
-                                        <label for="date" class="d-block mb-0">Exam Details
+                                        <label for="date" class="d-block mb-0">Date
                                             <input type="date" name="date" id="date" class="form-control">
                                         </label>
                                     </div>
