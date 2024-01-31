@@ -11,14 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_credentials', function (Blueprint $table) {
-            $table->id();
-            $table->integer('mcstatus_id');
-            $table->string('pin_number');
-            $table->dateTime('start');
-            $table->boolean('is_finished')->default(0);
-            
-        });
+        //
     }
 
     /**

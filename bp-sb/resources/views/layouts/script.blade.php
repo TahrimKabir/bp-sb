@@ -171,3 +171,20 @@
     }
     // DropzoneJS Demo Code End
 </script>
+{{-- message echo --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Get the message container
+    var messageContainer = document.getElementById('message-container');
+
+    // Check if the message container exists
+    if (messageContainer) {
+        // Set a timer to hide the message after 10 seconds (10000 milliseconds)
+        setTimeout(function() {
+            // Hide the message container by setting its display property to 'none'
+            messageContainer.style.display = 'none';
+        }, 4000); // Adjust the time as needed
+    }
+});
+
+</script>

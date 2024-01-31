@@ -8,9 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
-
-    public function Cstatus()
-{
-    return $this->hasMany(MembersCourseStatus::class,'course_id','id_courses');
-}
+    protected $fillable = ['course_id','course_title'];
 }

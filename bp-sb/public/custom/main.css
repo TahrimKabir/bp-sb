@@ -25,4 +25,10 @@
   background-color: #034412;
   color: #fff;
 }
+
+.table td, .table th {
+  padding: 0.25rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
 /*# sourceMappingURL=main.css.map */

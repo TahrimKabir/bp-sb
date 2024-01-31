@@ -37,11 +37,26 @@
                         <div class="card">
                             <div class="card-header clr-dark-green text-white">
                                 <h2 class="display-6 mb-0 text-center">
-                                    Fix Exam Schedule
+                                    Exam
                                 </h2>
                             </div>
                             <div class="card-body">
-                                <form action="" method="post">
+                                <div id="message-container">
+                                    @if (session('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+
+                                @if (session('fail'))
+                                    <div class="alert alert-danger">
+                                        {{ session('fail') }}
+                                    </div>
+                                @endif
+                                </div>
+                                
+                                <form action="{{ route('store-exam') }}" method="post">
+                                    @csrf
                                     <div class="row">
                                         <div class="col-12">
                                             <label for="name" class="d-block mb-0">Exam Name
@@ -52,9 +67,14 @@
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label for="course" class="d-block mb-0">Select Course
-                                                <select name="course" id="course" class="select2 form-control"
+                                                <select name="course_id" id="course" class="select2 form-control"
                                                     style="width:100%;">
-
+                                                    @if ($course != null)
+                                                        @foreach ($course as $c)
+                                                            <option value="{{ $c->course_id }}">{{ $c->course_title }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </label>
                                         </div>
@@ -62,7 +82,8 @@
                                             <label for="type" class="d-block mb-0">Select Type
                                                 <select name="type" id="type" class="select2 form-control"
                                                     style="width:100%;">
-
+                                                    <option value="MCQ">MCQ</option>
+                                                    <option value="IQ">IQ</option>
                                                 </select>
                                             </label>
                                         </div>
@@ -100,4 +121,5 @@
 <!-- jQuery -->
 @section('script')
 @parent
+
 @endsection

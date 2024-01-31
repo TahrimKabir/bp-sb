@@ -41,6 +41,7 @@ Route::get('/course-list',[CourseListController::class,'index']);
 // Route::post('/question-updated',[QuestionListController::class,'update'])->name('question-updated');
 // exam
 Route::get('/create-exam',[ExamController::class,'index']);
+Route::post('/exam-added',[ExamController::class,'store'])->name('store-exam');
 Route::get('/exam-list',[ExamListController::class,'index']);
 
 Route::get('/create-schedule',[ScheduleController::class,'index']);
