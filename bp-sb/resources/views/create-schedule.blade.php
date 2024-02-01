@@ -93,7 +93,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="row mt-2">
+                                {{-- <div class="row mt-2">
                                     <div class="col-12">
                                         <label for="rank" class="d-block mb-0">Rank
                                             <select name="rank" id="rank" class="select2 form-control" style="width:100%;"  onchange="filterPoliceOptions()">
@@ -106,7 +106,7 @@
                                             </select>
                                         </label>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="row mt-2">
                                     <div class="col-12" id="in">
                                         {{-- <div class="form-group"> --}}
@@ -116,7 +116,7 @@
                                           
                                             @if($member!=null)
                                             @foreach($member as $m)
-                                            <option value="{{$m->bpid}}" data-rank="{{$m->post}}" >{{$m->name_bn}}</option>
+                                            <option value="{{$m->bpid}}" data-rank="{{$m->post}}" >{{$m->name_bn}}-{{$m->post}}</option>
                                             @endforeach
                                             @endif
                                           </select>
