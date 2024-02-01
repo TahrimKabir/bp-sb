@@ -58,9 +58,9 @@
                                     @foreach($schedule as $s)
                                     <tr>
                                         <td>{{$s->id}}</td>
-                                        <td>{{$s->config->exam->exam_name}}</td>
-                                        <td>{{$s->member->name}}</td>
-                                        <td>{{$s->member->bpid}}</td>
+                                        <td>@if($s->config!=null) @if($s->config->exam!=null){{$s->config->exam->exam_name}}@endif @endif</td>
+                                        <td>@if($s->member!=null){{$s->member->name}}@endif</td>
+                                        <td>@if($s->member!=null){{$s->member->bpid}}@endif</td>
                                         <td>{{$s->login_time}}</td>
                                         <td>{{$s->submission_time}}</td>
                                         <td>{{$s->password}}</td>
@@ -100,26 +100,26 @@
 
 <!-- jQuery -->
 @section('script')
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="{{asset('../../plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="{{asset('../../plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="{{asset('../../plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('../../plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('../../plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('../../plugins/jszip/jszip.min.js')}}"></script>
+<script src="{{asset('../../plugins/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{asset('../../plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{asset('../../plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{asset('../../plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{asset('../../plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="{{asset('../../dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+{{-- <script src="../../dist/js/demo.js"></script> --}}
 <!-- Page specific script -->
 <script>
     $(function() {
@@ -145,11 +145,11 @@
     
     var messageContainer = document.getElementById('message-container');
 
-    
+   
     if (messageContainer) {
        
         setTimeout(function() {
-            
+           
             messageContainer.style.display = 'none';
         }, 4000); 
     }

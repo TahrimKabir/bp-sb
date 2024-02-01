@@ -107,6 +107,12 @@
                                             <label for="" class="d-block ">
                                                 <input type="radio" id="option3" name="ans" value="d"> d
                                             </label>
+                                            <label for="" class="d-block ">
+                                                <input type="radio" id="option3" name="ans" value="e"> c
+                                            </label>
+                                            <label for="" class="d-block ">
+                                                <input type="radio" id="option3" name="ans" value="f"> d
+                                            </label>
 
                                         </div>
 

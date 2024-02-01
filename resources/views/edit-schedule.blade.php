@@ -26,7 +26,7 @@
                                Edit Exam Schedule
                             </h4>
                             <p class="display-6 mb-0 text-center">for</p>
-                            <p class="display-6 mb-0 text-center">{{$schedule->member->name_bn}} ({{$schedule->member->post}})</p>
+                            <p class="display-6 mb-0 text-center">@if($schedule->member!=null) {{$schedule->member->name_bn}} ({{$schedule->member->post}}) @endif</p>
                         </div>
                         <div class="card-body">
                             <div id="message-container">

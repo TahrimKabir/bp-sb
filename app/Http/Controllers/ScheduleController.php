@@ -14,7 +14,10 @@ class ScheduleController extends Controller
     public function index()
     {
         $rank = Member::select('post')->distinct()->get();
-        $member = Member::all();
+        $member = Member::leftJoin('results', 'members.bpid', '=', 'results.bpid')
+        ->whereNull('results.bpid')
+        ->select('members.*')
+        ->get();
         $exam = Exam::all();
         return view('create-schedule', compact('rank', 'member', 'exam'));
     }

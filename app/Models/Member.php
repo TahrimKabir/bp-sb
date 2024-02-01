@@ -11,4 +11,8 @@ class Member extends Model
     public function schedule(){
         return $this->hasMany(Exam_Schedule::class,'bpid','bpid');
     }
+
+    public function result(){
+        return $this->hasMany(Result::class,'bpid','bpid');
+    }
 }
