@@ -14,4 +14,7 @@ class Exam extends Model
     public function course(){
         return $this->belongsTo(Course::class,'course_id','course_id');
     }
+    public function config(){
+        return $this->hasMany(Exam_configuration::class,'exam_id','exam_id');
+    }
 }

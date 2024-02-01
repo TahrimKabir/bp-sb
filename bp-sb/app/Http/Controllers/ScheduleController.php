@@ -22,10 +22,10 @@ class ScheduleController extends Controller
     public function store(Request $req)
     {
         $data = array('name' => $req->configuration, 'total_questions' => $req->numques, 'pass_mark' => $req->pmark, 'exam_id' => $req->exam_id, 'date' => $req->date, 'start_time' => $req->stime, 'end_time' => $req->etime, 'status' => 'deactive');
-        $config = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->get();
+        $config = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->where('start_time',$req->stime)->where('end_time',$req->etime)->get();
         if (count($config) == 0) {
             Exam_configuration::create($data);
-            $econfig = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->first();
+            $econfig = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->where('start_time',$req->stime)->where('end_time',$req->etime)->first();
 
             if ($req->bpid != null) {
                 foreach ($req->bpid as $b) {

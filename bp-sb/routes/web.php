@@ -44,10 +44,15 @@ Route::get('/create-exam',[ExamController::class,'index']);
 Route::post('/exam-added',[ExamController::class,'store'])->name('store-exam');
 // exam-list
 Route::get('/exam-list',[ExamListController::class,'index']);
-
+Route::get('/edit/exam/{id}',[ExamListController::class,'edit']);
+Route::post('/exam-updated',[ExamListController::class,'update'])->name('update-exam');
+Route::get('/delete/exam/{id}',[ExamListController::class,'delete']);
 
 Route::get('/create-schedule',[ScheduleController::class,'index']);
 Route::post('/schedule-created',[ScheduleController::class,'store'])->name('store-schedule');
 
 
 Route::get('/schedule-list',[ScheduleListController::class,'index']);
+Route::get('/edit/schedule/{id}',[ScheduleListController::class,'edit']);
+Route::post('/schedule-updated',[ScheduleListController::class,'update'])->name('update-schedule');
+Route::get('/delete/schedule/{id}',[ScheduleListController::class,'delete']);

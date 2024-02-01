@@ -26,6 +26,19 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
+                                <div id="message-container">
+                                    @if (session('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+    
+                                @if (session('fail'))
+                                    <div class="alert alert-danger">
+                                        {{ session('fail') }}
+                                    </div>
+                                @endif
+                                </div>
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
@@ -43,8 +56,8 @@
                                     @foreach($schedule as $s)
                                     <tr>
                                         <td>{{$s->id}}</td>
-                                        <td></td>
-                                        <td>{{$s->bpid}}</td>
+                                        <td>{{$s->config->exam->exam_name}}</td>
+                                        <td>{{$s->member->name_bn}}</td>
                                         <td>{{$s->login_time}}</td>
                                         <td>{{$s->submission_time}}</td>
                                         <td>{{$s->status}}</td>
@@ -122,5 +135,21 @@
             "responsive": true,
         });
     });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Get the message container
+    var messageContainer = document.getElementById('message-container');
+
+    // Check if the message container exists
+    if (messageContainer) {
+        // Set a timer to hide the message after 10 seconds (10000 milliseconds)
+        setTimeout(function() {
+            // Hide the message container by setting its display property to 'none'
+            messageContainer.style.display = 'none';
+        }, 4000); // Adjust the time as needed
+    }
+});
+
 </script>
 @endsection
