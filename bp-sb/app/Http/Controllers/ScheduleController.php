@@ -2,30 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exam;
+use App\Models\Exam_configuration;
+use App\Models\Exam_Schedule;
+use App\Models\Member;
 use Illuminate\Http\Request;
-use App\Models\Course;
-use App\Models\MembersCourseStatus;
-use Illuminate\Support\Facades\Hash;
-use App\Models\Exam_credential;
+
 class ScheduleController extends Controller
 {
-    
-    public function index(){
-        
-        return view('create-schedule');
+
+    public function index()
+    {
+        $rank = Member::select('post')->distinct()->get();
+        $member = Member::all();
+        $exam = Exam::all();
+        return view('create-schedule', compact('rank', 'member', 'exam'));
     }
 
-    public function update(Request $req){
-        if($req->bpid!=null){
-            foreach($req->bpid as $b){
-                // 'pin'=>mt_rand(100000, 999999)
-             $data = array('exam_date'=>$req->examdate,'exam'=>'1');
-             $pin = array('mcstatus_id'=>$b,'pin_number'=>Hash::make(mt_rand(100000, 999999)),'start'=>date('Y-m-d H:i', strtotime($req->examdate . ' ' . $req->from)));
-             Exam_credential::create($pin);
-             MembersCourseStatus::where('id_members_course_status',$b)->update($data);
+    public function store(Request $req)
+    {
+        $data = array('name' => $req->configuration, 'total_questions' => $req->numques, 'pass_mark' => $req->pmark, 'exam_id' => $req->exam_id, 'date' => $req->date, 'start_time' => $req->stime, 'end_time' => $req->etime, 'status' => 'deactive');
+        $config = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->get();
+        if (count($config) == 0) {
+            Exam_configuration::create($data);
+            $econfig = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->first();
+
+            if ($req->bpid != null) {
+                foreach ($req->bpid as $b) {
+                    $schedule = array('bpid' => $b, 'exam_config_id' => $econfig->id, 'password' => random_int(100000, 999999));
+                    Exam_Schedule::create($schedule);
+                }
             }
-            return redirect()->back();
         }
+
     }
 
 }

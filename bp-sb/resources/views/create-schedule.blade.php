@@ -27,7 +27,8 @@
                             </h2>
                         </div>
                         <div class="card-body">
-                            <form action="" method="post" >
+                            <form action="{{route('store-schedule')}}" method="post" >
+                                @csrf
                                 <div class="row">
                                     <div class="col-12">
                                     <label for="configuration" class="d-block mb-0">Configuration Name
@@ -39,7 +40,11 @@
                                     <div class="col-12">
                                         <label for="exam" class="d-block mb-0">Select Exam
                                             <select name="exam_id" id="exam" class="select2 form-control" style="width:100%;">
-
+                                             @if($exam!=null)
+                                             @foreach($exam as $e)
+                                             <option value="{{$e->exam_id}}">{{$e->exam_name}}</option>
+                                             @endforeach
+                                             @endif
                                             </select>
                                         </label>
                                     </div>
@@ -78,18 +83,29 @@
                                 <div class="row mt-2">
                                     <div class="col-12">
                                         <label for="rank" class="d-block mb-0">Rank
-                                            <select name="rank" id="rank" class="select2 form-control" style="width:100%;">
-
+                                            <select name="rank" id="rank" class="select2 form-control" style="width:100%;"  onchange="filterPoliceOptions()">
+                                                
+                                                @if($rank!=null)
+                                             @foreach($rank as $r)
+                                             <option value="{{$r->post}}" >{{$r->post}}</option>
+                                             @endforeach
+                                             @endif
                                             </select>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
-                                    <div class="col-12">
+                                    <div class="col-12" id="in">
                                         {{-- <div class="form-group"> --}}
                                           <label class="d-block mb-0" for="bpid">Select Police
-                                          <select class="duallistbox" multiple="multiple">
                                             
+                                          <select class="duallistbox" multiple="multiple" name="bpid[]" id="bpid">
+                                          
+                                            @if($member!=null)
+                                            @foreach($member as $m)
+                                            <option value="{{$m->bpid}}" data-rank="{{$m->post}}" >{{$m->name_bn}}</option>
+                                            @endforeach
+                                            @endif
                                           </select>
                                         </label>
                                         {{-- </div> --}}
@@ -120,4 +136,29 @@
 <!-- jQuery -->
 @section('script')
 @parent
+<script>
+    function filterPoliceOptions() {
+        var selectedRank = document.getElementById('rank').value;
+        var bpidSelect = document.getElementById('bpid');
+        var bpid = @json($member);
+        console.log(selectedRank);
+        document.getElementById('bpid').innerHTML = bpid;
+        var police = [];
+        // for(var i=0; i<bpid.length; i++){
+        //     if(bpid[i].post===selectedRank){
+        //         police.push(bpid[i].bpid);
+                
+        //     }
+        // }
+        // if(police!=null){
+        //     document.getElementById('in').innerHTML=police;
+        // }
+       
+        
+        
+    }
+
+    // Manually initialize the DualListbox plugin
+    // ...
+</script>
 @endsection

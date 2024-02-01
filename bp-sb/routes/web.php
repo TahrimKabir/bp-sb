@@ -47,4 +47,7 @@ Route::get('/exam-list',[ExamListController::class,'index']);
 
 
 Route::get('/create-schedule',[ScheduleController::class,'index']);
+Route::post('/schedule-created',[ScheduleController::class,'store'])->name('store-schedule');
+
+
 Route::get('/schedule-list',[ScheduleListController::class,'index']);
