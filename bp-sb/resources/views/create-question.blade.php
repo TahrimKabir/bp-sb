@@ -41,7 +41,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
 
-                                           <input type="hidden" name="cid" value="{{$course->id_courses}}">
+                                            <input type="hidden" name="cid" value="{{ $course->id_courses }}">
                                             <!-- /.card-header -->
                                             <label for="" class="d-block">Question
                                                 <textarea id="summernote" name="question">
@@ -53,8 +53,8 @@
 
                                         </div>
 
-                                        
-                                        
+
+
                                         <div class="col-md-12 bg-primary p-2 m-2">
                                             <h4 class="text-center mb-0">
                                                 Create Options and Choose the Correct Also
@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="option3" class="d-block ">
-                                                 option
+                                                option
                                                 1
                                                 <input type="text" id="option3" name="a" class="form-control">
 
@@ -107,7 +107,7 @@
                                             <label for="" class="d-block ">
                                                 <input type="radio" id="option3" name="ans" value="d"> d
                                             </label>
-                                           
+
                                         </div>
 
                                     </div>
