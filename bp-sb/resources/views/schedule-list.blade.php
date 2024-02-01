@@ -45,8 +45,10 @@
                                             <th>SL</th>
                                             <th>Exam</th>
                                             <th>Selected Police</th>
+                                            <th>Police Id</th>
                                             <th>Login Time</th>
                                             <th>Submission Time</th>
+                                            <th>Exam pin</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -57,9 +59,11 @@
                                     <tr>
                                         <td>{{$s->id}}</td>
                                         <td>{{$s->config->exam->exam_name}}</td>
-                                        <td>{{$s->member->name_bn}}</td>
+                                        <td>{{$s->member->name}}</td>
+                                        <td>{{$s->member->bpid}}</td>
                                         <td>{{$s->login_time}}</td>
                                         <td>{{$s->submission_time}}</td>
+                                        <td>{{$s->password}}</td>
                                         <td>{{$s->status}}</td>
                                         <td><div class="col-12 d-flex justify-content-center">
                                             <a href="{{asset('/delete/schedule/'.$s->id)}}" class="btn btn-xs btn-danger">
