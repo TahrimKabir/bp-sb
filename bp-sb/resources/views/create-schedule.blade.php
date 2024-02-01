@@ -27,6 +27,19 @@
                             </h2>
                         </div>
                         <div class="card-body">
+                            <div id="message-container">
+                                @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if (session('fail'))
+                                <div class="alert alert-danger">
+                                    {{ session('fail') }}
+                                </div>
+                            @endif
+                            </div>
                             <form action="{{route('store-schedule')}}" method="post" >
                                 @csrf
                                 <div class="row">

@@ -33,6 +33,9 @@ class ScheduleController extends Controller
                     Exam_Schedule::create($schedule);
                 }
             }
+            return redirect()->back()->with('success', 'Exam added successfully');
+        } else {
+            return redirect()->back()->with('fail', 'configuration name/exam/date already exist!');
         }
 
     }
