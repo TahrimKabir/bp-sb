@@ -36,13 +36,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ asset('/course-list') }}" class="nav-link">
+                            <a href="{{ asset('/create-question') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Create Question</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
+                            <a href="{{asset('/questionlist')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Question List</p>
                             </a>

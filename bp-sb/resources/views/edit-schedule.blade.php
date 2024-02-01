@@ -176,4 +176,21 @@
     // Manually initialize the DualListbox plugin
     // ...
 </script>
+{{-- message echo --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    
+    var messageContainer = document.getElementById('message-container');
+
+   
+    if (messageContainer) {
+        
+        setTimeout(function() {
+            
+            messageContainer.style.display = 'none';
+        }, 4000); 
+    }
+});
+
+</script>
 @endsection

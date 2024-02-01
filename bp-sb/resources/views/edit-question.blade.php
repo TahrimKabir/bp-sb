@@ -5,23 +5,7 @@
     <!-- Content Wrapper. Contains page content -->
 @section('edit')
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Create Question</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
+        
 
         <!-- Main content -->
         <section class="content">
@@ -29,7 +13,20 @@
                 <div class="row justify-content-center">
                     <div class="col-12 justify-content-center">
                         <div class="card">
-                            <div class="card-header">
+                            <div id="message-container">
+                                @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if (session('fail'))
+                                <div class="alert alert-danger">
+                                    {{ session('fail') }}
+                                </div>
+                            @endif
+                            </div>
+                            <div class="card-header clr-dark-green">
                                
                                 <h3 class="text-center display-6 mb-0">
                                     Edit Question
@@ -41,7 +38,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
 
-                                           <input type="hidden" name="cid" value="{{$question->id_questions}}">
+                                           <input type="hidden" name="cid" value="{{$question->question_id}}">
                                             <!-- /.card-header -->
                                             <label for="" class="d-block">Question
                                                 <textarea id="summernote" name="question">
@@ -55,16 +52,16 @@
 
                                         
                                         
-                                        <div class="col-md-12 bg-primary p-2 m-2">
+                                        {{-- <div class="col-md-12 bg-primary p-2 m-2">
                                             <h4 class="text-center mb-0">
                                                 Create Options and Choose the Correct Also
                                             </h4>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-6">
                                             <label for="option3" class="d-block ">
                                                  option
                                                 1
-                                                <input type="text" id="option3" name="a" class="form-control" value="{{$question->a}}">
+                                                <input type="text" id="option3" name="a" class="form-control" value="{{$question->option1}}">
 
 
                                             </label>
@@ -72,7 +69,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="option3" class="d-block "> option 2
-                                                <input type="text" id="option3" name="b" class="form-control" value="{{$question->b}}">
+                                                <input type="text" id="option3" name="b" class="form-control" value="{{$question->option2}}">
 
 
                                             </label>
@@ -80,7 +77,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="option3" class="d-block "> option 3
-                                                <input type="text" id="option3" name="c" class="form-control" value="{{$question->c}}">
+                                                <input type="text" id="option3" name="c" class="form-control" value="{{$question->option3}}">
 
 
                                             </label>
@@ -88,32 +85,46 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="option3" class="d-block "> option 4
-                                                <input type="text" id="option3" name="d" class="form-control" value="{{$question->d}}">
+                                                <input type="text" id="option3" name="d" class="form-control" value="{{$question->option4}}">
 
 
                                             </label>
                                         </div>
+                                        <div class="col-md-6">
+                                            <label for="option3" class="d-block "> option 5
+                                                <input type="text" id="option3" name="e" class="form-control" value="{{$question->option5}}">
 
-                                        <div class="col-12">
-                                            <label for="" class="d-block ">
-                                                <input type="radio" id="option3" name="ans" value="a" @if('a'==$question->answer) checked / @endif> a
+
                                             </label>
-                                            <label for="" class="d-block ">
-                                                <input type="radio" id="option3" name="ans" value="b" @if('b'==$question->answer) checked / @endif> b
-                                            </label>
-                                            <label for="" class="d-block ">
-                                                <input type="radio" id="option3" name="ans" value="c" @if('c'==$question->answer) checked / @endif> c
-                                            </label>
-                                            <label for="" class="d-block ">
-                                                <input type="radio" id="option3" name="ans" value="d" @if('d'==$question->answer) checked / @endif> d
-                                            </label>
-                                           
+
                                         </div>
+                                        <div class="col-md-6">
+                                            <label for="option3" class="d-block "> option 6
+                                                <input type="text" id="option3" name="f" class="form-control" value="{{$question->option6}}">
+
+
+                                            </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="option3" class="d-block "> Correct Answer
+                                                <select name="ans" id="" class="select2 form-control">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                </select>
+
+
+                                            </label>
+                                        </div>
+                                        
 
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2">
-                                            <button class="btn btn-md btn-primary form-control">update</button>
+                                            <button class="btn btn-sm clr-dark-green form-control">update</button>
                                         </div>
                                     </div>
                                 </form>

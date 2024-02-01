@@ -36,9 +36,10 @@ Route::get('/course-list',[CourseListController::class,'index']);
 
 // Route::get('/generate-certificate/{id}', [CertificateController::class, 'generateCertificate']);
 
-// Route::get('/question/{id}',[QuestionListController::class,'index']);
-// Route::get('/edit/question/{id}',[QuestionListController::class,'edit']);
-// Route::post('/question-updated',[QuestionListController::class,'update'])->name('question-updated');
+Route::get('/questionlist',[QuestionListController::class,'index']);
+Route::get('/edit/question/{id}',[QuestionListController::class,'edit']);
+Route::post('/question-updated',[QuestionListController::class,'update'])->name('question-updated');
+Route::get('/delete/question/{id}',[QuestionListController::class,'delete']);
 // exam
 Route::get('/create-exam',[ExamController::class,'index']);
 Route::post('/exam-added',[ExamController::class,'store'])->name('store-exam');
