@@ -34,18 +34,18 @@
     <div
         class="d-flex flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-secondary">
         <!-- Header -->
-{{--        <a href="login.php" class="nav-link">--}}
-{{--            <div class="d-flex align-items-center">--}}
-{{--                <img src="../img/footer_logo.png" height="60px" alt="Logo">--}}
-{{--            </div>--}}
-{{--        </a>--}}
+        <a href="login.php" class="nav-link">
+            <div class="d-flex align-items-center">
+                <img src="{{asset('images/logo.png')}}" height="60px" alt="Logo">
+            </div>
+        </a>
         <!-- Header -->
     </div>
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
-{{--        <div class="col-md-9 col-lg-6 col-xl-5 px-5 py-4 py-sm-2">--}}
-{{--            <img src="../img/logo.png" class="img-fluid mx-auto" alt="Logo" style="max-height: 150px;">--}}
-{{--        </div>--}}
+        <div class="col-md-9 col-lg-6 col-xl-5 px-5 py-4 py-sm-2">
+            <img src="{{asset('images/logo.png')}}" class="img-fluid mx-auto" alt="Logo" style="max-height: 150px;">
+        </div>
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
@@ -57,14 +57,14 @@
                 <input type="email" id="form3Example3" class="form-control form-control"
                 placeholder="ইমেল লিখুন" name="email" required @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus/>
 
-
+                
 
                 @error('email')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-
+               
             </div>
 
             <!-- Password input -->
@@ -72,7 +72,7 @@
             <label class="form-label" for="form3Example4"> পাসওয়ার্ড </label>
                 <input type="password" id="form3Example4" class="form-control form-control"
                 placeholder="পাসওয়ার্ড লিখুন" name="password" required @error('password') is-invalid @enderror"   autocomplete="current-password"/>
-
+                
             </div>
 
             <div class="text-center">
@@ -81,7 +81,7 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-
+               
             </div>
 
             <div class="text-center text-lg-start mt-4 pt-2">
@@ -97,8 +97,7 @@
         class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-secondary">
         <!-- Copyright -->
         <p class="copyright text-white">
-{{--        Copyright &copy; <script data-cfasync="false" src="{{asset('dn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js')}}"></script>--}}
-            <script>document.write(new Date().getFullYear());</script> All rights reserved | BPWN</a>
+        Copyright &copy; <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | BPWN</a>
         </p>
         <!-- Copyright -->
     </div>
