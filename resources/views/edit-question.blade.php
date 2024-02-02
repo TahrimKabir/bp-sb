@@ -5,7 +5,7 @@
     <!-- Content Wrapper. Contains page content -->
 @section('edit')
     <div class="content-wrapper">
-        
+
 
         <!-- Main content -->
         <section class="content">
@@ -27,7 +27,7 @@
                             @endif
                             </div>
                             <div class="card-header clr-dark-green">
-                               
+
                                 <h3 class="text-center display-6 mb-0">
                                     Edit Question
                                 </h3>
@@ -50,8 +50,8 @@
 
                                         </div>
 
-                                        
-                                        
+
+
                                         {{-- <div class="col-md-12 bg-primary p-2 m-2">
                                             <h4 class="text-center mb-0">
                                                 Create Options and Choose the Correct Also
@@ -119,7 +119,7 @@
 
                                             </label>
                                         </div>
-                                        
+
 
                                     </div>
                                     <div class="row">
@@ -149,18 +149,18 @@
 <!-- jQuery -->
 @section('script')
 <!-- jQuery -->
-<script src="{{asset('../../plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->
-<script src="{{asset('../../plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('../../dist/js/adminlte.min.js')}}"></script>
+<script src="{{asset('dist/js/adminlte.min.js')}}"></script>
 <!-- Summernote -->
-<script src="{{asset('../../plugins/summernote/summernote-bs4.min.js')}}"></script>
+<script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
 <!-- CodeMirror -->
-<script src="{{asset('../../plugins/codemirror/codemirror.js')}}"></script>
-<script src="{{asset('../../plugins/codemirror/mode/css/css.js')}}"></script>
-<script src="{{asset('../../plugins/codemirror/mode/xml/xml.js')}}"></script>
-<script src="{{asset('../../plugins/codemirror/mode/htmlmixed/htmlmixed.js')}}"></script>
+<script src="{{asset('plugins/codemirror/codemirror.js')}}"></script>
+<script src="{{asset('plugins/codemirror/mode/css/css.js')}}"></script>
+<script src="{{asset('plugins/codemirror/mode/xml/xml.js')}}"></script>
+<script src="{{asset('plugins/codemirror/mode/htmlmixed/htmlmixed.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 {{-- <script src="../../dist/js/demo.js"></script> --}}
 <!-- Page specific script -->
@@ -169,7 +169,7 @@
         // Summernote
         $('#summernote').summernote()
 
-        
+
     })
 </script>
 @endsection
