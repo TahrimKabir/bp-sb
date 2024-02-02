@@ -19,7 +19,7 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
+                <li  @if(request()->segment(1) == 'home'||request()->segment(1)=='create-question'||request()->segment(1)=='questionlist') class="nav-item menu-open" @else class="nav-item" @endif>
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -29,20 +29,20 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ asset('/home') }}" class="nav-link ">
+                            <a href="{{ asset('/home') }}" @if(request()->segment(1) == 'home')class="nav-link text-success" @else class="nav-link" @endif >
                                 {{-- active --}}
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ asset('/create-question') }}" class="nav-link">
+                            <a href="{{ asset('/create-question') }}" @if(request()->segment(1) == 'create-question') class="nav-link text-success" @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Create Question</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{asset('/questionlist')}}" class="nav-link">
+                            <a href="{{asset('/questionlist')}}" @if(request()->segment(1) == 'questionlist') class="nav-link text-success" @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Question List</p>
                             </a>
@@ -50,7 +50,7 @@
                     </ul>
                 </li>
                 {{-- exam --}}
-                <li class="nav-item menu-open">
+                <li  @if(request()->segment(1) == 'create-exam'||request()->segment(1)=='exam-list') class="nav-item menu-open" @else class="nav-item" @endif>
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -61,13 +61,13 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
-                            <a href="{{ asset('/create-exam') }}" class="nav-link">
+                            <a href="{{ asset('/create-exam') }}"  @if(request()->segment(1) == 'create-exam')class="nav-link text-success" @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Exam</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ asset('/exam-list') }}" class="nav-link">
+                            <a href="{{ asset('/exam-list') }}" @if(request()->segment(1) == 'exam-list')class="nav-link text-success" @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Exam List</p>
                             </a>
@@ -76,7 +76,7 @@
 
                 </li>
                 {{-- schedule --}}
-                <li class="nav-item ">
+                <li  @if(request()->segment(1) == 'create-schedule'||request()->segment(1)=='schedule-list') class="nav-item menu-open" @else class="nav-item" @endif>
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -88,13 +88,13 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
-                            <a href="{{ asset('/create-schedule') }}" class="nav-link">
+                            <a href="{{ asset('/create-schedule') }}"  @if(request()->segment(1) == 'create-schedule') class="nav-link text-success" @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Fix Schedule</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ asset('/schedule-list') }}" class="nav-link">
+                            <a href="{{ asset('/schedule-list') }}"  @if(request()->segment(1) == 'schedule-list') class="nav-link text-success" @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Schedule List</p>
                             </a>
