@@ -23,7 +23,8 @@ class ExamListController extends Controller
     }
     public function update(Request $req)
     {
-        if ($req->exam == null || $req->course_id == null || $req->details == null || $req->type==null) {
+        // || $req->course_id == null may come later
+        if ($req->exam == null  || $req->details == null || $req->type==null) {
             return redirect()->back()->with('fail', 'Exam details/exam-title/course/type must be filled');
         } else {
             $check = Exam::where('exam_name', $req->exam)->where('course_id', $req->course_id)->where('type', $req->type)->get();

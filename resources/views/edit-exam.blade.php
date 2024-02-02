@@ -57,7 +57,7 @@
 
                                 <form action="{{ route('update-exam') }}" method="post">
                                     @csrf
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-12">
                                             <input type="hidden" name="id" value="{{$exam->exam_id}}">
                                             <label for="name" class="d-block mb-0">Exam Name
@@ -65,10 +65,15 @@
                                                     value="{{ $exam->exam_name }}">
                                             </label>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="row mt-2">
                                         <div class="col-md-6">
-                                            <label for="course" class="d-block mb-0">Select Course
+                                            <input type="hidden" name="id" value="{{$exam->exam_id}}">
+                                            <label for="name" class="d-block mb-0">Exam Name
+                                                <input type="text" name="exam" id="exam" class="form-control"
+                                                    value="{{ $exam->exam_name }}">
+                                            </label>
+                                            {{-- <label for="course" class="d-block mb-0">Select Course
                                                 <select name="course_id" id="course" class="select2 form-control"
                                                     style="width:100%;">
                                                     @if ($course != null)
@@ -80,16 +85,16 @@
                                                         @endforeach
                                                     @endif
                                                 </select>
-                                            </label>
+                                            </label> --}}
                                         </div>
                                         <div class="col-md-6 mt-md-0 mt-2">
                                             <label for="type" class="d-block mb-0">Select Type
                                                 <select name="type" id="type" class="select2 form-control"
                                                     style="width:100%;">
                                                     <option value="MCQ"
-                                                        @if ($exam->course_id == 'MCQ') selected @endif>MCQ</option>
+                                                        @if ($exam->type == 'MCQ') selected @endif>MCQ</option>
                                                     <option value="IQ"
-                                                        @if ($exam->course_id == 'IQ') selected @endif>IQ</option>
+                                                        @if ($exam->type == 'IQ') selected @endif>IQ</option>
                                                 </select>
                                             </label>
                                         </div>

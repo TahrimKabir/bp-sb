@@ -57,16 +57,16 @@
                                 
                                 <form action="{{ route('store-exam') }}" method="post">
                                     @csrf
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-12">
                                             <label for="name" class="d-block mb-0">Exam Name
                                                 <input type="text" name="exam" id="exam" class="form-control" required>
                                             </label>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="row mt-2">
                                         <div class="col-md-6">
-                                            <label for="course" class="d-block mb-0">Select Course
+                                            {{-- <label for="course" class="d-block mb-0">Select Course
                                                 <select name="course_id" id="course" class="select2 form-control"
                                                     style="width:100%;" required>
                                                     @if ($course != null)
@@ -76,6 +76,9 @@
                                                         @endforeach
                                                     @endif
                                                 </select>
+                                            </label> --}}
+                                            <label for="name" class="d-block mb-0">Exam Name
+                                                <input type="text" name="exam" id="exam" class="form-control" required>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mt-md-0 mt-2">
