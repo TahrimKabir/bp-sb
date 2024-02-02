@@ -63,7 +63,7 @@
                         <li class="nav-item">
                             <a href="{{ asset('/create-exam') }}"  @if(request()->segment(1) == 'create-exam')class="nav-link text-success" @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Exam</p>
+                                <p>Create Exam</p>
                             </a>
                         </li>
                         <li class="nav-item">
