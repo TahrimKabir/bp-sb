@@ -27,7 +27,8 @@ class QuestionListController extends Controller
         return redirect()->back()->with('success','successfully updated');
     }
     public function delete($id){
-        
+        Mcq_question::where('question_id',$id)->delete();
+        return redirect()->back()->with('success','!!record deleted!!');
     }
 
 }

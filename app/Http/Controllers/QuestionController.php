@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\Question;
+use App\Models\Mcq_question;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-    public function getCourse($id)
+    public function index()
     {
-        $course = Course::where('id_courses', $id)->first();
-        return view('create-question', compact('course'));
+        
+        return view('create-question');
     }
 
     public function store(Request $req)
@@ -19,13 +19,13 @@ class QuestionController extends Controller
         if ($req->ans!=null && $req->question!=null) {
             // $ans = implode(', ',$req->ans);
             // $cat = implode(', ',$req->qcat);
-            $data = array('course_id' => $req->cid, 'question' => $req->question, 'a' => $req->a, 'b' => $req->b, 'c' => $req->c, 'd' => $req->d, 'answer' => $req->ans);
+            $data = array('question' => $req->question, 'correct_option' => $req->ans, 'option1' => $req->a, 'option2' => $req->b, 'option3' => $req->c, 'option4' => $req->d,'option5'=>$req->e,'option6'=>$req->f );
            
-            Question::create($data);
+            Mcq_question::create($data);
             
-            return redirect()->back()->with('message', 'question created');
+            return redirect()->back()->with('success', 'question created');
         } else {
-            return redirect()->back()->with('message', 'question category and answer must be selected');
+            return redirect()->back()->with('fail', 'required fields must be selected');
         }
 
     }

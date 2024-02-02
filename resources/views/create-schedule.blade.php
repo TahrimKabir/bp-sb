@@ -44,7 +44,7 @@
                                         <div class="col-12">
                                             <label for="configuration" class="d-block mb-0">Configuration Name
                                                 <input type="text" name="configuration" id="configuration"
-                                                    class="form-control">
+                                                    class="form-control" required>
                                             </label>
                                         </div>
                                     </div>
@@ -52,7 +52,7 @@
                                         <div class="col-12">
                                             <label for="exam" class="d-block mb-0">Select Exam
                                                 <select name="exam_id" id="exam" class="select2 form-control"
-                                                    style="width:100%;">
+                                                    style="width:100%;" required>
                                                     @if ($exam != null)
                                                         @foreach ($exam as $e)
                                                             <option value="{{ $e->exam_id }}">{{ $e->exam_name }}</option>
@@ -65,31 +65,31 @@
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label for="numques" class="d-block mb-0">Number of Questions
-                                                <input type="number" name="numques" id="numques" class="form-control">
+                                                <input type="number" name="numques" id="numques" class="form-control" required>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mt-md-0 mt-2">
                                             <label for="pmark" class="d-block mb-0">Pass Mark
-                                                <input type="number" name="pmark" id="pmark" class="form-control">
+                                                <input type="number" name="pmark" id="pmark" class="form-control" required>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-12">
                                             <label for="date" class="d-block mb-0">Date
-                                                <input type="date" name="date" id="date" class="form-control">
+                                                <input type="date" name="date" id="date" class="form-control" required>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label for="stime" class="d-block mb-0">Start Time
-                                                <input type="time" name="stime" id="stime" class="form-control">
+                                                <input type="time" name="stime" id="stime" class="form-control" required>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mt-md-0 mt-2">
                                             <label for="etime" class="d-block mb-0">End Time
-                                                <input type="time" name="etime" id="etime" class="form-control">
+                                                <input type="time" name="etime" id="etime" class="form-control" required>
                                             </label>
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@
                                             <label class="d-block mb-0" for="bpid">Select Police
 
                                                 <select class="duallistbox" multiple="multiple" name="bpid[]"
-                                                    id="bpid">
+                                                    id="bpid" >
 
                                                     @if ($member!=null)
                                                         @foreach ($member as $m)

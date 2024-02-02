@@ -108,12 +108,12 @@
                                         <div class="col-md-6">
                                             <label for="option3" class="d-block "> Correct Answer
                                                 <select name="ans" id="" class="select2 form-control">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                    <option value="6">6</option>
+                                                    <option value="1"@if($question->correct_option==1) selected @endif>1</option>
+                                                    <option value="2"@if($question->correct_option==2) selected @endif>2</option>
+                                                    <option value="3"@if($question->correct_option==3) selected @endif>3</option>
+                                                    <option value="4"@if($question->correct_option==4) selected @endif>4</option>
+                                                    <option value="5"@if($question->correct_option==5) selected @endif>5</option>
+                                                    <option value="6"@if($question->correct_option==6) selected @endif>6</option>
                                                 </select>
 
 

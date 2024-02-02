@@ -60,7 +60,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <label for="name" class="d-block mb-0">Exam Name
-                                                <input type="text" name="exam" id="exam" class="form-control">
+                                                <input type="text" name="exam" id="exam" class="form-control" required>
                                             </label>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                         <div class="col-md-6">
                                             <label for="course" class="d-block mb-0">Select Course
                                                 <select name="course_id" id="course" class="select2 form-control"
-                                                    style="width:100%;">
+                                                    style="width:100%;" required>
                                                     @if ($course != null)
                                                         @foreach ($course as $c)
                                                             <option value="{{ $c->course_id }}">{{ $c->course_title }}
@@ -81,7 +81,7 @@
                                         <div class="col-md-6 mt-md-0 mt-2">
                                             <label for="type" class="d-block mb-0">Select Type
                                                 <select name="type" id="type" class="select2 form-control"
-                                                    style="width:100%;">
+                                                    style="width:100%;" required>
                                                     <option value="MCQ">MCQ</option>
                                                     <option value="IQ">IQ</option>
                                                 </select>
@@ -91,7 +91,7 @@
                                     <div class="row mt-2">
                                         <div class="col-12">
                                             <label for="details" class="d-block mb-0">Exam Details
-                                                <textarea name="details" id="details" cols="30" rows="3" class="form-control">
+                                                <textarea name="details" id="details" cols="30" rows="3" class="form-control" >
 
                                             </textarea>
                                             </label>

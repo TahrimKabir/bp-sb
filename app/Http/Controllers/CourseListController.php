@@ -8,7 +8,7 @@ use App\Models\Mcq_question;
 class CourseListController extends Controller
 {
     public function index(){
-        $course = Mcq_question::all();
+        $course = Course::all();
         return view('course-list',compact('course'));
     }
 }

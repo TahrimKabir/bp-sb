@@ -30,8 +30,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/course-list',[CourseListController::class,'index']);
 
 // Route::post('/schedule-created',[ScheduleController::class,'update'])->name('schedule-created');
-// Route::get('/create-question/{id}',[QuestionController::class,'getCourse']);
-// Route::post('/question-created',[QuestionController::class,'store'])->name('question-created');
+Route::get('/create-question',[QuestionController::class,'index']);
+Route::post('/question-created',[QuestionController::class,'store'])->name('question-created');
 
 
 // Route::get('/generate-certificate/{id}', [CertificateController::class, 'generateCertificate']);

@@ -59,7 +59,7 @@
                                     <tr>
                                         <td>{{$s->id}}</td>
                                         <td>@if($s->config!=null) @if($s->config->exam!=null){{$s->config->exam->exam_name}}@endif @endif</td>
-                                        <td>@if($s->member!=null){{$s->member->name}}@endif</td>
+                                        <td>@if($s->member!=null){{$s->member->name_bn}}@endif</td>
                                         <td>@if($s->member!=null){{$s->member->bpid}}@endif</td>
                                         <td>{{$s->login_time}}</td>
                                         <td>{{$s->submission_time}}</td>

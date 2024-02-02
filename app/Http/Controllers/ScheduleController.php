@@ -26,20 +26,25 @@ class ScheduleController extends Controller
     {
         $data = array('name' => $req->configuration, 'total_questions' => $req->numques, 'pass_mark' => $req->pmark, 'exam_id' => $req->exam_id, 'date' => $req->date, 'start_time' => $req->stime, 'end_time' => $req->etime, 'status' => 'deactive');
         $config = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->where('start_time',$req->stime)->where('end_time',$req->etime)->get();
-        if (count($config) == 0) {
-            Exam_configuration::create($data);
-            $econfig = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->where('start_time',$req->stime)->where('end_time',$req->etime)->first();
-
-            if ($req->bpid != null) {
-                foreach ($req->bpid as $b) {
-                    $schedule = array('bpid' => $b, 'exam_config_id' => $econfig->id, 'password' => random_int(100000, 999999));
-                    Exam_Schedule::create($schedule);
-                }
+        if ($req->bpid != null){
+            if (count($config) == 0) {
+                Exam_configuration::create($data);
+                $econfig = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->where('start_time',$req->stime)->where('end_time',$req->etime)->first();
+    
+                // if ($req->bpid != null) {
+                    foreach ($req->bpid as $b) {
+                        $schedule = array('bpid' => $b, 'exam_config_id' => $econfig->id, 'password' => random_int(100000, 999999));
+                        Exam_Schedule::create($schedule);
+                    }
+                // }
+                return redirect()->back()->with('success', 'Schedule created successfully');
+            } else {
+                return redirect()->back()->with('fail', 'configuration name/exam/date already exist!');
             }
-            return redirect()->back()->with('success', 'Exam added successfully');
-        } else {
-            return redirect()->back()->with('fail', 'configuration name/exam/date already exist!');
+        }else{
+            return redirect()->back()->with('fail', 'Police must be selected!');
         }
+        
 
     }
 

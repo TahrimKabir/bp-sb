@@ -80,19 +80,19 @@
                                 <div class="row mt-2">
                                     <div class="col-12">
                                         <label for="date" class="d-block mb-0">Date
-                                            <input type="date" name="date" id="date" class="form-control" value="{{$schedule->config->date}}">
+                                            <input type="date" name="date" id="date" class="form-control" value="{{$schedule->config->date}}" required>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-md-6">
                                         <label for="stime" class="d-block mb-0">Start Time
-                                            <input type="time" name="stime" id="stime" class="form-control" value="{{$schedule->config->start_time}}">
+                                            <input type="time" name="stime" id="stime" class="form-control" value="{{$schedule->config->start_time}}" required>
                                         </label>
                                     </div>
                                     <div class="col-md-6 mt-md-0 mt-2">
                                         <label for="etime" class="d-block mb-0">End Time
-                                            <input type="time" name="etime" id="etime" class="form-control" value="{{$schedule->config->end_time}}">
+                                            <input type="time" name="etime" id="etime" class="form-control" value="{{$schedule->config->end_time}}" required>
                                         </label>
                                     </div>
                                 </div>
