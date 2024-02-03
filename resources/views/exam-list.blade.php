@@ -45,7 +45,7 @@
                                         <td>{{$e->exam_id}}</td>
                                         <td>{{$e->exam_name}}</td>
                                         <td>{{$e->details}}</td>
-                                        {{-- <td>@if($e->course!=null) {{$e->course->course_title}}@endif</td> --}}
+                                       
                                         <td>{{$e->type}}</td>
                                         <td @if($e->status=='active') class="clr-dark-green" @else class="text-danger" @endif>{{$e->status}}</td>
                                         <td>
