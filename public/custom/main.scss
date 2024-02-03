@@ -31,3 +31,9 @@
    /*  border-bottom: 1px solid #4f5962; */
    border-bottom: none;
 }
+.mr-30{
+    margin-top: 3rem;
+    @media (max-width: 767px) {
+        margin-top: 0.25rem;
+    }
+}

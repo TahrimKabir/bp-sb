@@ -14,7 +14,7 @@ class ScheduleController extends Controller
 
     public function index()
     {
-        $rank = Member::select('post')->distinct()->get();
+        $rank = Member::select('post','designation_bn')->distinct()->get();
         $member = Member::leftJoin('results', 'members.bpid', '=', 'results.bpid')
     ->where(function($query) {
         $query->whereNull('results.bpid')

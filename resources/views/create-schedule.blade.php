@@ -50,7 +50,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-md-8 justify-content-center mt-5">
+                    <div class="col-md-10 justify-content-center mt-5">
                         <div class="card">
                             <div class="card-header clr-dark-green text-white">
                                 <h2 class="display-6 mb-0 text-center">
@@ -77,7 +77,7 @@
                                         <div class="col-12">
                                             <label for="configuration" class="d-block mb-0">Configuration Name
                                                 <input type="text" name="configuration" id="configuration"
-                                                    class="form-control" required>
+                                                    class="form-control" placeholder="Configuration name" required>
                                             </label>
                                         </div>
                                     </div>
@@ -86,6 +86,7 @@
                                             <label for="exam" class="d-block mb-0">Select Exam
                                                 <select name="exam_id" id="exam" class="select2 form-control"
                                                     style="width:100%;" required>
+                                                    <option value="exams" selected disabled>select exam</option>
                                                     @if ($exam != null)
                                                         @foreach ($exam as $e)
                                                             <option value="{{ $e->exam_id }}">{{ $e->exam_name }}</option>
@@ -98,13 +99,13 @@
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label for="numques" class="d-block mb-0">Number of Questions
-                                                <input type="number" name="numques" id="numques" class="form-control"
+                                                <input type="number" name="numques" id="numques" class="form-control" placeholder="digit ie. 10"
                                                     required>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mt-md-0 mt-2">
                                             <label for="pmark" class="d-block mb-0">Pass Mark
-                                                <input type="number" name="pmark" id="pmark" class="form-control"
+                                                <input type="number" name="pmark" id="pmark" class="form-control" placeholder="digit ie. 5"
                                                     required>
                                             </label>
                                         </div>
@@ -134,12 +135,12 @@
                                     <div class="row mt-2">
                                         <div class="col-12">
                                             <label for="rank" class="d-block mb-0">Rank
-                                                <select name="rank" id="rank" class="form-control"
+                                                <select name="rank" id="rank" class="select2 form-control"
                                                     style="width:100%;" onchange="filterPoliceOptions()">
-
+                                                       <option value="police"selected disabled>select police</option>
                                                     @if ($rank != null)
                                                         @foreach ($rank as $r)
-                                                            <option value="{{ $r->post }}">{{ $r->post }}</option>
+                                                            <option value="{{ $r->post }}">{{ $r->post }}({{ $r->designation_bn }})</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -147,69 +148,67 @@
                                         </div>
                                     </div>
                                     <div class="row mt-2">
-                                        {{-- <div class="col-12" id="in"> --}}
-                                          
-                                            {{-- <label class="d-block mb-0" for="bpid">Select Police
-
-                                                <select class="duallistbox" multiple="multiple" name="bpid[]"
-                                                    id="bpid">
-
-                                                    @if ($member != null)
-                                                        @foreach ($member as $m)
-                                                            <option value="{{ $m->bpid }}"
-                                                                data-rank="{{ $m->post }}">
-                                                                {{ $m->name_bn }}-{{ $m->post }}{{ $m->exam_id }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </label> --}}
-                                            
-                                        {{-- </div> --}}
-                                    </div>
-                                    <div class="row mt-2">
+                                      
                                         <div class="col-12">
                                             <label class="d-block mb-0" for="bpid">Select Police</label>
-                                        </div>
-                                        <div class="col-md-5">
                                             
-                                            <select name="bpid[]" id="list1" class=" form-control" multiple>
-                                                {{-- @if ($member != null)
-                                                    @foreach ($member as $m)
-                                                        <option value="{{ $m->bpid }}" data-rank="{{ $m->post }}">
-                                                            
-                                                            {{ $m->name_bn }} - {{ $m->post }} {{ $m->bpid }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif --}}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        
+                                        
+                                        <div class="col-md-5">
+                                            <p class="mb-0" id="list1Count"></p>
+                                            <input type="text" id="filterText" class="form-control mb-1" placeholder="search police..." oninput="filterList1()">
+
+                                            <select name="bpid[]" id="list1" class=" form-control" multiple style="height: 30vh;">
+                                                
                                             </select>
  
 
                                         </div>
                                         <div class="col-md-2 d-flex justify-content-center" >
+                                            
                                             <div class="row">
-                                                <div class="col-12 d-flex justify-content-center mb-1">
-                                                    <button type="button" class="btn btn-xs clr-dark-green mx-auto " onclick="rightall()">
-                                                        >> </button>
-                                                </div>
-                                                <div class="col-12 d-flex justify-content-center mb-1">
-                                                    <button type="button" class="btn btn-xs clr-dark-green mx-auto " onclick="right()">
-                                                        > </button>
-                                                </div>
-                                                <div class="col-12 d-flex justify-content-center mb-1">
-                                                    <button type="button" class="btn btn-xs clr-dark-green" onclick="left()">
-                                                        <
+                                                {{-- <div class="col-12" >
+                                                    <p class="mb-0" style="visibility: hidden;">jdfd</p>
+                                                    <input type="text"  style="visibility: hidden;" class="form-control">
+                                                </div> --}}
+                                                <div class="col-12 d-flex justify-content-center mb-1 mr-30" >
+                                                    <button type="button" class="btn btn-md clr-dark-green mx-auto " onclick="rightall()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                                            <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                                                          </svg> 
                                                     </button>
                                                 </div>
                                                 <div class="col-12 d-flex justify-content-center mb-1">
-                                                    <button type="button" class="btn btn-xs clr-dark-green " onclick="leftall()">
-                                                        <<
+                                                    <button type="button" class="btn btn-md clr-dark-green mx-auto " onclick="right()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+                                                          </svg>
+                                                    </button>
+                                                </div>
+                                                <div class="col-12 d-flex justify-content-center mb-1">
+                                                    <button type="button" class="btn btn-md clr-dark-green" onclick="left()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                                                          </svg>
+                                                    </button>
+                                                </div>
+                                                <div class="col-12 d-flex justify-content-center mb-1">
+                                                    <button type="button" class="btn btn-md clr-dark-green " onclick="leftall()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                                                            <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                                                          </svg>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
-                                            <select name="bpid[]" id="list2" class="form-control" multiple >
+                                            <p class="mb-0" id="list2Count"></p>
+                                            <input type="text" id="filterTextList2" class="form-control mb-1" placeholder="search police..." oninput="filterList2()">
+
+                                            <select name="bpid[]" id="list2" class="form-control" multiple style="height: 30vh;">
                                                 
                                             </select>
                                         </div>
@@ -243,21 +242,25 @@
     function filterPoliceOptions() {
     var selectedRank = document.getElementById('rank').value;
     var list1 = document.getElementById('list1');
-    var bpid = @json($member);
+    var bpids = @json($member);
     
     // Clear existing options in list1
     list1.innerHTML = "";
 
     var police = [];
-    for (var i = 0; i < bpid.length; i++) {
-        if (bpid[i].post === selectedRank) {
-            police.push(bpid[i].bpid);
+    // var name = [];
+    // var des = [];
+    for (var i = 0; i < bpids.length; i++) {
+        if (bpids[i].post === selectedRank) {
+            police.push(bpids[i]);
         }
     }
 
     for (i = 0; i < police.length; i++) {
-        addOption(list1, police[i], police[i]);
+        addOption(list1, police[i].bpid, police[i].name_bn+"-"+police[i].bpid+"("+police[i].designation_bn+")");
     }
+    // to count
+    countElements();
 }
 
 // Function to add an option to a select element
@@ -333,31 +336,10 @@ function right() {
             selectedOption.remove();
         });
     }
+    countElements();
 }
 </script>
-<script>
-    function left1() {
-        var list1 = document.getElementById('list1');
-        var list2 = document.getElementById('list2');
 
-        // Get the selected option in list2
-        var selectedOption = list2.options[list2.selectedIndex];
-
-        // Check if any option is selected
-        if (selectedOption) {
-            // Create a new option element for list1
-            var option = document.createElement('option');
-            option.value = selectedOption.value;
-            option.text = selectedOption.text;
-
-            // Append the option to list1
-            list1.add(option);
-
-            // Remove the selected option from list2
-            list2.remove(list2.selectedIndex);
-        }
-    }
-</script>
 <script>
    
     function left() {
@@ -382,6 +364,7 @@ function right() {
                 selectedOption.remove();
             });
         }
+        countElements();
     }
 
 
@@ -405,6 +388,7 @@ function right() {
             // Remove the option from list2
             list2.options[0].remove();
         }
+        countElements();
     }
 </script>
 <script>
@@ -425,6 +409,7 @@ function right() {
             // Remove the option from list1
             list1.options[0].remove();
         }
+        countElements();
     }
 </script>
 {{-- to submit --}}
@@ -449,5 +434,60 @@ function updateList2Options() {
 }
 
 </script>
+{{-- //submit --}}
+{{-- counting total of list1 and list2 --}}
+<script>
+    function countElements() {
+    var list1Count = document.getElementById('list1').options.length;
+    var list2Count = document.getElementById('list2').options.length;
+
+    document.getElementById('list1Count').innerHTML = "List1 Count: " + list1Count;
+    document.getElementById('list2Count').innerHTML = "List2 Count: " + list2Count;
+}
+
+</script>
+
+{{-- filter from list1 and list2 --}}
+<script>
+    function filterList1() {
+    var filterText = document.getElementById('filterText').value.toLowerCase();
+    var list1 = document.getElementById('list1');
+
+    for (var i = 0; i < list1.options.length; i++) {
+        var optionText = list1.options[i].text.toLowerCase();
+        var optionValue = list1.options[i].value.toLowerCase();
+
+        // Check if the option text or value contains the filter text
+        if (optionText.includes(filterText) || optionValue.includes(filterText)) {
+            list1.options[i].style.display = '';  // Show the option
+        } else {
+            list1.options[i].style.display = 'none';  // Hide the option
+        }
+    }
+    countElements();
+}
+</script>
+<script>
+    function filterList2() {
+    var filterText = document.getElementById('filterTextList2').value.toLowerCase();
+    var list2 = document.getElementById('list2');
+
+    for (var i = 0; i < list2.options.length; i++) {
+        var optionText = list2.options[i].text.toLowerCase();
+        var optionValue = list2.options[i].value.toLowerCase();
+
+        // Check if the option text or value contains the filter text
+        if (optionText.includes(filterText) || optionValue.includes(filterText)) {
+            list2.options[i].style.display = '';  // Show the option
+        } else {
+            list2.options[i].style.display = 'none';  // Hide the option
+        }
+    }
+    countElements();
+}
+
+</script>
+
+
 
 @endsection
