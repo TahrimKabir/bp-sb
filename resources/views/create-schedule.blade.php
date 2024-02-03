@@ -487,7 +487,13 @@ function updateList2Options() {
 }
 
 </script>
-
+<script>
+    const selectBox = document.getElementById("list1");
+selectBox.addEventListener("mousedown", function(event) {
+  event.preventDefault();
+  this.options[event.target.index].selected = !this.options[event.target.index].selected;
+});
+</script>
 
 
 @endsection
