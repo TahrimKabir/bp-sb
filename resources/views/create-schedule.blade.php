@@ -493,6 +493,12 @@ selectBox.addEventListener("mousedown", function(event) {
   event.preventDefault();
   this.options[event.target.index].selected = !this.options[event.target.index].selected;
 });
+
+const selectBox2 = document.getElementById("list2");
+selectBox2.addEventListener("mousedown", function(event) {
+  event.preventDefault();
+  this.options[event.target.index].selected = !this.options[event.target.index].selected;
+});
 </script>
 
 
