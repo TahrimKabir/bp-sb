@@ -137,7 +137,7 @@
                                             <label for="rank" class="d-block mb-0">Rank
                                                 <select name="rank" id="rank" class="select2 form-control"
                                                     style="width:100%;" onchange="filterPoliceOptions()">
-                                                       <option value="police"selected disabled>select police</option>
+                                                       <option value="police"selected disabled>select rank</option>
                                                     @if ($rank != null)
                                                         @foreach ($rank as $r)
                                                             <option value="{{ $r->post }}">{{ $r->post }}({{ $r->designation_bn }})</option>
