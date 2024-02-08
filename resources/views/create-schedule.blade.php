@@ -86,7 +86,7 @@
                                             <label for="exam" class="d-block mb-0">Select Exam
                                                 <select name="exam_id" id="exam" class="select2 form-control"
                                                     style="width:100%;" required>
-                                                    <option value="exams" selected disabled>select exam</option>
+                                                    <option value="exams" selected disabled>Select exam</option>
                                                     @if ($exam != null)
                                                         @foreach ($exam as $e)
                                                             <option value="{{ $e->exam_id }}">{{ $e->exam_name }}</option>
@@ -99,14 +99,14 @@
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label for="numques" class="d-block mb-0">Number of Questions
-                                                <input type="number" name="numques" id="numques" class="form-control" placeholder="digit ie. 10"
-                                                    required>
+                                                <input type="number" name="numques" id="numques" class="form-control"
+                                                    placeholder="digit ie. 10" required>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mt-md-0 mt-2">
                                             <label for="pmark" class="d-block mb-0">Pass Mark
-                                                <input type="number" name="pmark" id="pmark" class="form-control" placeholder="digit ie. 5"
-                                                    required>
+                                                <input type="number" name="pmark" id="pmark" class="form-control"
+                                                    placeholder="digit ie. 5" required>
                                             </label>
                                         </div>
                                     </div>
@@ -137,10 +137,11 @@
                                             <label for="rank" class="d-block mb-0">Rank
                                                 <select name="rank" id="rank" class="select2 form-control"
                                                     style="width:100%;" onchange="filterPoliceOptions()">
-                                                       <option value="police"selected disabled>select rank</option>
+                                                    <option value="police"selected disabled>select rank</option>
                                                     @if ($rank != null)
                                                         @foreach ($rank as $r)
-                                                            <option value="{{ $r->post }}">{{ $r->post }}({{ $r->designation_bn }})</option>
+                                                            <option value="{{ $r->post }}">
+                                                                {{ $r->post }}({{ $r->designation_bn }})</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -148,76 +149,96 @@
                                         </div>
                                     </div>
                                     <div class="row mt-2">
-                                      
+
                                         <div class="col-12">
                                             <label class="d-block mb-0" for="bpid">Select Police</label>
-                                            
+
                                         </div>
                                     </div>
                                     <div class="row mt-1">
-                                        
-                                        
+
+
                                         <div class="col-md-5">
                                             <p class="mb-0" id="list1Count"></p>
-                                            <input type="text" id="filterText" class="form-control mb-1" placeholder="search police..." oninput="filterList1()">
+                                            <input type="text" id="filterText" class="form-control mb-1"
+                                                placeholder="search police..." oninput="filterList1()">
 
-                                            <select name="bpid[]" id="list1" class=" form-control" multiple style="height: 30vh;">
-                                                
+                                            <select name="bpid[]" id="list1" class=" form-control" multiple
+                                                style="height: 30vh;">
+
                                             </select>
- 
+
 
                                         </div>
-                                        <div class="col-md-2 d-flex justify-content-center" >
-                                            
+                                        <div class="col-md-2 d-flex justify-content-center">
+
                                             <div class="row">
                                                 {{-- <div class="col-12" >
                                                     <p class="mb-0" style="visibility: hidden;">jdfd</p>
                                                     <input type="text"  style="visibility: hidden;" class="form-control">
                                                 </div> --}}
-                                                <div class="col-12 d-flex justify-content-center mb-1 mr-30" >
-                                                    <button type="button" class="btn btn-md clr-dark-green mx-auto " onclick="rightall()">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                                                            <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-                                                          </svg>  ALL
+                                                <div class="col-12 d-flex justify-content-center mb-1 mr-30">
+                                                    <button type="button" class="btn btn-md clr-dark-green mx-auto "
+                                                        onclick="rightall()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor"
+                                                            class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                                                        </svg> ALL
                                                     </button>
                                                 </div>
                                                 <div class="col-12 d-flex justify-content-center mb-1">
-                                                    <button type="button" class="btn btn-md clr-dark-green mx-auto " onclick="right()">
-                                                      LHS <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
-                                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
-                                                          </svg>
+                                                    <button type="button" class="btn btn-md clr-dark-green mx-auto "
+                                                        onclick="right()">
+                                                        LHS <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor"
+                                                            class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd"
+                                                                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
+                                                        </svg>
                                                     </button>
                                                 </div>
                                                 <div class="col-12 d-flex justify-content-center mb-1">
-                                                    <button type="button" class="btn btn-md clr-dark-green" onclick="left()">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
-                                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-                                                          </svg> RHS
+                                                    <button type="button" class="btn btn-md clr-dark-green"
+                                                        onclick="left()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor"
+                                                            class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd"
+                                                                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+                                                        </svg> RHS
                                                     </button>
                                                 </div>
                                                 <div class="col-12 d-flex justify-content-center mb-1">
-                                                    <button type="button" class="btn btn-md clr-dark-green " onclick="leftall()">
-                                                        ALL  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
-                                                            <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
-                                                          </svg>
+                                                    <button type="button" class="btn btn-md clr-dark-green "
+                                                        onclick="leftall()">
+                                                        ALL <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                            height="16" fill="currentColor"
+                                                            class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+                                                        </svg>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <p class="mb-0" id="list2Count"></p>
-                                            <input type="text" id="filterTextList2" class="form-control mb-1" placeholder="search police..." oninput="filterList2()">
+                                            <input type="text" id="filterTextList2" class="form-control mb-1"
+                                                placeholder="search police..." oninput="filterList2()">
 
-                                            <select name="bpid[]" id="list2" class="form-control" multiple style="height: 30vh;">
-                                                
+                                            <select name="bpid[]" id="list2" class="form-control" multiple
+                                                style="height: 30vh;">
+
                                             </select>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row mt-2">
                                         <div class="col-12 d-flex">
-                                            <button type="submit" class="btn btn-sm clr-dark-green ml-auto">
-                                                create
+                                            <button type="submit" class="btn btn-sm clr-dark-green text-white ml-auto">
+                                                Create
                                             </button>
                                         </div>
                                     </div>
@@ -240,37 +261,37 @@
 @parent
 <script>
     function filterPoliceOptions() {
-    var selectedRank = document.getElementById('rank').value;
-    var list1 = document.getElementById('list1');
-    var bpids = @json($member);
-    
-    // Clear existing options in list1
-    list1.innerHTML = "";
+        var selectedRank = document.getElementById('rank').value;
+        var list1 = document.getElementById('list1');
+        var bpids = @json($member);
 
-    var police = [];
-    // var name = [];
-    // var des = [];
-    for (var i = 0; i < bpids.length; i++) {
-        if (bpids[i].post === selectedRank) {
-            police.push(bpids[i]);
+        // Clear existing options in list1
+        list1.innerHTML = "";
+
+        var police = [];
+        // var name = [];
+        // var des = [];
+        for (var i = 0; i < bpids.length; i++) {
+            if (bpids[i].post === selectedRank) {
+                police.push(bpids[i]);
+            }
         }
+
+        for (i = 0; i < police.length; i++) {
+            addOption(list1, police[i].bpid, police[i].name_bn + "-" + police[i].bpid + "(" + police[i].designation_bn +
+                ")");
+        }
+        // to count
+        countElements();
     }
 
-    for (i = 0; i < police.length; i++) {
-        addOption(list1, police[i].bpid, police[i].name_bn+"-"+police[i].bpid+"("+police[i].designation_bn+")");
+    // Function to add an option to a select element
+    function addOption(selectBox, value, text) {
+        var option = document.createElement('option');
+        option.value = value;
+        option.text = text;
+        selectBox.add(option);
     }
-    // to count
-    countElements();
-}
-
-// Function to add an option to a select element
-function addOption(selectBox, value, text) {
-    var option = document.createElement('option');
-    option.value = value;
-    option.text = text;
-    selectBox.add(option);
-}
-
 </script>
 {{-- <script>
     function addOption(value, text) {
@@ -314,34 +335,33 @@ function addOption(selectBox, value, text) {
     }
 </script> --}}
 <script>
-function right() {
-    var list1 = document.getElementById('list1');
-    var list2 = document.getElementById('list2');
+    function right() {
+        var list1 = document.getElementById('list1');
+        var list2 = document.getElementById('list2');
 
-    // Get all selected options in list1
-    var selectedOptions = [...list1.selectedOptions];
+        // Get all selected options in list1
+        var selectedOptions = [...list1.selectedOptions];
 
-    // Check if any options are selected
-    if (selectedOptions.length > 0) {
-        selectedOptions.forEach(function(selectedOption) {
-            // Create a new option element for list2
-            var option = document.createElement('option');
-            option.value = selectedOption.value;
-            option.text = selectedOption.text;
+        // Check if any options are selected
+        if (selectedOptions.length > 0) {
+            selectedOptions.forEach(function(selectedOption) {
+                // Create a new option element for list2
+                var option = document.createElement('option');
+                option.value = selectedOption.value;
+                option.text = selectedOption.text;
 
-            // Append the option to list2
-            list2.add(option);
+                // Append the option to list2
+                list2.add(option);
 
-            // Remove the selected option from list1
-            selectedOption.remove();
-        });
+                // Remove the selected option from list1
+                selectedOption.remove();
+            });
+        }
+        countElements();
     }
-    countElements();
-}
 </script>
 
 <script>
-   
     function left() {
         var list1 = document.getElementById('list1');
         var list2 = document.getElementById('list2');
@@ -366,8 +386,6 @@ function right() {
         }
         countElements();
     }
-
-
 </script>
 
 <script>
@@ -415,92 +433,89 @@ function right() {
 {{-- to submit --}}
 <script>
     function submitForm() {
-    // Add this line to ensure that selected options in list2 are included in the form data
-    updateList2Options();
+        // Add this line to ensure that selected options in list2 are included in the form data
+        updateList2Options();
 
-    // Rest of your form submission logic
-    var formData = new FormData(document.getElementById('yourFormId'));
-    for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
+        // Rest of your form submission logic
+        var formData = new FormData(document.getElementById('yourFormId'));
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
     }
-}
 
-// Function to update the form data with selected options from list2
-function updateList2Options() {
-    var list2 = document.getElementById('list2');
-    for (var i = 0; i < list2.options.length; i++) {
-        list2.options[i].selected = true;
+    // Function to update the form data with selected options from list2
+    function updateList2Options() {
+        var list2 = document.getElementById('list2');
+        for (var i = 0; i < list2.options.length; i++) {
+            list2.options[i].selected = true;
+        }
     }
-}
-
 </script>
 {{-- //submit --}}
 {{-- counting total of list1 and list2 --}}
 <script>
     function countElements() {
-    var list1Count = document.getElementById('list1').options.length;
-    var list2Count = document.getElementById('list2').options.length;
+        var list1Count = document.getElementById('list1').options.length;
+        var list2Count = document.getElementById('list2').options.length;
 
-    document.getElementById('list1Count').innerHTML = "List1 Count: " + list1Count;
-    document.getElementById('list2Count').innerHTML = "List2 Count: " + list2Count;
-}
-
+        document.getElementById('list1Count').innerHTML = "List1 Count: " + list1Count;
+        document.getElementById('list2Count').innerHTML = "List2 Count: " + list2Count;
+    }
 </script>
 
 {{-- filter from list1 and list2 --}}
 <script>
     function filterList1() {
-    var filterText = document.getElementById('filterText').value.toLowerCase();
-    var list1 = document.getElementById('list1');
+        var filterText = document.getElementById('filterText').value.toLowerCase();
+        var list1 = document.getElementById('list1');
 
-    for (var i = 0; i < list1.options.length; i++) {
-        var optionText = list1.options[i].text.toLowerCase();
-        var optionValue = list1.options[i].value.toLowerCase();
+        for (var i = 0; i < list1.options.length; i++) {
+            var optionText = list1.options[i].text.toLowerCase();
+            var optionValue = list1.options[i].value.toLowerCase();
 
-        // Check if the option text or value contains the filter text
-        if (optionText.includes(filterText) || optionValue.includes(filterText)) {
-            list1.options[i].style.display = '';  // Show the option
-        } else {
-            list1.options[i].style.display = 'none';  // Hide the option
+            // Check if the option text or value contains the filter text
+            if (optionText.includes(filterText) || optionValue.includes(filterText)) {
+                list1.options[i].style.display = ''; // Show the option
+            } else {
+                list1.options[i].style.display = 'none'; // Hide the option
+            }
         }
+        countElements();
     }
-    countElements();
-}
 </script>
 <script>
     function filterList2() {
-    var filterText = document.getElementById('filterTextList2').value.toLowerCase();
-    var list2 = document.getElementById('list2');
+        var filterText = document.getElementById('filterTextList2').value.toLowerCase();
+        var list2 = document.getElementById('list2');
 
-    for (var i = 0; i < list2.options.length; i++) {
-        var optionText = list2.options[i].text.toLowerCase();
-        var optionValue = list2.options[i].value.toLowerCase();
+        for (var i = 0; i < list2.options.length; i++) {
+            var optionText = list2.options[i].text.toLowerCase();
+            var optionValue = list2.options[i].value.toLowerCase();
 
-        // Check if the option text or value contains the filter text
-        if (optionText.includes(filterText) || optionValue.includes(filterText)) {
-            list2.options[i].style.display = '';  // Show the option
-        } else {
-            list2.options[i].style.display = 'none';  // Hide the option
+            // Check if the option text or value contains the filter text
+            if (optionText.includes(filterText) || optionValue.includes(filterText)) {
+                list2.options[i].style.display = ''; // Show the option
+            } else {
+                list2.options[i].style.display = 'none'; // Hide the option
+            }
         }
+        countElements();
     }
-    countElements();
-}
-
 </script>
 {{-- to make selected --}}
 <script>
     const selectBox = document.getElementById("list1");
-selectBox.addEventListener("mousedown", function(event) {
-  event.preventDefault();
-  this.options[event.target.index].selected = !this.options[event.target.index].selected;
-});
+    selectBox.addEventListener("mousedown", function(event) {
+        event.preventDefault();
+        this.options[event.target.index].selected = !this.options[event.target.index].selected;
+    });
 
-const selectBox2 = document.getElementById("list2");
-selectBox2.addEventListener("mousedown", function(event) {
-  event.preventDefault();
-  this.options[event.target.index].selected = !this.options[event.target.index].selected;
-});
+    const selectBox2 = document.getElementById("list2");
+    selectBox2.addEventListener("mousedown", function(event) {
+        event.preventDefault();
+        this.options[event.target.index].selected = !this.options[event.target.index].selected;
+    });
+
 </script>
-
 
 @endsection
