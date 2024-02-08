@@ -46,4 +46,24 @@
     margin-top: 0.25rem;
   }
 }
+
+select#list1 {
+  font-size: .75rem;
+}
+
+@media (max-width: 1400px) {
+  select#list1 {
+    font-size: .5rem;
+  }
+}
+
+select#list2 {
+  font-size: .75rem;
+}
+
+@media (max-width: 1400px) {
+  select#list2 {
+    font-size: .5rem;
+  }
+}
 /*# sourceMappingURL=main.css.map */

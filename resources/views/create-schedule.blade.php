@@ -50,7 +50,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-md-10 justify-content-center mt-5">
+                    <div class="col-12  justify-content-center mt-5">
                         <div class="card">
                             <div class="card-header clr-dark-green text-white">
                                 <h2 class="display-6 mb-0 text-center">
@@ -71,7 +71,8 @@
                                         </div>
                                     @endif
                                 </div>
-                                <form action="{{ route('store-schedule') }}" method="post" onsubmit="submitForm()">
+                                <form action="{{ route('store-schedule') }}" id="sform" method="post"
+                                    onsubmit="submitForm()">
                                     @csrf
                                     <div class="row">
                                         <div class="col-12">
@@ -99,37 +100,41 @@
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label for="numques" class="d-block mb-0">Number of Questions
-                                                <input type="number" name="numques" id="numques" class="form-control"
+                                                <input type="number" name="numques" id="numques" class="form-control" oninput="handleInput()"
                                                     placeholder="digit ie. 10" required>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mt-md-0 mt-2">
                                             <label for="pmark" class="d-block mb-0">Pass Mark
-                                                <input type="number" name="pmark" id="pmark" class="form-control"
+                                                <input type="number" name="pmark" id="pmark" class="form-control" oninput="handleInput()"
                                                     placeholder="digit ie. 5" required>
                                             </label>
+                                            <p class="mb-0 text-danger" id="errormark" style="display: none;">Pass mark should be less than the number of questions</p>
                                         </div>
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-12">
                                             <label for="date" class="d-block mb-0">Date
-                                                <input type="date" name="date" id="date" class="form-control"
+                                                <input type="date" name="date" id="date" class="form-control" oninput="handleInput()"
                                                     required>
                                             </label>
+                                            <p class="mb-0 text-danger" id="errordate" style="display: none;">The date has passed already!</p>
                                         </div>
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <label for="stime" class="d-block mb-0">Start Time
-                                                <input type="time" name="stime" id="stime" class="form-control"
+                                                <input type="time" name="stime" id="stime" class="form-control" oninput="handleInput()"
                                                     required>
                                             </label>
                                         </div>
                                         <div class="col-md-6 mt-md-0 mt-2">
                                             <label for="etime" class="d-block mb-0">End Time
-                                                <input type="time" name="etime" id="etime" class="form-control"
+                                                <input type="time" name="etime" id="etime" class="form-control" oninput="handleInput()"
                                                     required>
                                             </label>
+                                            <p class="mb-0 text-danger" id="show" style="display: none;" class="text-danger">
+                                                Endtime cannot be less than start time</p>
                                         </div>
                                     </div>
                                     <div class="row mt-2">
@@ -158,19 +163,18 @@
                                     <div class="row mt-1">
 
 
-                                        <div class="col-md-5">
+                                        <div class=" col-md-5">
                                             <p class="mb-0" id="list1Count"></p>
                                             <input type="text" id="filterText" class="form-control mb-1"
                                                 placeholder="search police..." oninput="filterList1()">
 
-                                            <select name="bpid[]" id="list1" class=" form-control" multiple
-                                                style="height: 30vh;">
+                                            <select id="list1" class=" form-control" multiple style="height: 30vh;">
 
                                             </select>
 
 
                                         </div>
-                                        <div class="col-md-2 d-flex justify-content-center">
+                                        <div class="col-md-2 d-flex justify-content-center ">
 
                                             <div class="row">
                                                 {{-- <div class="col-12" >
@@ -237,8 +241,8 @@
 
                                     <div class="row mt-2">
                                         <div class="col-12 d-flex">
-                                            <button type="submit" class="btn btn-sm clr-dark-green text-white ml-auto">
-                                                Create
+                                            <button type="submit" id="submitbutton" class="btn btn-sm clr-dark-green ml-auto">
+                                                create
                                             </button>
                                         </div>
                                     </div>
@@ -259,6 +263,7 @@
 <!-- jQuery -->
 @section('script')
 @parent
+
 <script>
     function filterPoliceOptions() {
         var selectedRank = document.getElementById('rank').value;
@@ -293,47 +298,7 @@
         selectBox.add(option);
     }
 </script>
-{{-- <script>
-    function addOption(value, text) {
-        var selectBox = document.getElementById('list1');
 
-        // Create a new option element
-        var option = document.createElement('option');
-
-        // Set the value and text for the option
-        option.value = value;
-        option.text = text;
-
-        // Append the option to the select box
-        selectBox.add(option);
-    }
-
-    function filterPoliceOptions() {
-        var selectedRank = document.getElementById('rank').value;
-        var exam =document.getElementById('exam').value;
-        // var bpidSelect = document.getElementById('bpid');
-        var bpid = @json($member);
-        console.log(selectedRank);
-        // document.getElementById('bpid').innerHTML = bpid;
-        var police = [];
-        for (var i = 0; i < bpid.length; i++) {
-            if (bpid[i].post === selectedRank ) {
-                police.push(bpid[i].bpid);
-
-            }
-        }
-        console.log(police);
-
-        for (i = 0; i < police.length; i++) {
-            console.log(police[i]);
-
-            addOption(police[i], police[i]);
-        }
-
-
-
-    }
-</script> --}}
 <script>
     function right() {
         var list1 = document.getElementById('list1');
@@ -431,16 +396,19 @@
     }
 </script>
 {{-- to submit --}}
+
+
 <script>
     function submitForm() {
         // Add this line to ensure that selected options in list2 are included in the form data
         updateList2Options();
 
         // Rest of your form submission logic
-        var formData = new FormData(document.getElementById('yourFormId'));
+        var formData = new FormData(document.getElementById('sform'));
         for (var pair of formData.entries()) {
             console.log(pair[0] + ', ' + pair[1]);
         }
+
     }
 
     // Function to update the form data with selected options from list2
@@ -449,6 +417,10 @@
         for (var i = 0; i < list2.options.length; i++) {
             list2.options[i].selected = true;
         }
+
+        //--- list1 list2 
+
+
     }
 </script>
 {{-- //submit --}}
@@ -515,7 +487,75 @@
         event.preventDefault();
         this.options[event.target.index].selected = !this.options[event.target.index].selected;
     });
-
 </script>
+{{-- time --}}
+<script>
+    // Function to compare two time strings
+function compareTimes(time1, time2) {
+    var time1Parts = time1.split(':');
+    var time2Parts = time2.split(':');
+
+    var hours1 = parseInt(time1Parts[0], 10);
+    var minutes1 = parseInt(time1Parts[1], 10);
+
+    var hours2 = parseInt(time2Parts[0], 10);
+    var minutes2 = parseInt(time2Parts[1], 10);
+
+    if (hours1 !== hours2) {
+        return hours1 - hours2;
+    }
+
+    return minutes1 - minutes2;
+}
+// Function to check if a date has passed
+function isDatePassed(targetDate) {
+    // Get the current date
+    var currentDate = new Date();
+
+    // Convert the target date string to a Date object
+    var targetDateObject = new Date(targetDate);
+
+    // Compare the current date with the target date
+    return currentDate > targetDateObject;
+}
+    function handleInput() {
+        // Get the value of the time input
+        var stime = document.getElementById('stime').value;
+        var etime = document.getElementById('etime').value;
+        var numq = document.getElementById('numques').value;
+        var pmark = document.getElementById('pmark').value;
+        var tdate = document.getElementById('date').value;
+        
+
+if (isDatePassed(tdate)) {
+    document.getElementById('errordate').style.display="block";
+} else {
+    document.getElementById('errordate').style.display="none";
+}
+        if(numq<pmark){
+            document.getElementById('errormark').style.display="block";
+            
+        }else{
+            document.getElementById('errormark').style.display="none";
+            
+        }
+        
+        if(compareTimes(stime, etime)>0||numq<pmark||isDatePassed(tdate)){
+            document.getElementById('submitbutton').disabled = true;
+        }else{
+            document.getElementById('submitbutton').disabled = false;
+        }
+        if(compareTimes(stime, etime)>0){
+            document.getElementById('show').style.display="block";
+            // document.getElementById('submitbutton').disabled = true;
+        }else{
+            document.getElementById('show').style.display="none";
+            // document.getElementById('submitbutton').disabled = false;
+        }
+        
+        
+    }
+</script>
+
 
 @endsection
