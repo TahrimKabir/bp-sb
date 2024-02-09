@@ -26,35 +26,35 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped text-center">
+                                <table id="example1" class="table table-bordered table-striped text-center align-middle" >
                                     <thead>
                                         <tr >
                                             <th>SL No.</th>
-                                            <th>Question</th>
-                                            <th >option1</th>
-                                            <th>option2</th>
-                                            <th>option3</th>
-                                            <th>option4</th>
-                                            <th>option5</th>
-                                            <th>option6</th>
-                                            <th>correct option</th>
+                                            <th class="text-left">Question</th>
+                                            <th>Option1</th>
+                                            <th>Option2</th>
+                                            <th>Option3</th>
+                                            <th>Option4</th>
+                                            <th>Option5</th>
+                                            <th>Option6</th>
+                                            <th>correct Option</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                      @if($question!=null)
                                      @foreach($question as $q)
-                                     <tr>
+                                     <tr class="align-middle">
                                         <td>{{$q->question_id}}</td>
-                                        <td>  <?php echo htmlspecialchars($q->question, ENT_QUOTES, 'UTF-8'); ?>
+                                        <td class="text-left">  <?php echo htmlspecialchars($q->question, ENT_QUOTES, 'UTF-8'); ?>
                                         </td>
 
-                                        <td @if($q->correct_option==1) class="clr-dark-green" @endif>{{$q->option1}}</td>
-                                        <td @if($q->correct_option==2) class="clr-dark-green" @endif>{{$q->option2}}</td>
-                                        <td @if($q->correct_option==3) class="clr-dark-green" @endif>{{$q->option3}}</td>
-                                        <td @if($q->correct_option==4) class="clr-dark-green" @endif>{{$q->option4}}</td>
-                                        <td @if($q->correct_option==5) class="clr-dark-green" @endif>{{$q->option5}}</td>
-                                        <td @if($q->correct_option==6) class="clr-dark-green" @endif>{{$q->option6}}</td>
+                                        <td class="align-middle @if($q->correct_option==2) clr-dark-green @endif ">{{$q->option2}}</td>
+                                        <td class="align-middle @if($q->correct_option==3) clr-dark-green @endif ">{{$q->option3}}</td>
+                                        <td class="align-middle @if($q->correct_option==4) clr-dark-green @endif ">{{$q->option4}}</td>
+                                        <td class="align-middle @if($q->correct_option==5) clr-dark-green @endif ">{{$q->option5}}</td>
+                                        <td class="align-middle @if($q->correct_option==1) clr-dark-green @endif ">{{$q->option1}}</td>
+                                        <td class="align-middle @if($q->correct_option==6) clr-dark-green @endif ">{{$q->option6}}</td>
                                         <td>{{$q->correct_option}}</td>
 
                                         <td>

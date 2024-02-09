@@ -102,9 +102,7 @@
                                     <div class="row mt-2">
                                         <div class="col-12">
                                             <label for="details" class="d-block mb-0">Exam Details
-                                                <textarea name="details" id="details" cols="30" rows="3" class="form-control">
-                                                  {{ $exam->details }}
-                                            </textarea>
+                                                <textarea name="details" id="details" cols="30" rows="3" class="form-control">{{ $exam->details }}</textarea>
                                             </label>
                                         </div>
                                     </div>

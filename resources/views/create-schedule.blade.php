@@ -87,7 +87,7 @@
                                             <label for="exam" class="d-block mb-0">Select Exam
                                                 <select name="exam_id" id="exam" class="select2 form-control"
                                                     style="width:100%;" required>
-                                                    <option value="exams" selected disabled>select exam</option>
+                                                    <option value="exams" selected disabled>Select exam</option>
                                                     @if ($exam != null)
                                                         @foreach ($exam as $e)
                                                             <option value="{{ $e->exam_id }}">{{ $e->exam_name }}</option>

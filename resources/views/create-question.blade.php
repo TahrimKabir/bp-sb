@@ -59,7 +59,7 @@
                                         </div> --}}
                                         <div class="col-md-6">
                                             <label for="option3" class="d-block ">
-                                                 option
+                                                 Option
                                                 1
                                                 <input type="text" id="option3" name="a" class="form-control" value="" required>
 
@@ -68,7 +68,7 @@
 
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="option3" class="d-block "> option 2
+                                            <label for="option3" class="d-block "> Option 2
                                                 <input type="text" id="option3" name="b" class="form-control" value="" required>
 
 
@@ -76,7 +76,7 @@
 
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="option3" class="d-block "> option 3
+                                            <label for="option3" class="d-block "> Option 3
                                                 <input type="text" id="option3" name="c" class="form-control" value="">
 
 
@@ -84,14 +84,14 @@
 
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="option3" class="d-block "> option 4
+                                            <label for="option3" class="d-block "> Option 4
                                                 <input type="text" id="option3" name="d" class="form-control" value="">
 
 
                                             </label>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="option3" class="d-block "> option 5
+                                            <label for="option3" class="d-block "> Option 5
                                                 <input type="text" id="option3" name="e" class="form-control" value="">
 
 
@@ -99,7 +99,7 @@
 
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="option3" class="d-block "> option 6
+                                            <label for="option3" class="d-block "> Option 6
                                                 <input type="text" id="option3" name="f" class="form-control" value="">
 
 
@@ -124,7 +124,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2">
-                                            <button class="btn btn-sm clr-dark-green form-control">create</button>
+                                            <button class="btn btn-sm clr-dark-green text-white form-control">Create</button>
                                         </div>
                                     </div>
                                 </form>

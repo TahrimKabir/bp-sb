@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BP SB Course</title>
+  <link rel="shortcut icon" href="{{asset('images/logo.png')}}" type="image/x-icon">
+
 @section('style')
 @yield('style')
 @include('layouts.style') 
