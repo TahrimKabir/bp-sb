@@ -537,10 +537,12 @@ if (isDatePassed(tdate)) {
             
         }else{
             document.getElementById('errormark').style.display="none";
+            console.log(numq);
+            console.log(pmark);
             
         }
         
-        if(compareTimes(stime, etime)>0||numq<pmark||isDatePassed(tdate)){
+        if(compareTimes(stime, etime)>0||(numq<pmark)||(isDatePassed(tdate))){
             document.getElementById('submitbutton').disabled = true;
         }else{
             document.getElementById('submitbutton').disabled = false;
