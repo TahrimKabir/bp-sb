@@ -109,7 +109,7 @@
                                                 <input type="number" name="pmark" id="pmark" class="form-control" oninput="handleInput()"
                                                     placeholder="digit ie. 5" required>
                                             </label>
-                                            <p class="mb-0 text-danger" id="errormark" style="display: none;">Pass mark should be less than the number of questions</p>
+                                            {{-- <p class="mb-0 text-danger" id="errormark" style="display: none;">Pass mark should be less than the number of questions</p> --}}
                                         </div>
                                     </div>
                                     <div class="row mt-2">
@@ -532,17 +532,17 @@ if (isDatePassed(tdate)) {
 } else {
     document.getElementById('errordate').style.display="none";
 }
-        if(numq<pmark){
-            document.getElementById('errormark').style.display="block";
+        // if(numq<pmark){
+        //     document.getElementById('errormark').style.display="block";
             
-        }else{
-            document.getElementById('errormark').style.display="none";
-            console.log(numq);
-            console.log(pmark);
+        // }else{
+        //     document.getElementById('errormark').style.display="none";
+        //     console.log(numq);
+        //     console.log(pmark);
             
-        }
+        // }
         
-        if(compareTimes(stime, etime)>0||(numq<pmark)||(isDatePassed(tdate))){
+        if(compareTimes(stime, etime)>0||(isDatePassed(tdate))){
             document.getElementById('submitbutton').disabled = true;
         }else{
             document.getElementById('submitbutton').disabled = false;

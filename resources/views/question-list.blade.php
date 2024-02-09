@@ -48,12 +48,11 @@
                                         <td>{{$q->question_id}}</td>
                                         <td class="text-left">  <?php echo htmlspecialchars($q->question, ENT_QUOTES, 'UTF-8'); ?>
                                         </td>
-
+                                        <td class="align-middle @if($q->correct_option==1) clr-dark-green @endif ">{{$q->option1}}</td>
                                         <td class="align-middle @if($q->correct_option==2) clr-dark-green @endif ">{{$q->option2}}</td>
                                         <td class="align-middle @if($q->correct_option==3) clr-dark-green @endif ">{{$q->option3}}</td>
                                         <td class="align-middle @if($q->correct_option==4) clr-dark-green @endif ">{{$q->option4}}</td>
                                         <td class="align-middle @if($q->correct_option==5) clr-dark-green @endif ">{{$q->option5}}</td>
-                                        <td class="align-middle @if($q->correct_option==1) clr-dark-green @endif ">{{$q->option1}}</td>
                                         <td class="align-middle @if($q->correct_option==6) clr-dark-green @endif ">{{$q->option6}}</td>
                                         <td>{{$q->correct_option}}</td>
 
