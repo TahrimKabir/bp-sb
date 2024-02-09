@@ -8,7 +8,7 @@
 
 
         <!-- Main content -->
-        <section class="content">
+        <section class="content p-4">
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-12 justify-content-center">
@@ -42,7 +42,7 @@
                                             <!-- /.card-header -->
                                             <label for="" class="d-block">Question
                                                 <textarea id="summernote" name="question" required>
-                                                  
+
                                                 </textarea>
                                             </label>
 

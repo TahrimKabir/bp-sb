@@ -17,24 +17,25 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
+                <li class="nav-item">
+                    <a href="{{ asset('/home') }}" @if(request()->segment(1) == 'home')class="nav-link text-success" @else class="nav-link" @endif >
+                        {{-- active --}}
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
                 <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
                 <li  @if(request()->segment(1) == 'home'||request()->segment(1)=='create-question'||request()->segment(1)=='questionlist') class="nav-item menu-open" @else class="nav-item" @endif>
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Question
+                           MCQ Question
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ asset('/home') }}" @if(request()->segment(1) == 'home')class="nav-link text-success" @else class="nav-link" @endif >
-                                {{-- active --}}
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
+
                         <li class="nav-item">
                             <a href="{{ asset('/create-question') }}" @if(request()->segment(1) == 'create-question') class="nav-link text-success" @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
@@ -43,6 +44,33 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{asset('/questionlist')}}" @if(request()->segment(1) == 'questionlist') class="nav-link text-success" @else class="nav-link" @endif>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Question List</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li  @if(request()->segment(1) == 'home'||request()->segment(1)=='create-typing-test-question'||request()->segment(1)=='typing-test-question-list') class="nav-item menu-open" @else class="nav-item" @endif>
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Typing Test
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+
+
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ asset('/create-typing-test-question') }}" @if(request()->segment(1) == 'create-typing-test-question') class="nav-link text-success" @else class="nav-link" @endif>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create Question</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{asset('/typing-test-question-list')}}" @if(request()->segment(1) == 'typing-test-question-list') class="nav-link text-success" @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Question List</p>
                             </a>

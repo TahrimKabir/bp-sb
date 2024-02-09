@@ -7,6 +7,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionListController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ScheduleListController;
+use App\Http\Controllers\TypingTestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +24,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/typing-test-question-list',[TypingTestController::class,'showQuestionList']);
+Route::get('/create-typing-test-question',[TypingTestController::class,'createQuestion']);
+Route::post('/store-typing-test-question',[TypingTestController::class,'storeQuestion']);
 Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
