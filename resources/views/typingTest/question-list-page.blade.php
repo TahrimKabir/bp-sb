@@ -32,7 +32,7 @@
                                         <tr>
                                             <th>SL No.</th>
                                             <th class="text-center">Question</th>
-
+                                            <th class="text-center">Duration</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -41,9 +41,9 @@
                                             @foreach($questionList as $question)
                                                 <tr class="align-middle">
                                                     <td class="p-3">{{$question->question_id}}</td>
-                                                    <td class="text-left p-3" >  <?php echo htmlspecialchars($question->content, ENT_QUOTES, 'UTF-8'); ?>
+                                                    <td class="text-left p-3">  <?php echo htmlspecialchars($question->content, ENT_QUOTES, 'UTF-8'); ?>
                                                     </td>
-
+                                                    <td class="p-3 text-center"> {{$question->time_in_seconds}} seconds</td>
 
                                                     <td>
                                                         <div class="col-12 d-flex justify-content-center">

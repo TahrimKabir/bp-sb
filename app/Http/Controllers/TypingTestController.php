@@ -21,6 +21,7 @@ class TypingTestController extends Controller
         // Validation rules
         $rules = [
             'question_content' => 'required|string',
+            'duration_in_seconds'=>'required'
         ];
 
 
@@ -37,9 +38,9 @@ class TypingTestController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // If validation passes, create a new TypingTestQuestion
         TypingTestQuestion::create([
             'content' => $request->input('question_content'),
+            'time_in_seconds'=>$request->input('duration_in_seconds'),
         ]);
 
         // Redirect with success message

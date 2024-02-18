@@ -9,6 +9,7 @@ class TypingTestQuestion extends Model
 {
     protected $fillable=[
         'content',
+        'time_in_seconds',
     ];
     use HasFactory;
 }

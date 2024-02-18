@@ -38,6 +38,10 @@
                                             <label for="question-content">Question Content</label>
                                             <textarea  id="question-content" name="question_content" class="form-control" rows="5" required ></textarea>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="duration-in-seconds">Duration in Seconds</label>
+                                            <input type="number" min="1"  id="duration-in-seconds" name="duration_in_seconds" class="form-control"  value="1" required />
+                                        </div>
                                         @error('question_content')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
