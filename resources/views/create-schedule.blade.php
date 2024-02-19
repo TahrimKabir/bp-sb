@@ -283,18 +283,32 @@
         }
 
         for (i = 0; i < police.length; i++) {
-            addOption(list1, police[i].bpid, police[i].name_bn + "-" + police[i].bpid + "(" + police[i].designation_bn +
-                ")");
+            addOption(list1, police[i].bpid, police[i].name_bn + 
+    " " + 
+    "<span style='color:red!important;'>(" + police[i].bpid + ")</span>" + 
+    " " + 
+    "(" + 
+    "<span style='color: red;'>" + police[i].designation_bn + "</span>" + 
+    ")",police[i].bpid);
         }
         // to count
         countElements();
     }
 
     // Function to add an option to a select element
-    function addOption(selectBox, value, text) {
+    function addOption(selectBox, value, text,bpid) {
         var option = document.createElement('option');
+        // bpid clr
+    //     var bpidSpan = document.createElement('span');
+    // bpidSpan.textContent = bpid;
+    // bpidSpan.style.color = 'red';
+    
+        // 
         option.value = value;
-        option.text = text;
+        // option.text = text;
+        option.innerHTML=text;
+        // option.appendChild(bpidSpan);
+    // option.appendChild(document.createTextNode(' '));
         selectBox.add(option);
     }
 </script>
@@ -508,16 +522,23 @@ function compareTimes(time1, time2) {
     return minutes1 - minutes2;
 }
 // Function to check if a date has passed
+
+// Function to check if a date has passed
 function isDatePassed(targetDate) {
     // Get the current date
     var currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set time to midnight
 
     // Convert the target date string to a Date object
     var targetDateObject = new Date(targetDate);
 
+    // Set time to midnight for the target date
+    targetDateObject.setHours(0, 0, 0, 0);
+
     // Compare the current date with the target date
     return currentDate > targetDateObject;
 }
+
     function handleInput() {
         // Get the value of the time input
         var stime = document.getElementById('stime').value;
@@ -526,7 +547,7 @@ function isDatePassed(targetDate) {
         var pmark = document.getElementById('pmark').value;
         var tdate = document.getElementById('date').value;
         
-
+console.log(tdate);
 if (isDatePassed(tdate)) {
     document.getElementById('errordate').style.display="block";
 } else {

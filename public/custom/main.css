@@ -48,22 +48,28 @@
 }
 
 select#list1 {
-  font-size: .75rem;
+  font-size: .85rem;
 }
 
-@media (max-width: 1400px) {
-  select#list1 {
-    font-size: .5rem;
-  }
+select#list1 bpid {
+  color: #16bc3d !important;
+}
+
+select#list1 option {
+  height: auto;
+  white-space: normal;
 }
 
 select#list2 {
-  font-size: .75rem;
+  font-size: .85rem;
 }
 
-@media (max-width: 1400px) {
-  select#list2 {
-    font-size: .5rem;
-  }
+select#list2 option {
+  height: auto;
+  white-space: normal;
+}
+
+select#list2 option span {
+  color: #b58b0d !important;
 }
 /*# sourceMappingURL=main.css.map */

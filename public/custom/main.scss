@@ -38,14 +38,31 @@
     }
 }
 select#list1 {
-    font-size: .75rem;
-    @media (max-width: 1400px) {
-        font-size: .5rem;
+    font-size: .85rem;
+    
+    bpid{
+        color: #16bc3d!important;
     }
+    
+    option{
+        height: auto; 
+        white-space: normal; 
+       
+        
+        }
+        // option#bpid{
+        //     color: #b58b0d!important;
+        // }
 }
 select#list2 {
-    font-size: .75rem;
-    @media (max-width: 1400px) {
-        font-size: .5rem;
+    font-size: .85rem;
+    option{
+    height: auto; 
+    white-space: normal; 
+    span{
+        color: #b58b0d!important;
     }
+    }
+    
+    
 }
