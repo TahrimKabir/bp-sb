@@ -3,6 +3,60 @@
 @section('style')
     @include('layouts.dataTable')
     <link rel="stylesheet" href="{{ asset('custom/main.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+
+    <style>
+        .custom-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem; /* Adjust width as needed */
+            height: 2rem; /* Adjust height as needed */
+            border: 1px solid transparent; /* Optional border style */
+            border-radius: 4px; /* Optional border radius */
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 @endsection
 
 @section('main')
@@ -26,6 +80,19 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
+                                    <div id="message-container">
+                                        @if (session('success'))
+                                            <div class="alert alert-danger">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+
+                                        @if (session('fail'))
+                                            <div class="alert alert-danger">
+                                                {{ session('fail') }}
+                                            </div>
+                                        @endif
+                                    </div>
                                     <table id="example1"
                                            class="table table-bordered table-striped text-center align-middle">
                                         <thead>
@@ -47,25 +114,16 @@
 
                                                     <td>
                                                         <div class="col-12 d-flex justify-content-center">
-                                                            <a href="#"
-                                                               class="btn btn-xs btn-danger">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                     height="16" fill="currentColor"
-                                                                     class="bi bi-archive" viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
-                                                                </svg>
-                                                            </a>
-                                                            <a href="#"
-                                                               class="btn btn-warning btn-xs ml-1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                     height="16" fill="currentColor"
-                                                                     class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                                    <path fill-rule="evenodd"
-                                                                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                                                </svg>
+                                                            <!-- Form element for deleting the question -->
+                                                            <form id="deleteForm{{ $question->question_id }}" action="{{url('/delete-typing-test-question/'. $question->question_id)}}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="button" class=" custom-btn btn btn-xs btn-danger ml-1" onclick="confirmDelete({{$question->question_id}})">
+                                                                    <i class="bi bi-trash-fill"></i>
+                                                                </button>
+                                                            </form>
+                                                            <a href="{{url('/edit-typing-test-question/'.$question->question_id)}}" class=" custom-btn btn btn-warning btn-xs ml-1">
+                                                                <i class="bi bi-pencil-square"></i>
                                                             </a>
                                                         </div>
                                                     </td>
@@ -88,9 +146,19 @@
 
 @endsection
 <!-- ./wrapper -->
-
+{{-- Confirmation Modal --}}
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p>Are you sure you want to delete this question?</p>
+        <button  type="button" onclick="deleteQuestion()" class="btn btn-danger mb-1">Delete</button>
+        <button type="button" onclick="closeModal()" class="btn btn-secondary">Cancel</button>
+    </div>
+</div>
 <!-- jQuery -->
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -151,5 +219,33 @@
             }
         });
 
+    </script>
+
+
+    <script>
+        function confirmDelete(questionId) {
+            console.log(questionId);
+            let modal = document.getElementById('confirmationModal');
+            modal.style.display = 'block';
+            // Set the question ID as a data attribute in the modal for reference
+            modal.setAttribute('data-question-id', questionId);
+        }
+
+        function closeModal() {
+            let modal = document.getElementById('confirmationModal');
+            modal.style.display = 'none';
+        }
+
+        function deleteQuestion() {
+            let modal = document.getElementById('confirmationModal');
+            let questionId = modal.getAttribute('data-question-id');
+            let deleteForm = document.getElementById('deleteForm' + questionId);
+
+            if (deleteForm) {
+                deleteForm.submit();
+            } else {
+                console.error('Delete form not found for question ID: ' + questionId);
+            }
+        }
     </script>
 @endsection

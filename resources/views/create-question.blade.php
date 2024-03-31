@@ -119,7 +119,10 @@
 
                                             </label>
                                         </div>
-
+                                        <div class="col-md-6">
+                                            <label for="duration-in-seconds">Duration in Seconds</label>
+                                            <input type="number" min="1"  id="duration-in-seconds" name="duration_in_seconds" class="form-control"  value="1" required />
+                                        </div>
 
                                     </div>
                                     <div class="row">

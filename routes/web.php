@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComputerTestController;
 use App\Http\Controllers\CourseListController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamListController;
@@ -61,4 +62,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/typing-test-question-list',[TypingTestController::class,'showQuestionList']);
     Route::get('/create-typing-test-question',[TypingTestController::class,'createQuestion']);
     Route::post('/store-typing-test-question',[TypingTestController::class,'storeQuestion']);
+    Route::get('/edit-typing-test-question/{id}',[TypingTestController::class,'editQuestion']);
+    Route::post('/update-typing-test-question',[TypingTestController::class,'updateQuestion']);
+    Route::delete('/delete-typing-test-question/{id}', [TypingTestController::class, 'deleteQuestion']);
+
+
+    //Computer Test Questions
+    Route::get('/create-computer-test-question',[ComputerTestController::class,'createQuestion']);
+    Route::post('/store-computer-test-question',[ComputerTestController::class,'storeQuestion']);
 });

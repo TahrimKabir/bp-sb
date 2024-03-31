@@ -21,8 +21,8 @@ class QuestionListController extends Controller
 
     public function update(Request $req)
     {
-        $data = array('question' => $req->question, 'correct_option' => $req->ans, 'option1' => $req->a, 'option2' => $req->b, 'option3' => $req->c, 'option4' => $req->d,'option5'=>$req->e,'option6'=>$req->f);
-        
+        $data = array('question' => $req->question, 'correct_option' => $req->ans, 'option1' => $req->a, 'option2' => $req->b, 'option3' => $req->c, 'option4' => $req->d,'option5'=>$req->e,'option6'=>$req->f,'time_in_seconds'=>$req->time_in_seconds);
+
         Mcq_question::where('question_id', $req->cid)->update($data);
         return redirect()->back()->with('success','successfully updated');
     }
