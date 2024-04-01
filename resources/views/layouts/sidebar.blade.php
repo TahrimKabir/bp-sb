@@ -26,7 +26,7 @@
                 </li>
                 <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-                <li @if(request()->segment(1) == 'home'||request()->segment(1)=='create-question'||request()->segment(1)=='questionlist') class="nav-item menu-open"
+                <li @if(request()->segment(1)=='create-question'||request()->segment(1)=='questionlist') class="nav-item menu-open"
                     @else class="nav-item" @endif>
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -56,7 +56,7 @@
                     </ul>
                 </li>
 
-                <li @if(request()->segment(1) == 'home'||request()->segment(1)=='create-typing-test-question'||request()->segment(1)=='typing-test-question-list') class="nav-item menu-open"
+                <li @if(request()->segment(1)=='create-typing-test-question'||request()->segment(1)=='typing-test-question-list') class="nav-item menu-open"
                     @else class="nav-item" @endif>
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -88,7 +88,7 @@
                     </ul>
                 </li>
 {{--                Computer Test--}}
-                <li @if(request()->segment(1) == 'home'||request()->segment(1)=='create-computer-test-question'||request()->segment(1)=='computer-test-question-list') class="nav-item menu-open"
+                <li @if(request()->segment(1)=='create-computer-test-question'||request()->segment(1)=='computer-test-question-list') class="nav-item menu-open"
                     @else class="nav-item" @endif>
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -115,7 +115,7 @@
                                 <p>Question List</p>
                             </a>
                         </li>
-
+e
                     </ul>
                 </li>
 {{--                 exam --}}
