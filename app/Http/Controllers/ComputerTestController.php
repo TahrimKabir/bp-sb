@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\ComputerTestQuestion;
+use App\Models\QuestionSet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ComputerTestController extends Controller
 {
     //
-
+    public function showQuestionSetList()
+    {
+        $questionSets = QuestionSet::all();
+        return view('computerTest.question-list-page', compact('questionSets'));
+    }
     public function createQuestion(){
         return view('computerTest.create-question-page');
     }
@@ -17,54 +22,77 @@ class ComputerTestController extends Controller
 
     public function storeQuestion(Request $request)
     {
-        // Validation rules
-        $rules = [
-            'question_content' => 'required|string',
+        // Validate the request
+        $validator = $this->validateComputerTestQuestion($request);
 
-            'question_type' => 'required|in:short_question,mcq,descriptive,true_false',
-            'option1' => 'nullable|string',
-            'option2' => 'nullable|string',
-            'option3' => 'nullable|string',
-            'option4' => 'nullable|string',
-            'correct_answer' => 'nullable|string',
-            'marks'=>'required'
-        ];
-
-        // Custom error messages for validation
-        $messages = [
-            'question_content.required' => 'The question content is required.',
-            'question_content.string' => 'The question content must be a string.',
-            'question_type.required' => 'The question type is required.',
-            'question_type.in' => 'Invalid question type.',
-            'option1.string' => 'Option 1 must be a string.',
-            'option2.string' => 'Option 2 must be a string.',
-            'option3.string' => 'Option 3 must be a string.',
-            'option4.string' => 'Option 4 must be a string.',
-            'correct_answer.string' => 'The correct answer must be a string.',
-        ];
-
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-
+        // Check if validation fails
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Create a new ComputerTestQuestion instance and store it in the database
-        ComputerTestQuestion::create([
-            'question_content' => $request->input('question_content'),
-            'duration_in_seconds' => $request->input('duration_in_seconds'),
-            'question_type' => $request->input('question_type'),
-            'option1' => $request->input('option1'),
-            'option2' => $request->input('option2'),
-            'option3' => $request->input('option3'),
-            'option4' => $request->input('option4'),
-            'correct_answer' => $request->input('correct_answer'),
-            'marks'=>$request->input('marks')
+        // Create a new question set
+        $questionSet = QuestionSet::create([
+            'question_set_name' => $request->input('question_set_name'),
         ]);
 
-        // Redirect back with success message
-        return redirect()->back()->with('success', 'Question created successfully.');
+
+        $this->processComputerTestQuestions($request, $questionSet->id);
+
+        return redirect()->back()->with('success', 'Question set created successfully');
+    }
+
+
+    protected function validateComputerTestQuestion(Request $request)
+    {
+        Validator::extend('summernote_required', function ($attribute, $value, $parameters, $validator) {
+            // Strip HTML tags and check if the content is not empty
+            $plainText = strip_tags($value);
+            return !empty(trim($plainText));
+        });
+        return Validator::make($request->all(), [
+            'question_set_name' => 'required|string|max:32',
+            'question_content.*' => 'required|string',
+            'question_type.*' => 'required|string|in:mcq,short_question,descriptive,true_false',
+            'marks.*' => 'required|numeric|min:1',
+            'option1.*' => 'nullable|string',
+            'option2.*' => 'nullable|string',
+            'option3.*' => 'nullable|string',
+            'option4.*' => 'nullable|string',
+            'correct_answer.*' => 'nullable|string',
+
+        ]);
+    }
+
+    // Process computer test questions
+    protected function processComputerTestQuestions(Request $request, $questionSetId)
+    {
+
+
+        foreach ($request->input('question_content') as $key => $content) {
+            $questionType = $request->input('question_type')[$key];
+
+            $marks = $request->input('marks')[$key];
+
+            $questionData = [
+                'question_set_id' => $questionSetId,
+                'question_content' => $content,
+                'question_type' => $questionType,
+                'marks' => $marks,
+            ];
+
+
+            if ($questionType === 'mcq') {
+                $questionData['option1'] = $request->input('option1')[$key];
+                $questionData['option2'] = $request->input('option2')[$key];
+                $questionData['option3'] = $request->input('option3')[$key];
+                $questionData['option4'] = $request->input('option4')[$key];
+                $questionData['correct_answer'] = $request->input('correct_answer')[$key];
+            } elseif ($questionType === 'true_false') {
+                $questionData['correct_answer'] = $request->input('correct_answer')[$key];
+            }
+
+            // Create the computer test question
+            ComputerTestQuestion::create($questionData);
+        }
     }
 }

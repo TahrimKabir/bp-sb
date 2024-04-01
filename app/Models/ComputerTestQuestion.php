@@ -18,6 +18,7 @@ class ComputerTestQuestion extends Model
         'option3',
         'option4',
         'correct_answer',
-        'marks'
+        'marks',
+        'question_set_id'
     ];
 }

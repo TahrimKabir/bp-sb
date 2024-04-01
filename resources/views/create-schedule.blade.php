@@ -37,7 +37,10 @@
         }
     </style>
 @endsection
-
+@php
+    use App\Models\QuestionSet;
+    $questionSets = QuestionSet::all();
+ @endphp
 @section('main')
     @parent
 
@@ -86,32 +89,19 @@
                                         <div class="col-12">
                                             <label for="exam" class="d-block mb-0">Select Exam
                                                 <select name="exam_id" id="exam" class="select2 form-control"
-                                                    style="width:100%;" required>
+                                                    style="width:100%;" required onchange="checkExamType()">
                                                     <option value="exams" selected disabled>Select exam</option>
                                                     @if ($exam != null)
                                                         @foreach ($exam as $e)
-                                                            <option value="{{ $e->exam_id }}">{{ $e->exam_name }}</option>
+                                                            <option value="{{ $e->exam_id }}" data-type="{{ $e->type }}">{{ $e->exam_name }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="row mt-2">
-                                        <div class="col-md-6">
-                                            <label for="numques" class="d-block mb-0">Number of Questions
-                                                <input type="number" name="numques" id="numques" class="form-control" oninput="handleInput()"
-                                                    placeholder="digit ie. 10" required>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-6 mt-md-0 mt-2">
-                                            <label for="pmark" class="d-block mb-0">Pass Mark
-                                                <input type="number" name="pmark" id="pmark" class="form-control" oninput="handleInput()"
-                                                    placeholder="digit ie. 5" required>
-                                            </label>
-                                            {{-- <p class="mb-0 text-danger" id="errormark" style="display: none;">Pass mark should be less than the number of questions</p> --}}
-                                        </div>
-                                    </div>
+                                    <div id="additionalInputFieldContainer"></div>
+
                                     <div class="row mt-2">
                                         <div class="col-12">
                                             <label for="date" class="d-block mb-0">Date
@@ -265,6 +255,82 @@
 @parent
 
 <script>
+
+    function checkExamType() {
+        removeAdditionalInputField();
+        let selectedExam = document.getElementById('exam');
+        let selectedOption = selectedExam.options[selectedExam.selectedIndex];
+        let examType = selectedOption.getAttribute('data-type');
+console.log(selectedExam);
+        // Check if the selected exam type
+        if (examType === 'computer_test') {
+            addComputerTestInputFields();
+        }
+
+        if(examType === 'mcq'){
+            addMcqInputFields();
+            }
+    }
+    function addComputerTestInputFields() {
+
+let questionSets = @json($questionSets);
+console.log(questionSets);
+        let container = document.getElementById('additionalInputFieldContainer');
+
+        let computerTestInputFieldHTML = `<div class="row mt-2">
+        <div class="col-md-6">
+            <label for="question-set" class="d-block mb-0">Select Question set
+                <select name="question_set_id" id="question-set" class="select2 form-control" style="width:100%;" required>
+                    <option value="" selected disabled>Select Question set</option>`;
+
+        // Loop through questionSets and generate options for the select dropdown
+        questionSets.forEach(function(questionSet) {
+            computerTestInputFieldHTML += `<option value="${questionSet.question_set_id}">${questionSet.question_set_name}</option>`;
+        });
+
+        computerTestInputFieldHTML += `</select>
+            </label>
+        </div>
+        <div class="col-md-6 mt-md-0 mt-2">
+            <label for="pmark" class="d-block mb-0">Pass Mark
+                <input type="number" name="pmark" id="pmark" class="form-control" oninput="handleInput()"
+                    placeholder="digit ie. 5" required>
+            </label>
+            {{-- <p class="mb-0 text-danger" id="errormark" style="display: none;">Pass mark should be less than the number of questions</p> --}}
+        </div>
+    </div>`;
+
+        container.innerHTML = computerTestInputFieldHTML;
+    }
+
+    function addMcqInputFields(){
+        let container = document.getElementById('additionalInputFieldContainer');
+        let mcqInputFieldHtml=` <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="numques" class="d-block mb-0">Number of Questions
+                                                <input type="number" name="numques" id="numques" class="form-control" oninput="handleInput()"
+                                                    placeholder="digit ie. 10" required>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-6 mt-md-0 mt-2">
+                                            <label for="pmark" class="d-block mb-0">Pass Mark
+                                                <input type="number" name="pmark" id="pmark" class="form-control" oninput="handleInput()"
+                                                    placeholder="digit ie. 5" required>
+                                            </label>
+                                            {{-- <p class="mb-0 text-danger" id="errormark" style="display: none;">Pass mark should be less than the number of questions</p> --}}
+        </div>
+    </div>
+
+`;
+        container.innerHTML = mcqInputFieldHtml;
+    }
+    function removeAdditionalInputField() {
+        let container = document.getElementById('additionalInputFieldContainer');
+
+        // Clear the container
+        container.innerHTML = '';
+    }
+
     function filterPoliceOptions() {
         var selectedRank = document.getElementById('rank').value;
         var list1 = document.getElementById('list1');
@@ -283,12 +349,12 @@
         }
 
         for (i = 0; i < police.length; i++) {
-            addOption(list1, police[i].bpid, police[i].name_bn + 
-    " " + 
-    "<span style='color:red!important;'>(" + police[i].bpid + ")</span>" + 
-    " " + 
-    "(" + 
-    "<span style='color: red;'>" + police[i].designation_bn + "</span>" + 
+            addOption(list1, police[i].bpid, police[i].name_bn +
+    " " +
+    "<span style='color:red!important;'>(" + police[i].bpid + ")</span>" +
+    " " +
+    "(" +
+    "<span style='color: red;'>" + police[i].designation_bn + "</span>" +
     ")",police[i].bpid);
         }
         // to count
@@ -302,8 +368,8 @@
     //     var bpidSpan = document.createElement('span');
     // bpidSpan.textContent = bpid;
     // bpidSpan.style.color = 'red';
-    
-        // 
+
+        //
         option.value = value;
         // option.text = text;
         option.innerHTML=text;
@@ -432,7 +498,7 @@
             list2.options[i].selected = true;
         }
 
-        //--- list1 list2 
+        //--- list1 list2
 
 
     }
@@ -543,10 +609,9 @@ function isDatePassed(targetDate) {
         // Get the value of the time input
         var stime = document.getElementById('stime').value;
         var etime = document.getElementById('etime').value;
-        var numq = document.getElementById('numques').value;
-        var pmark = document.getElementById('pmark').value;
+
         var tdate = document.getElementById('date').value;
-        
+
 console.log(tdate);
 if (isDatePassed(tdate)) {
     document.getElementById('errordate').style.display="block";
@@ -555,14 +620,14 @@ if (isDatePassed(tdate)) {
 }
         // if(numq<pmark){
         //     document.getElementById('errormark').style.display="block";
-            
+
         // }else{
         //     document.getElementById('errormark').style.display="none";
         //     console.log(numq);
         //     console.log(pmark);
-            
+
         // }
-        
+
         if(compareTimes(stime, etime)>0||(isDatePassed(tdate))){
             document.getElementById('submitbutton').disabled = true;
         }else{
@@ -575,8 +640,8 @@ if (isDatePassed(tdate)) {
             document.getElementById('show').style.display="none";
             // document.getElementById('submitbutton').disabled = false;
         }
-        
-        
+
+
     }
 </script>
 

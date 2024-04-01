@@ -87,30 +87,38 @@
                         </li>
                     </ul>
                 </li>
-{{--                --}}{{--Computer Test--}}
-{{--                <li @if(request()->segment(1) == 'home'||request()->segment(1)=='create-question'||request()->segment(1)=='questionlist') class="nav-item menu-open"--}}
-{{--                    @else class="nav-item" @endif>--}}
-{{--                    <a href="#" class="nav-link active">--}}
-{{--                        <i class="nav-icon fas fa-tachometer-alt"></i>--}}
-{{--                        <p>--}}
-{{--                            Computer Test--}}
-{{--                            <i class="right fas fa-angle-left"></i>--}}
-{{--                        </p>--}}
-{{--                    </a>--}}
-{{--                    <ul class="nav nav-treeview">--}}
+{{--                Computer Test--}}
+                <li @if(request()->segment(1) == 'home'||request()->segment(1)=='create-computer-test-question'||request()->segment(1)=='computer-test-question-list') class="nav-item menu-open"
+                    @else class="nav-item" @endif>
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Computer Test
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
 
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="{{ asset('/create-computer-test-question') }}"--}}
-{{--                               @if(request()->segment(1) == 'create-question') class="nav-link text-success"--}}
-{{--                               @else class="nav-link" @endif>--}}
-{{--                                <i class="far fa-circle nav-icon"></i>--}}
-{{--                                <p>Create Question</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--g--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-                {{-- exam --}}
+                        <li class="nav-item">
+                            <a href="{{ asset('/create-computer-test-question') }}"
+                               @if(request()->segment(1) == 'create-computer-test-question') class="nav-link text-success"
+                               @else class="nav-link" @endif>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create Question Set</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{asset('/computer-test-question-list')}}"
+                               @if(request()->segment(1) == 'computer-test-question-list') class="nav-link text-success"
+                               @else class="nav-link" @endif>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Question List</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+{{--                 exam --}}
                 <li @if(request()->segment(1) == 'create-exam'||request()->segment(1)=='exam-list') class="nav-item menu-open"
                     @else class="nav-item" @endif>
                     <a href="#" class="nav-link active">

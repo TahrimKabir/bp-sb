@@ -8,6 +8,7 @@ use App\Models\Exam_Schedule;
 use App\Models\Member;
 use App\Models\Result;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends Controller
 {
@@ -27,38 +28,71 @@ class ScheduleController extends Controller
         return view('create-schedule', compact('rank', 'member', 'exam'));
     }
 
-    public function store(Request $req)
+    public function store(Request $request)
     {
-        $data = array('name' => $req->configuration, 'total_questions' => $req->numques, 'pass_mark' => $req->pmark, 'exam_id' => $req->exam_id, 'date' => $req->date, 'start_time' => $req->stime, 'end_time' => $req->etime, 'status' => 'deactive');
-        $config = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->where('start_time', $req->stime)->where('end_time', $req->etime)->get();
+        // Validation rules
+        $rules = [
+            'configuration' => 'required|string',
 
-        if ($req->bpid != null && $req->exam_id != null) {
-            if (count($config) == 0) {
+            'date' => 'required|date',
+            'stime' => 'required|date_format:H:i',
+            'etime' => 'required|date_format:H:i|after:stime',
+            'bpid' => 'required|array',
 
-                if (strtotime($req->stime) < strtotime($req->etime)) {
-                    Exam_configuration::create($data);
-                    $econfig = Exam_configuration::where('name', $req->configuration)->where('exam_id', $req->exam_id)->where('date', $req->date)->where('start_time', $req->stime)->where('end_time', $req->etime)->first();
-                    // if ($req->bpid != null) {
-                    foreach ($req->bpid as $b) {
-                        $schedule = array('bpid' => $b, 'exam_config_id' => $econfig->id, 'password' => random_int(100000, 999999));
-                        $result = array('bpid' => $b, 'exam_id' => $req->exam_id, 'total_marks' => $req->numques, 'obtained_marks' => 0, 'status' => 'failed', 'exam_config_id' => $econfig->id);
+            'numques' => 'nullable|numeric',
+            'pmark' => 'nullable|numeric',
+        ];
 
-                        Exam_Schedule::create($schedule);
-                        Result::create($result);
-                    }
-                    // }
-                    return redirect()->back()->with('success', 'Schedule created successfully');
-                } else {
-                    return redirect()->back()->with('fail', 'start time cannot be greater than the end time!');
-                }
+        // Validate the request data
+        $validator = Validator::make($request->all(), $rules);
 
-            } else {
-                return redirect()->back()->with('fail', 'configuration name/exam/date already exist!');
-            }
-        } else {
-            return redirect()->back()->with('fail', 'Police must be selected!');
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        // Data is valid, proceed to store
+
+
+        $data = [
+            'name' => $request->configuration,
+            'total_questions' => $request->has('numques') ? $request->numques : null,
+            'pass_mark' => $request->has('pmark') ? $request->pmark : null,
+            'exam_id' => $request->exam_id,
+            'date' => $request->date,
+            'start_time' => $request->stime,
+            'end_time' => $request->etime,
+            'status' => 'deactive',
+            'question_set_id'=>$request->has('question_set_id')?$request->question_set_id : null,
+        ];
+
+        $configExists = Exam_configuration::where('name', $request->configuration)
+            ->where('exam_id', $request->exam_id)
+            ->where('date', $request->date)
+            ->where('start_time', $request->stime)
+            ->where('end_time', $request->etime)
+            ->exists();
+
+        if (!$configExists) {
+            if (strtotime($request->stime) < strtotime($request->etime)) {
+                $examConfig = Exam_configuration::create($data);
+
+                foreach ($request->bpid as $bpid) {
+                    $schedule = [
+                        'bpid' => $bpid,
+                        'exam_config_id' => $examConfig->id,
+                        'password' => random_int(100000, 999999)
+                    ];
+
+                    Exam_Schedule::create($schedule);
+                }
+
+                return redirect()->back()->with('success', 'Schedule created successfully');
+            } else {
+                return redirect()->back()->with('fail', 'Start time cannot be greater than the end time!');
+            }
+        } else {
+            return redirect()->back()->with('fail', 'Configuration name/exam/date already exists!');
+        }
     }
 
 }

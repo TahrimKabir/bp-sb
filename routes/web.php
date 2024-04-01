@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     //Computer Test Questions
+    Route::get('/computer-test-question-list',[ComputerTestController::class,'showQuestionSetList']);
     Route::get('/create-computer-test-question',[ComputerTestController::class,'createQuestion']);
     Route::post('/store-computer-test-question',[ComputerTestController::class,'storeQuestion']);
 });

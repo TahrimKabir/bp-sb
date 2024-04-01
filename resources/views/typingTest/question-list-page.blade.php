@@ -12,10 +12,10 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 2rem; /* Adjust width as needed */
-            height: 2rem; /* Adjust height as needed */
-            border: 1px solid transparent; /* Optional border style */
-            border-radius: 4px; /* Optional border radius */
+            width: 2rem;
+            height: 2rem;
+            border: 1px solid transparent;
+            border-radius: 4px;
             text-decoration: none;
             cursor: pointer;
             transition: background-color 0.3s ease;

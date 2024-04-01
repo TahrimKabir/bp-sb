@@ -10,8 +10,8 @@
             <!-- Main content -->
             <section class="content p-4">
                 <div class="container-fluid">
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
+                    <div class="row ">
+                        <div class="col-md-11">
                             <div class="card">
                                 <div id="message-container">
                                     @if (session('success'))
@@ -28,10 +28,17 @@
                                 </div>
                                 <div class="card-header clr-dark-green">
                                     <h3 class="text-center display-6 mb-0 text-white">
-                                        Create Computer Test Question
+                                        Create Computer Test Question Set
                                     </h3>
                                 </div>
                                 <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button type="button" id="add-question" style="position: fixed; top: 65px; right: 10px; z-index: 1000;"
+                                                    class="btn  clr-dark-green text-white mb-3">Add Question</button>
+                                        </div>
+                                    </div>
                                     <form action="{{url('/store-computer-test-question')}}" method="post">
                                         @if ($errors->any())
                                             <div class="alert alert-danger">
@@ -43,33 +50,26 @@
                                             </div>
                                         @endif
                                         @csrf
-                                        <div class="form-group">
-                                            <label >Question</label>
-                                            <textarea id="summernote" name="question_content" class="form-control" rows="5"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="question-type">Question Type</label>
+                                        <div id="questions-container">
+                                            <div class="form-group">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-10">
+                                                        <label for="question-set-name">Question Set Name</label>
+                                                        <input type="text" name="question_set_name" id="question-set-name" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Initial question section -->
 
-                                            <select id="question-type" name="question_type" class="form-control" required>
-                                                <option value="">Select Question Type</option>
-                                                <option value="mcq">Multiple Choice</option>
-                                                <option value="short_question">Short Answer</option>
-                                                <option value="descriptive">Descriptive</option>
-                                                <option value="true_false">True/False</option>
 
-                                            </select>
-                                        </div>
-                                        <div id="dynamic-fields">
+
+
 
                                         </div>
-                                        <div class="form-group">
-                                            <label >Total Marks</label>
-                                            <input type="number" name="marks" class="form-control" />
-                                        </div>
-
 
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-lg clr-dark-green text-white">Create</button>
+                                            <button type="submit" class="btn btn-lg clr-dark-green text-white">Create
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -98,79 +98,131 @@
     <script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
     <
 
-   </script>
+    </script>
     <script>
-        $(document).ready(function() {
-            $('#summernote').summernote({
-                height: 200,
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['font', ['superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['forecolor', 'backcolor']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['insert', ['picture']],
-                    ['headings', ['style', 'paragraph', 'heading']],
+        $(document).ready(function () {
+            // Counter to keep track of question indices
+            let questionIndex = 0;
 
-                ]
-            });
+            function addQuestion() {
+                let questionHtml = `
+            <div class="question-section card p-3 shadow" data-question-index="${questionIndex}">
+                <div class="row">
+                    <div class="col-md-9">
+                        <label>Question</label>
+                        <textarea name="question_content[${questionIndex}]" class="form-control summernote" rows="2" required></textarea>
+                    </div>
+                    <div class="col-md-3">
+                        <label>&nbsp;</label>
+                        <div class="input-group">
+                            <select name="question_type[${questionIndex}]" class="question-type btn btn-secondary p-2" required>
+                                <option value="" disabled selected>Select Question Type</option>
+                                <option value="mcq"><i class="bi bi-list-ol"></i> Multiple Choice</option>
+                                <option value="short_question"><i class="bi bi-pencil-square"></i> Short Answer</option>
+                                <option value="descriptive"><i class="bi bi-text-paragraph"></i> Descriptive</option>
+                                <option value="true_false"><i class="bi bi-check-circle"></i> True/False</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Total Marks</label>
+                            <input type="number" name="marks[${questionIndex}]" value="1" min="1" required class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="dynamic-fields">
+                    <!-- Dynamic Fields will be inserted here -->
+                </div>
+            </div>
+        `;
+                $('#questions-container').append(questionHtml);
+                $('.summernote').summernote({
+                    height: 110,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['forecolor', 'backcolor']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['insert', ['picture']],
+                        ['headings', ['style', 'paragraph', 'heading']],
+                    ]
+                });
 
-            $('#question-type').change(function() {
-                var questionType = $(this).val();
-                $('#dynamic-fields').empty();
+            }
+            addQuestion();
+
+            $(document).on('change', '.question-type', function () {
+                let questionType = $(this).val();
+                let dynamicFields = $(this).closest('.question-section').find('.dynamic-fields');
+                let questionIndex=$(this).closest('.question-section').data('question-index');
+
+                dynamicFields.empty();
 
                 if (questionType === 'mcq') {
-                    createMCQFields();
-                }  else if (questionType === 'true_false') {
-                    createTrueFalseField();
+
+                    createMCQFields(dynamicFields, questionIndex);
+                } else if (questionType === 'true_false') {
+                    createTrueFalseField(dynamicFields, questionIndex);
                 }
             });
 
-            function createMCQFields() {
-                var mcqFields = `
-                    <div class="form-group">
-                        <label for="option1">Option 1</label>
-                        <input type="text" id="option1" name="option1" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="option2">Option 2</label>
-                        <input type="text" id="option2" name="option2" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="option3">Option 3</label>
-                        <input type="text" id="option3" name="option3" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="option4">Option 4</label>
-                        <input type="text" id="option4" name="option4" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="correct-answer">Correct Option</label>
-                        <select id="correct-answer" name="correct_answer" class="form-control">
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                            <option value="4">Option 4</option>
-                        </select>
-                    </div>
-                `;
-                $('#dynamic-fields').append(mcqFields);
+            function createMCQFields(dynamicFields, index) {
+
+                let mcqFields = `
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="option1_${index}">Option 1</label>
+                    <input type="text" id="option1_${index}" name="option1[${index}]" class="form-control" required />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="option2_${index}">Option 2</label>
+                    <input type="text" id="option2_${index}" name="option2[${index}]" class="form-control" required />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="option3_${index}">Option 3</label>
+                    <input type="text" id="option3_${index}" name="option3[${index}]" class="form-control" required />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="option4_${index}">Option 4</label>
+                    <input type="text" id="option4_${index}" name="option4[${index}]" class="form-control" required />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="correct-answer_${index}">Correct Option</label>
+                    <select id="correct-answer_${index}" name="correct_answer[${index}]" class="form-control" required>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                        <option value="4">Option 4</option>
+                    </select>
+                </div>
+            </div>
+        `;
+                console.log(dynamicFields);
+                dynamicFields.append(mcqFields);
             }
 
-
-
-            function createTrueFalseField() {
-                var trueFalseField = `
-                    <div class="form-group">
-                        <label for="true-false">Correct Answer</label>
-                        <select id="true-false" name="correct_answer" class="form-control">
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </select>
-                    </div>
-                `;
-                $('#dynamic-fields').append(trueFalseField);
+            function createTrueFalseField(dynamicFields, index) {
+                let trueFalseField = `
+            <div class="form-group col-md-6">
+                <label for="true-false_${index}">Correct Answer</label>
+                <select id="true-false_${index}" name="correct_answer[${index}]" class="form-control" required>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+            </div>
+        `;
+                dynamicFields.append(trueFalseField);
             }
+
+            $('#add-question').click(function () {
+                questionIndex++; // Increment question index after adding a new question
+                addQuestion();
+            });
+
+
         });
+
     </script>
 @endsection

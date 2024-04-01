@@ -10,8 +10,8 @@ class Exam_configuration extends Model
     use HasFactory;
     protected $table = 'exam_configuration';
     public $timestamps = false;
-    protected $fillable=['name','total_questions','pass_mark','exam_id','date','start_time','end_time','result_publish_status','status'	];
-    
+    protected $fillable=['name','total_questions','pass_mark','exam_id','date','start_time','end_time','result_publish_status','status','question_set_id'	];
+
     public function exam(){
         return $this->belongsTo(Exam::class,'exam_id','exam_id');
     }
