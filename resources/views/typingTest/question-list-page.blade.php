@@ -2,6 +2,9 @@
 @extends('dashboard')
 @section('style')
     @include('layouts.dataTable')
+    @php
+      use  \Illuminate\Contracts\Support\Htmlable;
+ @endphp
     <link rel="stylesheet" href="{{ asset('custom/main.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -108,7 +111,7 @@
                                             @foreach($questionList as $question)
                                                 <tr class="align-middle">
                                                     <td class="p-3">{{$question->question_id}}</td>
-                                                    <td class="text-left p-3">  <?php echo htmlspecialchars($question->content, ENT_QUOTES, 'UTF-8'); ?>
+                                                    <td > {{ $question->content}}
                                                     </td>
                                                     <td class="p-3 text-center"> {{$question->time_in_seconds}} seconds</td>
 

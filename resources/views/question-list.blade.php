@@ -46,7 +46,7 @@
                                      @foreach($question as $q)
                                      <tr class="align-middle">
                                         <td>{{$q->question_id}}</td>
-                                        <td class="text-left">  <?php echo htmlspecialchars($q->question, ENT_QUOTES, 'UTF-8'); ?>
+                                        <td class="text-left">  {!! $q->question !!}
                                         </td>
                                         <td class="align-middle @if($q->correct_option==1) clr-dark-green @endif ">{{$q->option1}}</td>
                                         <td class="align-middle @if($q->correct_option==2) clr-dark-green @endif ">{{$q->option2}}</td>
@@ -114,7 +114,7 @@
     <!-- AdminLTE for demo purposes -->
     {{-- <script src="../../dist/js/demo.js"></script> --}}
     <!-- Page specific script -->
-    
+
 <!-- AdminLTE for demo purposes -->
 {{-- <script src="../../dist/js/demo.js"></script> --}}
 <!-- Page specific script -->
