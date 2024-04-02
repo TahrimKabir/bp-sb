@@ -65,7 +65,7 @@
                                             <th>SL No.</th>
                                             <th class="text-center">Question Set Name</th>
                                             <th class="text-center">Number of Questions</th>
-                                            <th>Action</th>
+{{--                                            <th>Action</th>--}}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -75,21 +75,21 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td class="text-left">{{ $questionSet->question_set_name }}</td> <!-- Question Set Name -->
                                                     <td>{{ $questionSet->questions->count() }}</td> <!-- Number of Questions -->
-                                                    <td>
-                                                        <div class="d-flex justify-content-center">
-                                                            <!-- Delete Button -->
-                                                            <form id="#" >
+{{--                                                    <td>--}}
+{{--                                                        <div class="d-flex justify-content-center">--}}
+{{--                                                            <!-- Delete Button -->--}}
+{{--                                                            <form id="#" >--}}
 
-                                                                <button  class="custom-btn btn btn-xs btn-danger ml-1" >
-                                                                    <i class="bi bi-trash-fill"></i>
-                                                                </button>
-                                                            </form>
-                                                            <!-- Edit Button -->
-                                                            <a href="#" class="custom-btn btn btn-warning btn-xs ml-1">
-                                                                <i class="bi bi-pencil-square"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
+{{--                                                                <button  class="custom-btn btn btn-xs btn-danger ml-1" >--}}
+{{--                                                                    <i class="bi bi-trash-fill"></i>--}}
+{{--                                                                </button>--}}
+{{--                                                            </form>--}}
+{{--                                                            <!-- Edit Button -->--}}
+{{--                                                            <a href="#" class="custom-btn btn btn-warning btn-xs ml-1">--}}
+{{--                                                                <i class="bi bi-pencil-square"></i>--}}
+{{--                                                            </a>--}}
+{{--                                                        </div>--}}
+{{--                                                    </td>--}}
                                                 </tr>
                                             @endforeach
                                         @endif
