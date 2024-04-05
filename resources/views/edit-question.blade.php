@@ -120,13 +120,6 @@
                                             </label>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <label for="time-in-seconds" class="d-block "> Duration
-                                                <input type="text" id="time-in-seconds" name="time_in_seconds" class="form-control" value="{{$question->time_in_seconds}}">
-
-
-                                            </label>
-                                        </div>
 
                                     </div>
                                     <div class="row">

@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Member extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'bpid',
+        'name',
+        'designation',
+        'post',
+        'posting_area',
+        'mobile',
+        'dob',
+        'joining_date',
+    ];
     public function schedule(){
         return $this->hasMany(Exam_Schedule::class,'bpid','bpid');
     }

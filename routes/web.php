@@ -4,6 +4,7 @@ use App\Http\Controllers\ComputerTestController;
 use App\Http\Controllers\CourseListController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamListController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionListController;
 use App\Http\Controllers\ScheduleController;
@@ -71,4 +72,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/computer-test-question-list',[ComputerTestController::class,'showQuestionSetList']);
     Route::get('/create-computer-test-question',[ComputerTestController::class,'createQuestion']);
     Route::post('/store-computer-test-question',[ComputerTestController::class,'storeQuestion']);
+
+//    Member Management
+    Route::get('/member-list',[MemberController::class,'showMemberList']);
+    Route::get('/add-member',[MemberController::class,'addMember']);
+    Route::post('/store-member',[MemberController::class,'storeMember']);
+    Route::get('/edit-member/{id}',[MemberController::class,'editMember']);
+    Route::put('/update-member/{id}',[MemberController::class,'updateMember']);
 });

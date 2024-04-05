@@ -19,7 +19,7 @@ class QuestionController extends Controller
         if ($req->ans!=null && $req->question!=null) {
             // $ans = implode(', ',$req->ans);
             // $cat = implode(', ',$req->qcat);
-            $data = array('question' => $req->question, 'correct_option' => $req->ans, 'option1' => $req->a, 'option2' => $req->b, 'option3' => $req->c, 'option4' => $req->d,'option5'=>$req->e,'option6'=>$req->f ,'time_in_seconds'=>$req->duration_in_seconds);
+            $data = array('question' => $req->question, 'correct_option' => $req->ans, 'option1' => $req->a, 'option2' => $req->b, 'option3' => $req->c, 'option4' => $req->d,'option5'=>$req->e,'option6'=>$req->f );
 
             Mcq_question::create($data);
 

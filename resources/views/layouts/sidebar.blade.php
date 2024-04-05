@@ -31,7 +31,7 @@
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            MCQ Question
+                            IQ Test
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -176,6 +176,36 @@ e
                                @else class="nav-link" @endif>
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Schedule List</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li @if(request()->segment(1)=='create-question'||request()->segment(1)=='questionlist') class="nav-item menu-open"
+                    @else class="nav-item" @endif>
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Manage Members
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ asset('/add-member') }}"
+                               @if(request()->segment(1) == 'add-member') class="nav-link text-success"
+                               @else class="nav-link" @endif>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Member</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{asset('/member-list')}}"
+                               @if(request()->segment(1) == 'member-list') class="nav-link text-success"
+                               @else class="nav-link" @endif>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Member List</p>
                             </a>
                         </li>
                     </ul>
