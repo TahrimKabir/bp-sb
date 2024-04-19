@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,99 +8,151 @@
     <title>Special Branch | Admin Login</title>
     <link rel="shortcut icon" href="{{asset('images/logo.png')}}" type="image/x-icon">
     <style>
-        .divider:after,
-        .divider:before {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #eee;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
         }
-        .h-custom {
-            height: calc(100% - 73px);
+        .header {
+            background-color: #6c757d;
+            color: #fff;
+            padding: 20px;
         }
-        @media (max-width: 450px) {
-            .h-custom {
-                height: 100%;
-            }
+        .logo img {
+            height: 60px;
         }
-        .vh-100 {
-            min-height: 100vh;
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-login {
+            padding-left: 2.5rem;
+            padding-right: 2.5rem;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            background-color: #6c757d;
+            color: #fff;
+            padding: 10px 0;
+            border-radius: 0 0 10px 10px;
         }
     </style>
 </head>
 <body>
-    <section class="vh-100 d-flex flex-column justify-content-between">
-    <div
-        class="d-flex flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-secondary">
-        <!-- Header -->
-        <a href="login.php" class="nav-link">
-            <div class="d-flex align-items-center">
-                <img src="{{asset('images/logo.png')}}" height="60px" alt="Logo">
+<div class="header">
+    <div class="container-fluid">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-auto">
+                <a href="#" class="nav-link">
+                    <div class="logo">
+                        <img src="{{asset('images/logo.png')}}" alt="Logo">
+                    </div>
+                </a>
             </div>
-        </a>
-        <!-- Header -->
-    </div>
-    <div class="container-fluid h-custom">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-md-9 col-lg-6 col-xl-5 px-5 py-4 py-sm-2">
-            <img src="{{asset('images/logo.png')}}" class="img-fluid mx-auto" alt="Logo" style="max-height: 150px;">
         </div>
-        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
+    </div>
+</div>
+<div class="form-content d-flex justify-content-center align-items-center" style="height: 78vh" >
+
+    <div class="container" >
 
 
-            <!-- Email input -->
-            <div class="form-outline mb-4">
-            <label class="form-label" for="form3Example3">ইমেল</label>
-                <input type="email" id="form3Example3" class="form-control form-control"
-                placeholder="ইমেল লিখুন" name="email" required @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus/>
+            @if ($errors->any())
 
-                
+                    @foreach ($errors->all() as $error)
+                        <div class="alert alert-danger mb-3 text-center text-decoration-none">
+                        {{ $error }}
+                        </div>
+                    @endforeach
 
-                @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-               
+            @endif
+
+
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <h2 id="loginHeading" class="text-center mb-3">Admin Login</h2>
+            <div id="dynamicFields">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter Password" name="password" required>
+                </div>
             </div>
-
-            <!-- Password input -->
-            <div class="form-outline mb-3">
-            <label class="form-label" for="form3Example4"> পাসওয়ার্ড </label>
-                <input type="password" id="form3Example4" class="form-control form-control"
-                placeholder="পাসওয়ার্ড লিখুন" name="password" required @error('password') is-invalid @enderror"   autocomplete="current-password"/>
-                
+            <div class="form-group">
+                <label for="loginType">Login Type</label>
+                <select class="form-control" id="loginType" name="loginType">
+                    <option value="admin" selected>Admin</option>
+                    <option value="member">Member</option>
+                </select>
             </div>
 
             <div class="text-center">
-                @error('password')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-               
+                <input type="submit" value="Login" class="btn btn-primary btn-login" name="admin_login">
             </div>
+        </form>
+    </div>
+</div>
+<div class="footer">
+    <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Special Branch</p>
+</div>
 
-            <div class="text-center text-lg-start mt-4 pt-2">
-                <input type="submit" value="লগইন" class="btn btn-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;" name="admin_login">
 
+
+<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize with admin fields
+        var adminFieldsHtml = `
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
             </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Enter Password" name="password" required>
+            </div>
+        `;
 
-            </form>
-        </div>
-        </div>
-    </div>
-    <div
-        class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-secondary">
-        <!-- Copyright -->
-        <p class="copyright text-white">
-        Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | Special Branch</a>
-        </p>
-        <!-- Copyright -->
-    </div>
-    </section>
+        // Initialize with member fields
+        var memberFieldsHtml = `
+            <div class="form-group">
+                <label for="bpid">BPID</label>
+                <input type="text" class="form-control" id="bpid" name="bpid" placeholder="Enter BPID" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile No.</label>
+                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile no." required>
+            </div>
+        `;
+
+        // Handle login type change
+        $('#loginType').change(function() {
+            var loginType = $(this).val();
+            var dynamicFields = $('#dynamicFields');
+            var loginHeading = $('#loginHeading');
+
+            if (loginType === 'admin') {
+                dynamicFields.html(adminFieldsHtml);
+                loginHeading.text('Admin Login');
+            } else if (loginType === 'member') {
+                dynamicFields.html(memberFieldsHtml);
+                loginHeading.text('Member Login');
+            }
+        });
+    });
+</script>
 </body>
 </html>
-

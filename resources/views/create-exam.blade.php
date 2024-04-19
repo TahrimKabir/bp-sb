@@ -52,7 +52,8 @@
                                                     <option value="" >Select type</option>
                                                     <option value="mcq">MCQ</option>
                                                     <option value="typing_test">Typing Test</option>
-                                                    <option value="computer_test">Computer Test</option>
+                                                    <option value="advanced_computer_test">Advanced Computer Test</option>
+                                                    <option value="basic_computer_test">Basic Computer Test</option>
                                                 </select>
                                                 @error('type')
                                                 <div class="invalid-feedback">{{ $message }}</div>

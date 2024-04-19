@@ -19,6 +19,19 @@ class ComputerTestController extends Controller
         return view('computerTest.create-question-page');
     }
 
+//    public function editQuestion($id)
+//    {
+//
+//        $question = ComputerTestQuestion::where('question_id', $id)->first();
+//
+//        if (!$question) {
+//            abort(404);
+//        }
+//
+//        // Pass the question data to the edit question view
+//        return view('computerTest.edit-question-page', compact('question'));
+//    }
+
 
     public function storeQuestion(Request $request)
     {
@@ -33,6 +46,7 @@ class ComputerTestController extends Controller
         // Create a new question set
         $questionSet = QuestionSet::create([
             'question_set_name' => $request->input('question_set_name'),
+            'type'=>'advanced'
         ]);
 
 

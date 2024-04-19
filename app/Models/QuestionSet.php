@@ -11,6 +11,10 @@ class QuestionSet extends Model
     protected $table="question_sets";
     protected $fillable=[
         'question_set_name',
+        'num_of_mcq',
+        'num_of_true_false',
+        'num_of_typing_test',
+        'type'
     ];
 
     public function questions(){

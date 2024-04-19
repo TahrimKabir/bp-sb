@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\BasicComputerTestController;
 use App\Http\Controllers\ComputerTestController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseListController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamListController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\QuestionListController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ScheduleListController;
 use App\Http\Controllers\TypingTestController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,8 +31,16 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::group(['middleware' => 'auth:web,member'], function () {
+    // Routes accessible by both admin and member users
+    Route::get('/admin/homepage', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/course-list', [CourseListController::class, 'index']);
+    // Add more routes accessible by both admin and member users here...
+});
+Route::group(['middleware' => [ 'auth']], function () {
+//    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/course-list', [CourseListController::class, 'index']);
 
 // Route::post('/schedule-created',[ScheduleController::class,'update'])->name('schedule-created');
@@ -79,4 +90,21 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/store-member',[MemberController::class,'storeMember']);
     Route::get('/edit-member/{id}',[MemberController::class,'editMember']);
     Route::put('/update-member/{id}',[MemberController::class,'updateMember']);
+
+    //Basic computer test
+    Route::get('/computer-test/basic/create-mcq-question',[BasicComputerTestController::class,'createMcqQuestion']);
+    Route::post('/computer-test/basic/store-mcq-question',[BasicComputerTestController::class,'storeMcqQuestion']);
+    Route::get('/computer-test/basic/create-true-false-question',[BasicComputerTestController::class,'createTrueFalseQuestion']);
+    Route::post('/computer-test/basic/store-true-false-question',[BasicComputerTestController::class,'storeTrueFalseQuestion']);
+    Route::get('/computer-test/basic/create-question-set',[BasicComputerTestController::class,'createQuestionSet']);
+    Route::post('/computer-test/basic/store-question-set',[BasicComputerTestController::class,'storeQuestionSet']);
+
+
 });
+
+Route::get('/member/homepage',[CourseController::class,'index']);
+Route::get('/member/course-details/{id}',[CourseController::class,'showCourseDetails']);
+Route::get('/member/course/lesson/{lessson_id}',[CourseController::class,'showLesson']);
+Route::get('/member/course/quiz/{course_id}',[CourseController::class,'showQuiz']);
+Route::get('member/course/pre-quiz/{course_id}',[CourseController::class,'showPreQuiz']);
+Route::post('member/course/pre-quiz/{course_id}/submit', [CourseController::class, 'submitPreQuiz'])->name('pre-quiz.submit');

@@ -57,14 +57,14 @@
                 <input type="email" id="form3Example3" class="form-control form-control"
                 placeholder="ইমেল লিখুন" name="email" required @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus/>
 
-                
+
 
                 @error('email')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-               
+
             </div>
 
             <!-- Password input -->
@@ -72,7 +72,7 @@
             <label class="form-label" for="form3Example4"> পাসওয়ার্ড </label>
                 <input type="password" id="form3Example4" class="form-control form-control"
                 placeholder="পাসওয়ার্ড লিখুন" name="password" required @error('password') is-invalid @enderror"   autocomplete="current-password"/>
-                
+
             </div>
 
             <div class="text-center">
@@ -81,7 +81,7 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-               
+
             </div>
 
             <div class="text-center text-lg-start mt-4 pt-2">

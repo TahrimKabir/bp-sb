@@ -4,6 +4,7 @@
 
 .nav-link {
   display: block;
+    width: 260px;
   padding: 0.25rem 0.75rem;
 }
 
