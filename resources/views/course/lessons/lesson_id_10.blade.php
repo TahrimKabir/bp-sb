@@ -1,7 +1,9 @@
-<!-- Course 1 Chapter 1 -->
+<!-- Course 2 Chapter 3 -->
+
+@include('course.member_header')
 <div class="container-xxl py-4 mb-5">
     <div class="container">
-        <a href="details.php?course_id=2"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
+        <a href="{{url('/member/course-details/2')}}"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
         <br><br>
         <h5>পাঠ-০৩</h5>
         <hr>
@@ -45,36 +47,37 @@
                     </ul>
                 </div>
             </div>
-            
+
             <br>
             <div class="text-center  d-none d-md-block">
-                <img src="../img/course2/c2c3.png" alt="" width="100%">
+                <img src="{{asset('/img/course2/c2c3.png')}}" alt="" width="100%">
             </div>
             <div class="text-center s-sm-block d-md-none d-lg-none">
-                <img src="../img/course2/c2c3_mobile.png" alt="" width="100%">
+                <img src="{{asset('/img/course2/c2c3_mobile.png')}}" alt="" width="100%">
             </div>
 
             <hr>
             <div class="row text-center">
                 <h4 class="py-4 text-danger"><u>লিঙ্গভিত্তিক সহিংসতার ধরণসমূহঃ</u></h4>
                 <div class="col-md-6">
-                    <img src="../img/course2/c2c31.jpg" alt="" width="100%">
+                    <img src="{{asset('/img/course2/c2c31.jpg')}}" alt="" width="100%">
                 </div>
                 <div class="col-md-6">
-                    <img src="../img/course2/c2c312.png" alt="" width="100%">
+                    <img src="{{asset('/img/course2/c2c312.png')}}" alt="" width="100%">
                 </div>
             </div>
             <hr>
             <div class="text-center">
-                <img src="../img/course2/c2c32.jpg" alt="" class="w-100 mx-auto w-md-90 w-lg-80 w-xl-75">
+                <img src="{{asset('/img/course2/c2c32.jpg')}}" alt="" class="w-100 mx-auto w-md-90 w-lg-80 w-xl-75">
             </div>
             <br>
         </div>
 
         <div class="d-flex justify-content-between mt-5">
-            <a href="lesson.php?lesson_id=9" class="btn btn-outline-primary rounded-pill"><i class="fas fa-arrow-left"></i> পূর্ববর্তী </a>
-            <a href="lesson.php?lesson_id=11" class="btn btn-outline-primary rounded-pill"> পরবর্তী <i class="fas fa-arrow-right"></i></a>
+            <a href="{{url('/member/course/lesson/9')}}" class="btn btn-outline-primary rounded-pill"><i class="fas fa-arrow-left"></i> পূর্ববর্তী </a>
+            <a href="{{url('/member/course/lesson/11')}}" class="btn btn-outline-primary rounded-pill">পরবর্তী <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 </div>
-<!-- Course 1 Chapter 1 -->
+<!-- Course 2 Chapter 3 -->
+@include('course.member_footer')

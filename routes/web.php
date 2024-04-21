@@ -106,5 +106,10 @@ Route::get('/member/homepage',[CourseController::class,'index']);
 Route::get('/member/course-details/{id}',[CourseController::class,'showCourseDetails']);
 Route::get('/member/course/lesson/{lessson_id}',[CourseController::class,'showLesson']);
 Route::get('/member/course/quiz/{course_id}',[CourseController::class,'showQuiz']);
+Route::post('/member/quiz-result-update', [CourseController::class, 'updateQuizResult'])->name('quiz-result-update');
+
 Route::get('member/course/pre-quiz/{course_id}',[CourseController::class,'showPreQuiz']);
 Route::post('member/course/pre-quiz/{course_id}/submit', [CourseController::class, 'submitPreQuiz'])->name('pre-quiz.submit');
+
+Route::get('/post-quiz/{course_id}', [CourseController::class, 'showPostQuizForm']);
+Route::post('/post-quiz/submit', [CourseController::class, 'submitPostQuiz'])->name('post_quiz.submit');

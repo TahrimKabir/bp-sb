@@ -1,15 +1,17 @@
-<!-- Course 1 Chapter 1 -->
+<!-- Course 2 Chapter 1 -->
+
+@include('course.member_header')
 <div class="container-xxl py-4 mb-5">
     <div class="container">
-        <a href="details.php?course_id=2"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
+        <a href="{{url('/member/course-details/2')}}"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
         <br><br>
         <h5>পাঠ-০১</h5>
         <hr>
 
         <br>
         <div class="text-center py-3">
-            <img src="../img/course2/c2c1s.png" alt="" class="w-100 d-md-none">
-            <img src="../img/course2/c2c1.jpg" alt="" class="d-none d-md-block mx-auto w-md-90 w-lg-80 w-xl-75">
+            <img src="{{asset('/img/course2/c2c1s.png')}}" alt="" class="w-100 d-md-none">
+            <img src="{{asset('/img/course2/c2c1.jpg')}}" alt="" class="d-none d-md-block mx-auto w-md-90 w-lg-80 w-xl-75">
         </div>
         <!-- <h6>জেন্ডারভিত্তিক সহিংসতা ও এর ধরণঃ </h6>
         <ul>
@@ -20,8 +22,8 @@
         <hr>
 
         <div class="text-center py-3">
-            <img src="../img/course2/c2c111s.png" alt="" class="w-100 d-md-none">
-            <img src="../img/course2/c2c11.jpg" alt="" class="d-none d-md-block mx-auto w-md-90 w-lg-80 w-xl-75">
+            <img src="{{asset('/img/course2/c2c111s.png')}}" alt="" class="w-100 d-md-none">
+            <img src="{{asset('/img/course2/c2c11.jpg')}}" alt="" class="d-none d-md-block mx-auto w-md-90 w-lg-80 w-xl-75">
         </div>
         <!-- <div>
             <h6>নারীর প্রতি সহিংসতাঃ</h6>
@@ -35,8 +37,8 @@
         </div> -->
         <hr>
         <div class="text-center py-3">
-            <img src="../img/course2/c2c112s.png" alt="" class="w-100 d-md-none">
-            <img src="../img/course2/c2c112.jpg" alt="" class="d-none d-md-block mx-auto w-md-90 w-lg-80 w-xl-75">
+            <img src="{{asset('/img/course2/c2c112s.png')}}" alt="" class="w-100 d-md-none">
+            <img src="{{asset('/img/course2/c2c112.jpg')}}" alt="" class="d-none d-md-block mx-auto w-md-90 w-lg-80 w-xl-75">
         </div>
         <!-- <div>
             <h6>পারিবারিক সহিংসতাঃ</h6>
@@ -45,8 +47,9 @@
             </ul>
         </div> -->
         <div class="text-end">
-            <a href="lesson.php?lesson_id=9" class="btn btn-outline-primary rounded-pill"> পরবর্তী <i class="fas fa-arrow-right"></i></a>
+            <a href="{{url('/member/course/lesson/9')}}" class="btn btn-outline-primary rounded-pill">পরবর্তী <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 </div>
-<!-- Course 1 Chapter 1 -->
+@include('course.member_footer')
+<!-- Course 2 Chapter 1 -->

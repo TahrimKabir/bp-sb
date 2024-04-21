@@ -1,7 +1,9 @@
-<!-- Course 1 Chapter 1 -->
+<!-- Course 3 Chapter 1 -->
+
+@include('course.member_header')
 <div class="container-xxl py-4 mb-5">
     <div class="container">
-        <a href="details.php?course_id=3"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
+        <a href="{{url('/member/course-details/3')}}"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
         <br><br>
         <h5>পাঠ-০১</h5>
         <hr>
@@ -11,8 +13,8 @@
         <div class="row text-center">
             <h4 class="py-4 text-danger"><u>সার্ভিস ডেস্কের কার্যক্রমঃ</u></h4>
             <div class="col-12 d-flex justify-content-center">
-                <img src="../img/course3/c3c1.png" alt="" class="d-none d-md-block mx-auto w-md-90 w-lg-80 w-xl-75">
-                <img src="../img/course3/c3c1_mobile.png" alt="" class="w-100 mx-auto d-md-none">
+                <img src="{{asset('/img/course3/c3c1.png')}}" alt="" class="d-none d-md-block mx-auto w-md-90 w-lg-80 w-xl-75">
+                <img src="{{asset('/img/course3/c3c1_mobile.png')}}" alt="" class="w-100 mx-auto d-md-none">
             </div>
         </div>
         <hr>
@@ -26,9 +28,11 @@
                 <li>পুলিশ হেডকোয়ার্টার্স কর্তৃক সরবরাহকৃত সরকারী মোবাইল সিম দ্বারা ডেস্কের কার্যক্রম পরিচালনা করা। </li>
             </ol>
         </div>
-        <div class="d-flex justify-content-end mt-5">
-            <a href="lesson.php?lesson_id=14" class="btn btn-outline-primary rounded-pill"> পরবর্তী <i class="fas fa-arrow-right"></i></a>
+        <div class="d-flex justify-content-between mt-5">
+
+            <a href="{{url('/member/course/lesson/14')}}" class="btn btn-outline-primary rounded-pill">পরবর্তী <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 </div>
-<!-- Course 1 Chapter 1 -->
+<!-- Course 2 Chapter 4 -->
+@include('course.member_footer')

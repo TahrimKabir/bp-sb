@@ -1,7 +1,9 @@
-<!-- Course 1 Chapter 1 -->
+<!-- Course 2 Chapter 5 -->
+
+@include('course.member_header')
 <div class="container-xxl py-4 mb-5">
     <div class="container">
-        <a href="details.php?course_id=2"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
+        <a href="{{url('/member/course-details/2')}}"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
         <br><br>
         <h5>পাঠ-০৫</h5>
         <hr>
@@ -11,16 +13,16 @@
         <div class="row text-center">
             <h4 class="py-4 text-danger"><u>মনস্তাত্ত্বিক প্রাথমিক সহযোগিতা-পন্থার মূলনীতিঃ</u></h4>
             <div class="col-md-6 col-lg-4 col-xl-3">
-                <img src="../img/course2/c2c5.png" alt="" width="100%">
+                <img src="{{asset('/img/course2/c2c5.png')}}" alt="" width="100%">
             </div>
             <div class="col-md-6 col-lg-4 col-xl-3">
-                <img src="../img/course2/c2c51.png" alt="" width="100%">
+                <img src="{{asset('/img/course2/c2c51.png')}}" alt="" width="100%">
             </div>
             <div class="col-md-6 col-lg-4 col-xl-3">
-                <img src="../img/course2/c2c52.png" alt="" width="100%">
+                <img src="{{asset('/img/course2/c2c52.png')}}" alt="" width="100%">
             </div>
             <div class="col-md-6 col-lg-4 col-xl-3">
-                <img src="../img/course2/c2c53.png" alt="" width="100%">
+                <img src="{{asset('/img/course2/c2c53.png')}}" alt="" width="100%">
             </div>
         </div>
         <hr>
@@ -37,8 +39,8 @@
             </ol>
         </div>
         <div class="d-flex justify-content-between mt-5">
-            <a href="lesson.php?lesson_id=11" class="btn btn-outline-primary rounded-pill"><i class="fas fa-arrow-left"></i> পূর্ববর্তী </a>
-            <a href="quiz.php?course_id=2" class="btn btn-outline-primary rounded-pill"> কুইজ শুরু করুন <i class="fas fa-arrow-right"></i></a>
+            <a href="{{url('/member/course/lesson/11')}}" class="btn btn-outline-primary rounded-pill"><i class="fas fa-arrow-left"></i> পূর্ববর্তী </a>
+            <a href="{{url('/member/course/quiz/2')}}" class="btn btn-outline-primary rounded-pill"> কুইজ শুরু করুন <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 </div>

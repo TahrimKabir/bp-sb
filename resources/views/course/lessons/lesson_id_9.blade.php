@@ -1,7 +1,9 @@
-<!-- Course 1 Chapter 1 -->
+<!-- Course 2 Chapter 2 -->
+
+@include('course.member_header')
 <div class="container-xxl py-4 mb-5">
     <div class="container">
-        <a href="details.php?course_id=2"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
+        <a href="{{url('/member/course-details/2')}}"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান </a>
         <br><br>
         <h5>পাঠ-০২</h5>
         <hr>
@@ -27,19 +29,20 @@
         <!--    <li>ঠ. ভয় দেখিয়ে বা মিথ্যা আশ্বাস দিয়ে বা প্রতারণার মাধ্যমে যৌন সম্পর্ক স্থাপন বা স্থাপনে চেষ্টা করা</li>-->
         <!--</ul>-->
         <div class="text-center">
-            <img src="../img/course2/c2c2_mobile.png" alt="" class="w-100 mx-auto w-md-90 w-lg-80 w-xl-75">
+            <img src="{{asset('/img/course2/c2c2_mobile.png')}}" alt="" class="w-100 mx-auto w-md-90 w-lg-80 w-xl-75">
         </div>
         <br>
 
         <div class="text-center">
-            <img src="../img/course2/c2c21.png" alt="" class="w-100 mx-auto w-md-90 w-lg-50">
+            <img src="{{asset('/img/course2/c2c21.png')}}" alt="" class="w-100 mx-auto w-md-90 w-lg-50">
         </div>
         <br>
 
-        <div class="d-flex justify-content-between">
-            <a href="lesson.php?lesson_id=8" class="btn btn-outline-primary rounded-pill"><i class="fas fa-arrow-left"></i> পূর্ববর্তী </a>
-            <a href="lesson.php?lesson_id=10" class="btn btn-outline-primary rounded-pill"> পরবর্তী <i class="fas fa-arrow-right"></i></a>
+        <div class="d-flex justify-content-between mt-5">
+            <a href="{{url('/member/course/lesson/8')}}" class="btn btn-outline-primary rounded-pill"><i class="fas fa-arrow-left"></i> পূর্ববর্তী </a>
+            <a href="{{url('/member/course/lesson/10')}}" class="btn btn-outline-primary rounded-pill">পরবর্তী <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 </div>
-<!-- Course 1 Chapter 1 -->
+<!-- Course 2 Chapter 2 -->
+@include('course.member_footer')
