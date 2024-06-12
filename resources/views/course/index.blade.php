@@ -4,21 +4,7 @@
 <!-- Service Start -->
 <div class="container-xxl py-4">
     <div class="container w-100">
-        <!-- progress -->
-        <div class="card">
-            <div class="card-body bg-light ">
-                <div class="row">
-                    <div class="col-md-6 text-start mb-2 mb-md-0">
-                        <strong>আমার কোর্সের স্ট্যাটাস</strong>
-                    </div>
-                    <div class="col-md-6 text-end">
 
-                        <strong>{{ App\Traits\BanglaConverter::en2bn(count($courses)) }} </strong> টির মধ্যে <strong>{{ App\Traits\BanglaConverter::en2bn(count($completed_course)) }}</strong> টি কোর্স সম্পন্ন হয়েছে
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
         <!-- my certificates -->
 {{--        <div class="card">--}}
 {{--            <div class="card-body bg-light">--}}
@@ -63,9 +49,9 @@
                                 <div class="progress-bar bg-{{ $course->percent >= 100 ? 'success' : 'primary' }}" style="width:{{ $course->percent }}%">{{ $course->percent }}%</div>
                             </div>
                             <div class="d-grid mt-2">
-                                @if($course->id_courses==1)<a href="{{url('/member/course-details/'. $course->id_courses) }}" class="text-dark btn btn-outline-{{ $course->completed ? 'success' : 'primary' }}">{{ $course->completed ? 'পুনরায় পঠন' : 'শুরু করুন' }}</a>
+                                @if($course->id_courses==1)<a href="{{url('/member/course-details/'. $course->id_courses) }}" class="text-dark btn btn-outline-{{$course->percent >= 100 ? 'success' : 'primary' }}">{{ $course->percent >= 100 ? 'পুনরায় পঠন' : 'শুরু করুন' }}</a>
 
-                                @else <a href="#" class="text-dark btn btn-outline-primary disabled">Incomplete</a>
+                                @else <a href="#" class="text-dark btn btn-outline-primary disabled">অনুপস্থিত</a>
                                 @endif</div>
                         </div>
                     </div>

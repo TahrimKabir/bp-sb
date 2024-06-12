@@ -7,7 +7,7 @@
 
             $questionQuery = "SELECT * FROM quiz_questions WHERE lesson_id={$lesson_id}  ORDER BY RAND() LIMIT 5";
             $questions = json_encode(DB::select($questionQuery));
-dd($questions);
+
             $lesson = DB::table('lessons')->where('id_lessons', $lesson_id)->first();
 
 

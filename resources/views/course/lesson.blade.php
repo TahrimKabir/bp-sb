@@ -41,25 +41,32 @@
                 </div>
             </div>
 
-            {{--            Quiz button start--}}
+            <!-- Check for quiz questions availability -->
+            @php
+                $quizAvailable = DB::table('quiz_questions')->where('lesson_id', $lesson->id_lessons)->exists();
+            @endphp
+
+            {{-- Quiz button start --}}
             <div class="col-lg-5 col-sm-6 wow fadeInUp my-3 " data-wow-delay="0.1s">
                 <div class="service-item pt-3 border ">
                     <div class="p-4">
                         <i class="fas fa-file-signature fa-3x  mb-4"></i>
                         <div style="height: 3.6rem;">
                             <h5 class="mb-3">কুইজ </h5>
-
                         </div>
-
                         <hr>
                         <div class="d-grid mt-2">
-                            <a href="{{url('/member/course/quiz/'.$lesson->id_lessons) }}" class="btn btn-outline-primary">কুইজে
-                                অংশ নিন </a>
+                            @if($quizAvailable)
+                                <a href="{{url('/member/course/quiz/'.$lesson->id_lessons) }}" class="btn btn-outline-primary">কুইজে অংশ নিন </a>
+                            @else
+                                <button class="btn btn-outline-primary" disabled>কুইজ প্রশ্ন অনুপস্থিত</button>
+                            @endif
                         </div>
-
                     </div>
                 </div>
             </div>
+            {{-- Quiz button end --}}
+
             {{--            Quiz button end--}}
 
         </div>

@@ -55,20 +55,31 @@ class CourseController extends Controller
         // Iterate through the courses to calculate completion percentage
         foreach ($courses as &$course) {
             $total_lessons_result = DB::select("SELECT COUNT(*) as total FROM lessons WHERE courses_id = ?", [$course->id_courses]);
-            $total_lessons = $total_lessons_result[0]->total + 3;
+            $total_lessons = $total_lessons_result[0]->total ;
 
             $completed_lessons_result = DB::select("SELECT ( lesson_1 + lesson_2 + lesson_3 + lesson_4 + lesson_5 + lesson_6 + lesson_7 + lesson_8+lesson_9) as total FROM members_course_status WHERE member_id = ? AND course_id = ?", [$member->id, $course->id_courses]);
 
+
             if (empty($completed_lessons_result)) {
+
                 $completed_lessons = 0;
+
             } else {
                 $completed_lessons = $completed_lessons_result[0]->total;
+
+            }
+            if($total_lessons==0){
+                $percent=0;
+            }
+            else{
+                $percent = ($completed_lessons / $total_lessons) * 100;
             }
 
-            $percent = round($completed_lessons / $total_lessons * 100);
 
             $course->percent = $percent;
+
             $course->completed = in_array($course->id_courses, $completed_course_ids);
+
         }
 
         return view('course.index', compact('courses', 'member', 'completed_course'));
@@ -100,7 +111,7 @@ class CourseController extends Controller
 
 
         $is_complete_course = true;
-
+$deactive=true;
         foreach ($lessons as $lesson) {
             if ($course_status  && !$course_status->{'lesson_' . $lesson->lesson_no}) {
                 $deactive = true;
