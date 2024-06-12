@@ -7,7 +7,7 @@
 
             $questionQuery = "SELECT * FROM quiz_questions WHERE lesson_id={$lesson_id}  ORDER BY RAND() LIMIT 5";
             $questions = json_encode(DB::select($questionQuery));
-
+dd($questions);
             $lesson = DB::table('lessons')->where('id_lessons', $lesson_id)->first();
 
 
@@ -26,29 +26,36 @@
         </div>
         <hr>
         <!-- Quiz -->
-        <div class="card card-body" id="question-body">
-            <div class="question bg-white">
-                <div class="d-flex flex-row align-items-center question-title bg-light p-3">
-                    <h5><span class="text-primary me-2">প্রশ্ন <span id="question-no">0</span>.</span> <span class="ml-2" id="question-title">Question</span></h5>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <div class="mx-3" id="question-options">
+        <!-- Quiz -->
+        @if (!empty($questions))
+            <div class="card card-body" id="question-body">
+                <div class="question bg-white">
+                    <div class="d-flex flex-row align-items-center question-title bg-light p-3">
+                        <h5><span class="text-primary me-2">প্রশ্ন <span id="question-no">0</span>.</span> <span class="ml-2" id="question-title">Question</span></h5>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center p-3">
-                        <i class="far fa-check-circle fa-3x text-success d-none" id="correct-ans-icon"></i>
-                        <i class="far fa-times-circle fa-3x text-danger d-none" id="wrong-ans-icon"></i>
+                    <div class="d-flex justify-content-between">
+                        <div class="mx-3" id="question-options">
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center p-3">
+                            <i class="far fa-check-circle fa-3x text-success d-none" id="correct-ans-icon"></i>
+                            <i class="far fa-times-circle fa-3x text-danger d-none" id="wrong-ans-icon"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-danger fw-bold d-none" id="qus-error" role="alert">একটি অপশন সিলেক্ট করুন</div>
+                <div class="d-flex justify-content-between mt-5">
+                    <div><small class="text-start text-muted" id="qus-point">২ / ৩ পয়েন্ট</small></div>
+                    <div>
+                        <button type="submit" class="btn btn-success rounded-pill" id="submit-answer">সাবমিট <i class="fas fa-arrow-right"></i></button>
+                        <button type="submit" class="btn btn-primary rounded-pill d-none" id="next-question">পরবর্তী <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
             </div>
-            <div class="alert alert-danger fw-bold d-none" id="qus-error" role="alert">একটি অপশন সিলেক্ট করুন</div>
-            <div class="d-flex justify-content-between mt-5">
-                <div><small class="text-start text-muted" id="qus-point">২ / ৩ পয়েন্ট</small></div>
-                <div>
-                    <button type="submit" class="btn btn-success rounded-pill" id="submit-answer">সাবমিট <i class="fas fa-arrow-right"></i></button>
-                    <button type="submit" class="btn btn-primary rounded-pill d-none" id="next-question">পরবর্তী <i class="fas fa-arrow-right"></i></button>
-                </div>
+        @else
+            <div class="alert alert-warning" role="alert">
+                No question available for this lesson.
             </div>
-        </div>
+        @endif
         <div class="card w-100 w-lg-80 mx-auto p-2 m-2 d-none rounded" style="border-radius: 15px;" id="result-div">
             <div class="card-body text-center">
                 <i class="fas fa-award fa-5x text-warning"></i>

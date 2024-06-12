@@ -57,7 +57,7 @@ class CourseController extends Controller
             $total_lessons_result = DB::select("SELECT COUNT(*) as total FROM lessons WHERE courses_id = ?", [$course->id_courses]);
             $total_lessons = $total_lessons_result[0]->total + 3;
 
-            $completed_lessons_result = DB::select("SELECT (exam + lesson_1 + lesson_2 + lesson_3 + lesson_4 + lesson_5 + lesson_6 + lesson_7 + lesson_8) as total FROM members_course_status WHERE member_id = ? AND course_id = ?", [$member->id, $course->id_courses]);
+            $completed_lessons_result = DB::select("SELECT ( lesson_1 + lesson_2 + lesson_3 + lesson_4 + lesson_5 + lesson_6 + lesson_7 + lesson_8+lesson_9) as total FROM members_course_status WHERE member_id = ? AND course_id = ?", [$member->id, $course->id_courses]);
 
             if (empty($completed_lessons_result)) {
                 $completed_lessons = 0;
