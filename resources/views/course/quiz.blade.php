@@ -1,47 +1,28 @@
 @include('course.member_header')
 @php
     use Illuminate\Support\Facades\DB;
-    if(isset($course_id) && $course_id > 0){
+    if(isset($lesson_id) && $lesson_id > 0){
 
 
 
-            $courseStatusQuery = "SELECT id_members_course_status, course_id, exam FROM members_course_status WHERE member_id={$member->id} AND course_id={$course_id} LIMIT 1";
-            $course_status = DB::select($courseStatusQuery);
-
-            $totalLessonQuery = "SELECT COUNT(*) as total FROM lessons WHERE courses_id={$course_id}";
-            $total_lesson = DB::select($totalLessonQuery)[0]->total;
-
-            $completeLessonQuery = "SELECT (lesson_1+lesson_2+lesson_3+lesson_4+lesson_5+lesson_6+lesson_7+lesson_8) as total FROM members_course_status WHERE member_id={$member->id} AND course_id={$course_id}";
-            $complete_lesson = DB::select($completeLessonQuery)[0]->total;
-
-            if(empty($course_status) || $course_status[0]->exam || $complete_lesson != $total_lesson) {
-                 return redirect()->intended('/member/course-details/' . $course_status[0]->course_id);
-            }
-
-            $courseQuery = "SELECT title, target_trainee FROM courses WHERE id_courses={$course_id} LIMIT 1";
-            $course = DB::select($courseQuery)[0];
-            $target_trainee = explode(",", $course->target_trainee);
-
-            if (!in_array($member['post'], $target_trainee)) {
-
-                    return redirect()->intended('/member/homepage/');
-            }
-
-            $questionQuery = "SELECT * FROM questions WHERE course_id={$course_id} AND qus_cat='quiz' ORDER BY RAND() LIMIT 10";
+            $questionQuery = "SELECT * FROM quiz_questions WHERE lesson_id={$lesson_id}  ORDER BY RAND() LIMIT 5";
             $questions = json_encode(DB::select($questionQuery));
+
+            $lesson = DB::table('lessons')->where('id_lessons', $lesson_id)->first();
+
 
 
     }
     else{
-             return redirect()->intended('/member/course-details/' . $course_status[0]->course_id);
+             return redirect()->intended('/member/course-details/' . 1);
     }
 @endphp
 <div class="container-xxl py-4 mb-5">
     <div class="container">
-        <a href="{{url('/member/course-details/'.$course_id)}}"><i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান</a>
+        <a href="{{url('/member/course/lesson/'.$lesson_id)}}"><i class="fas fa-arrow-left"></i>  ফিরে যান</a>
         <br><br>
         <div class="d-flex justify-content-between">
-            <h5 class="my-2">মূল্যায়ন <i>({{ $course->title }})</i></h5>
+            <h5 class="my-2">মূল্যায়ন <i></i></h5>
         </div>
         <hr>
         <!-- Quiz -->
@@ -72,15 +53,13 @@
             <div class="card-body text-center">
                 <i class="fas fa-award fa-5x text-warning"></i>
                 <h2 class="p-4 text-success">অভিনন্দন !!</h2>
-                <h5>আপনি অত্যন্ত সফলতার সাথে <strong class="text-info">"{{ $course->title }}"</strong> কোর্সটির মূল্যায়ন সম্পন্ন করেছেন।</h5>
+                <h5>আপনি অত্যন্ত সফলতার সাথে <strong class="text-info"></strong> কোর্সটির মূল্যায়ন সম্পন্ন করেছেন।</h5>
                 <br>
                 <h6 class="text-success">আপনার স্কোরঃ <span id="result-score">১২/২০</span></h6>
                 <br>
-                @if($course_id != 3)
-                    <a href="{{url('/post-quiz/'.$course_id)}}" class="p-3 btn btn-danger rounded-pill fw-bold">চূড়ান্ত জরিপে অংশগ্রহণ করে কোর্সটি সম্পন্ন করতে এখানে ক্লিক করুন <i class="fas fa-arrow-right"></i></a>
-                @else
-                    <a href="certificate.php?course_id=<?= $course_id ?>" class="p-3 btn btn-success rounded-pill"><i class="fas fa-file-download"></i> সার্টিফিকেট ডাউনলোড করতে এখানে ক্লিক করুন</a>
-                @endif
+
+                    <a href="{{ url('/member/course-details/'.$lesson->courses_id) }}" class="p-3 btn btn-success rounded-pill">কোর্সে ফিরে যান </a>
+
             </div>
         </div>
         <div class="card w-75 mx-auto p-2 m-2 d-none rounded" style="border-radius: 15px;" id="error-div">
@@ -119,10 +98,8 @@
             $('#question-title').text(question.question);
             $('#question-no').text(toBn(cur_qus_index+1));
 
-            var options_html = '<div class="p-2 mb-1" id="option-a"><label class="radio"> <input type="radio" name="qus_option" value="a"> <span>'+question.a+'</span></label></div><div class="p-2 mb-1" id="option-b"><label class="radio"> <input type="radio" name="qus_option" value="b"> <span>'+question.b+'</span></label></div>';
-            if(question.ques_type=='mcq') {
-                options_html += '<div class="p-2 mb-1" id="option-c"><label class="radio"> <input type="radio" name="qus_option" value="c"> <span>'+question.c+'</span></label></div><div class="p-2" id="option-d"><label class="radio"> <input type="radio" name="qus_option" value="d"> <span>'+question.d+'</span></label></div>';
-            }
+            var options_html = '<div class="p-2 mb-1" id="option-a"><label class="radio"> <input type="radio" name="qus_option" value="a"> <span>'+question.a+'</span></label></div><div class="p-2 mb-1" id="option-b"><label class="radio"> <input type="radio" name="qus_option" value="b"> <span>'+question.b+'</span></label></div> <div class="p-2 mb-1" id="option-c"><label class="radio"> <input type="radio" name="qus_option" value="c"> <span>'+question.c+'</span></label></div><div class="p-2" id="option-d"><label class="radio"> <input type="radio" name="qus_option" value="d"> <span>'+question.d+'</span></label></div>';
+
             $('#question-options').html(options_html);
         }
         qus_render(questions[cur_qus_index]);
@@ -167,12 +144,13 @@
                 $('#next-question').html('<i class="fas fa-spinner fa-pulse"></i>').attr('disabled');
                 $.post("{{ route('quiz-result-update') }}", {
                     from: "member_panel",
-                    status_table_id: {{ $course_status[0]->id_members_course_status }},
+                    lesson_id:{{$lesson_id}},
                     mark: corr_ans,
-                    course_id: {{ $course_id }}
+
                 })
                     .done(function(data) {
                         if (data.status == 'success') {
+
                             $('#result-score').text(toBn(corr_ans) + "/" + toBn(total_qus));
                             $('#question-body').addClass('d-none');
                             $('#result-div').removeClass('d-none');

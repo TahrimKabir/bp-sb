@@ -18,7 +18,7 @@
                             <div class="card">
                                 <div class="card-header clr-dark-green text-white">
                                     <h2 class="display-6 mb-0 text-center">
-                                        Exam
+                                      Create  Exam
                                     </h2>
                                 </div>
                                 <div class="card-body">

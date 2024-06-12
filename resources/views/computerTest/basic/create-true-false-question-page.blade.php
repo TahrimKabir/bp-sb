@@ -39,7 +39,7 @@
                                 <div class="card-header clr-dark-green">
 
                                     <h3 class="text-center display-6 mb-0">
-                                        Create MCQ Question
+                                        Create True/False Question
                                     </h3>
                                 </div>
                                 <div class="card-body">

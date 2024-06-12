@@ -1,5 +1,6 @@
 <!-- Footer Start -->
-<div class="container-fluid text-light footer p-5 wow fadeIn" data-wow-delay="0.1s" style="background: #008439;">
+
+<div class="container-fluid footer text-light footer p-5 wow fadeIn" data-wow-delay="0.1s" style="background: #008439;">
 
     <div class="container">
         <div class="copyright">
