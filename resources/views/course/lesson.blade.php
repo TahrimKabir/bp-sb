@@ -112,7 +112,29 @@
     document.getElementById('see-course-btn').addEventListener('click', function() {
         var lessonId = '{{ $lesson->id_lessons }}';
 
-        var pdfSrc = '{{ asset("course-files/lesson_" . $lesson->id_lessons . ".pdf") }}';
-        document.getElementById('pdf-frame').src = pdfSrc;
+        // Map of lesson IDs to Google Drive shareable links
+        var pdfLinks = {
+            1: 'https://drive.google.com/file/d/1npb-w7sz19sDTJDULZ_UP2mrtis9PVU2/view?usp=sharing',
+            2: 'https://drive.google.com/file/d/1WSPJPgKEzsJr0_weJdjMJa5K8vpT0j90/view?usp=sharing',
+            3: 'https://drive.google.com/file/d/1zHVO0a2uI9TkK54rH4P5DV4dxLp-USBO/view?usp=sharing',
+            4: 'https://drive.google.com/file/d/1Shroky39bJYKGxQJDWpDYvq9LaM8zOIb/view?usp=sharing',
+            5: 'https://drive.google.com/file/d/1JabVEidCPld8yGpUXY1GiFmBqUsuxcNO/view?usp=sharing',
+            6: 'https://drive.google.com/file/d/1H4btwiKoGu8XpBZdijryJxA1c5EsbOkj/view?usp=sharing',
+            7: 'https://drive.google.com/file/d/17Dr49TD_bPJhM6b_NCi-GukYgQBJg5yQ/view?usp=sharing',
+            8: 'https://drive.google.com/file/d/1UDFLQ8hGFRh-WiAxz_lvk1spPEUGDCi2/view?usp=sharing',
+            9: 'https://drive.google.com/file/d/1eZmGOIPlHnOOJHU5AUZoO2mbKz0tSZgr/view?usp=sharing'
+        };
+
+        // Get the shareable link for the current lesson
+        var pdfLink = pdfLinks[lessonId];
+
+        if (pdfLink) {
+            // Modify the shareable link to use in the iframe
+            var embedLink = pdfLink.replace('/view?usp=sharing', '/preview');
+            // Set the iframe src to the modified URL
+            document.getElementById('pdf-frame').src = embedLink;
+        } else {
+            console.error('No PDF link found for lesson ' + lessonId);
+        }
     });
 </script>
