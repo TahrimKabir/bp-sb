@@ -15,7 +15,7 @@
 
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a href="{{ asset('/home') }}" @if(request()->segment(1) == 'home') class="nav-link text-success"
+                    <a href="{{ asset('/admin/homepage') }}" @if(request()->segment(1) == 'homepage') class="nav-link text-success"
                        @else class="nav-link" @endif>
                         <i class="far fa-circle nav-icon"></i>
                         <p>Dashboard</p>
