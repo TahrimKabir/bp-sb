@@ -237,6 +237,44 @@
                     </ul>
                 </li>
 
+
+                <!-- Manage Members -->
+                @if(Auth::user()->role === 'super_admin')
+                <li  class="nav-item" >
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Manage Admins
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                    <li class="nav-item">
+    <a href="{{ route('admin.index') }}" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Admin List </p>
+    </a>
+    <li class="nav-item">
+    <a href="{{ route('admin.create') }}" class="nav-link">
+        <i class="fas fa-user-plus"></i>
+        <p>Create New Admin</p>
+    </a>
+</li>
+                    </ul>
+                </li>
+
+                   
+@endif
+    <!-- Change Password -->
+<li class="nav-item">
+    <a href="{{ route('admin.change_password') }}" @if(request()->segment(1) == 'change-password') class="nav-link text-success"
+       @else class="nav-link" @endif>
+        <i class="far fa-circle nav-icon"></i>
+        <p>Change Password</p>
+    </a>
+</li>
+
+
                 <!-- Logout -->
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ route('logout') }}"

@@ -12,6 +12,7 @@ use App\Http\Controllers\QuestionListController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ScheduleListController;
 use App\Http\Controllers\TypingTestController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,8 @@ Route::group(['middleware' => 'auth:web,member'], function () {
 Route::group(['middleware' => [ 'auth']], function () {
 //    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/course-list', [CourseListController::class, 'index']);
+    Route::get('/admin/change-password', [AdminController::class, 'changePassword'])->name('admin.change_password');
+    Route::post('/admin/update-password', [AdminController::class, 'updatePassword'])->name('admin.update_password');
 
 // Route::post('/schedule-created',[ScheduleController::class,'update'])->name('schedule-created');
     Route::get('/create-question', [QuestionController::class, 'index']);
@@ -101,6 +104,16 @@ Route::group(['middleware' => [ 'auth']], function () {
 
 
 });
+
+Route::middleware(['auth', 'super_admin'])->group(function () {
+    Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.create');
+    Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
+Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+Route::delete('/admin/remove/{id}', [AdminController::class, 'remove'])->name('admin.remove');
+});
+
 
 Route::get('/member/homepage',[CourseController::class,'index']);
 Route::get('/member/course-details/{id}',[CourseController::class,'showCourseDetails']);
