@@ -42,7 +42,7 @@
                                      @if($exam!=null)
                                      @foreach($exam as $e)
                                      <tr>
-                                        <td>{{$e->exam_id}}</td>
+                                        <td>{{$loop->iteration}}</td>
                                         <td>{{$e->exam_name}}</td>
                                         <td>{{$e->details}}</td>
                                        

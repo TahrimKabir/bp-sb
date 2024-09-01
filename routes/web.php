@@ -97,8 +97,12 @@ Route::group(['middleware' => [ 'auth']], function () {
     //Basic computer test
     Route::get('/computer-test/basic/create-mcq-question',[BasicComputerTestController::class,'createMcqQuestion']);
     Route::post('/computer-test/basic/store-mcq-question',[BasicComputerTestController::class,'storeMcqQuestion']);
+    Route::get('/computer-test/basic/mcq-question-list',[BasicComputerTestController::class,'mcqQuestionList']);
+    Route::delete('/computer-test/basic/mcq-question-delete/{id}', [BasicComputerTestController::class, 'mcqQuestionDelete']);
     Route::get('/computer-test/basic/create-true-false-question',[BasicComputerTestController::class,'createTrueFalseQuestion']);
     Route::post('/computer-test/basic/store-true-false-question',[BasicComputerTestController::class,'storeTrueFalseQuestion']);
+    Route::get('/computer-test/basic/true-false-question-list',[BasicComputerTestController::class,'trueFalseQuestionList']);
+    Route::delete('/computer-test/basic/true-false-question-delete/{id}', [BasicComputerTestController::class, 'trueFalseQuestionDelete']);
     Route::get('/computer-test/basic/create-question-set',[BasicComputerTestController::class,'createQuestionSet']);
     Route::post('/computer-test/basic/store-question-set',[BasicComputerTestController::class,'storeQuestionSet']);
 

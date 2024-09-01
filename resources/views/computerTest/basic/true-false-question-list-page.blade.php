@@ -102,32 +102,32 @@
                                         <tr>
                                             <th>SL No.</th>
                                             <th class="text-center">Question</th>
-                                            <th class="text-center">Duration</th>
+                                            <th class="text-center">Answer</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @if($questionList!=null)
-                                            @foreach($questionList as $question)
+                                        @if($truFalseQuestions!=null)
+                                            @foreach($truFalseQuestions as $question)
                                                 <tr class="align-middle">
                                                     <td class="p-3">{{ $loop->iteration }}</td>
-                                                    <td > {{ $question->content}}
+                                                    <td > {{ $question->question_content}}
                                                     </td>
-                                                    <td class="p-3 text-center"> {{$question->time_in_seconds}} seconds</td>
+                                                    <td class="p-3"> {{ $question->correct_answer }}</td>
 
                                                     <td>
                                                         <div class="col-12 d-flex justify-content-center">
                                                             <!-- Form element for deleting the question -->
-                                                            <form id="deleteForm{{ $question->question_id }}" action="{{url('/delete-typing-test-question/'. $question->question_id)}}" method="POST">
+                                                            <form id="deleteForm{{ $question->question_id }}" action="{{url('/computer-test/basic/true-false-question-delete/'. $question->question_id)}}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="button" class=" custom-btn btn btn-xs btn-danger ml-1" onclick="confirmDelete({{$question->question_id}})">
                                                                     <i class="bi bi-trash-fill"></i>
                                                                 </button>
                                                             </form>
-                                                            <a href="{{url('/edit-typing-test-question/'.$question->question_id)}}" class=" custom-btn btn btn-warning btn-xs ml-1">
+                                                            {{-- <a href="{{url('/edit-typing-test-question/'.$question->question_id)}}" class=" custom-btn btn btn-warning btn-xs ml-1">
                                                                 <i class="bi bi-pencil-square"></i>
-                                                            </a>
+                                                            </a> --}}
                                                         </div>
                                                     </td>
                                                 </tr>

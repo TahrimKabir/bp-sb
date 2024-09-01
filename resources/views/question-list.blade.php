@@ -45,7 +45,7 @@
                                      @if($question!=null)
                                      @foreach($question as $q)
                                      <tr class="align-middle">
-                                        <td>{{$q->question_id}}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td class="text-left">  {!! $q->question !!}
                                         </td>
                                         <td class="align-middle @if($q->correct_option==1) clr-dark-green @endif ">{{$q->option1}}</td>

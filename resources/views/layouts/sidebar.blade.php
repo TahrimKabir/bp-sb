@@ -81,11 +81,27 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{ asset('/computer-test/basic/mcq-question-list') }}"
+                                       @if(last(request()->segments()) == 'mcq-question-list') class="nav-link text-success"
+                                       @else class="nav-link" @endif>
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>MCQ Question List</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a style="width: 260px" href="{{ asset('/computer-test/basic/create-true-false-question') }}"
                                        @if(last(request()->segments()) == 'create-true-false-question') class="nav-link text-success"
                                        @else class="nav-link" @endif>
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Create True/False Question</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ asset('/computer-test/basic/true-false-question-list') }}"
+                                       @if(last(request()->segments()) == 'true-false-question-list') class="nav-link text-success"
+                                       @else class="nav-link" @endif>
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>True/False Question List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item" style="width: 260px">

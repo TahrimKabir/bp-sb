@@ -57,7 +57,7 @@
                                     @if($schedule!=null)
                                     @foreach($schedule as $s)
                                     <tr>
-                                        <td>{{$s->id}}</td>
+                                        <td>{{$loop->iteration}}</td>
                                         <td>@if($s->config!=null) @if($s->config->exam!=null){{$s->config->exam->exam_name}}@endif @endif</td>
                                         <td>@if($s->member!=null){{$s->member->name_bn}}@endif</td>
                                         <td>@if($s->member!=null){{$s->member->bpid}}@endif</td>

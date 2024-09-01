@@ -39,33 +39,59 @@ class BasicComputerTestController extends Controller
 
     }
 
-public function storeTrueFalseQuestion(Request $request){
-    $validatedData = $request->validate([
-        'question_content' => 'required',
-        'correct_answer' => 'required',
+    public function mcqQuestionList() {
+        $mcqQuestions = BasicComputerTestQuestion::where('question_type', 'mcq')->get();
+        return view('computerTest.basic.mcq-question-list-page', compact('mcqQuestions'));
+    }
 
-    ]);
+    public function mcqQuestionDelete($question_id)
+    {
+        BasicComputerTestQuestion::where('question_id',$question_id)->delete();
+
+        // Redirect or return a response as needed
+        return redirect()->back()->with('success', 'Question deleted successfully');
+    }
+
+    public function storeTrueFalseQuestion(Request $request){
+        $validatedData = $request->validate([
+            'question_content' => 'required',
+            'correct_answer' => 'required',
+
+        ]);
 
 
-    $validatedData['question_type'] = 'true_false';
+        $validatedData['question_type'] = 'true_false';
 
-    // Create a new member and store it in the database
-    BasicComputerTestQuestion::create($validatedData);
+        // Create a new member and store it in the database
+        BasicComputerTestQuestion::create($validatedData);
 
-    // Redirect back with success message
-    return redirect()->back()->with('success', 'Question added successfully.');
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Question added successfully.');
 
 
-}
+    }
 
-public function createQuestionSet(){
-    $totalMcqQuestions = BasicComputerTestQuestion::where('question_type', 'mcq')->count();
-    $totalTrueFalseQuestions = BasicComputerTestQuestion::where('question_type', 'true_false')->count();
-    $totalTypingTestQuestions = TypingTestQuestion::count();
+    public function trueFalseQuestionList() {
+        $truFalseQuestions = BasicComputerTestQuestion::where('question_type', 'true_false')->get();
+        return view('computerTest.basic.true-false-question-list-page', compact('truFalseQuestions'));
+    }
 
-    return view('computerTest.basic.create-question-set-page', compact('totalMcqQuestions', 'totalTrueFalseQuestions', 'totalTypingTestQuestions'));
+    public function trueFalseQuestionDelete($question_id)
+    {
+        BasicComputerTestQuestion::where('question_id',$question_id)->delete();
 
-}
+        // Redirect or return a response as needed
+        return redirect()->back()->with('success', 'Question deleted successfully');
+    }
+
+    public function createQuestionSet(){
+        $totalMcqQuestions = BasicComputerTestQuestion::where('question_type', 'mcq')->count();
+        $totalTrueFalseQuestions = BasicComputerTestQuestion::where('question_type', 'true_false')->count();
+        $totalTypingTestQuestions = TypingTestQuestion::count();
+
+        return view('computerTest.basic.create-question-set-page', compact('totalMcqQuestions', 'totalTrueFalseQuestions', 'totalTypingTestQuestions'));
+
+    }
 
 
 
