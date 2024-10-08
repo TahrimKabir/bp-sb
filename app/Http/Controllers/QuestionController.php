@@ -11,22 +11,35 @@ class QuestionController extends Controller
     public function index()
     {
 
-        return view('create-question');
+        return view('iqTest.create-question');
     }
 
     public function store(Request $req)
     {
-        if ($req->ans!=null && $req->question!=null) {
-            // $ans = implode(', ',$req->ans);
-            // $cat = implode(', ',$req->qcat);
-            $data = array('question' => $req->question, 'correct_option' => $req->ans, 'option1' => $req->a, 'option2' => $req->b, 'option3' => $req->c, 'option4' => $req->d,'option5'=>$req->e,'option6'=>$req->f );
+        // Validate required fields
+        if ($req->ans != null && $req->question != null && $req->type != null) {
+            // Create an array of data to be saved
+            $data = [
+                'question' => $req->question,
+                'correct_option' => $req->ans,
+                'option1' => $req->a,
+                'option2' => $req->b,
+                'option3' => $req->c,
+                'option4' => $req->d,
+                'option5' => $req->e,
+                'option6' => $req->f,
+                'type' => $req->type // Include the question type (math/others)
+            ];
 
+            // Create the question in the database
             Mcq_question::create($data);
 
-            return redirect()->back()->with('success', 'question created');
+            // Redirect back with a success message
+            return redirect()->back()->with('success', 'Question created successfully');
         } else {
-            return redirect()->back()->with('fail', 'required fields must be selected');
+            // Redirect back with a failure message if required fields are missing
+            return redirect()->back()->with('fail', 'All required fields must be filled');
         }
-
     }
+
 }

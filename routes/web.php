@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseListController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamListController;
+use App\Http\Controllers\IqTestController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionListController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ScheduleListController;
 use App\Http\Controllers\TypingTestController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ExaminerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -51,11 +53,13 @@ Route::group(['middleware' => [ 'auth']], function () {
     Route::post('/question-created', [QuestionController::class, 'store'])->name('question-created');
 
 // Route::get('/generate-certificate/{id}', [CertificateController::class, 'generateCertificate']);
-
+//IQ test//////////
     Route::get('/questionlist', [QuestionListController::class, 'index']);
     Route::get('/edit/question/{id}', [QuestionListController::class, 'edit']);
     Route::post('/question-updated', [QuestionListController::class, 'update'])->name('question-updated');
     Route::get('/delete/question/{id}', [QuestionListController::class, 'delete']);
+    Route::get('iq-test/result/{id}',[IqTestController::class,'showResult'])->name('iq-test.result');
+
 // exam
     Route::get('/create-exam', [ExamController::class, 'index']);
     Route::post('/exam-added', [ExamController::class, 'store'])->name('store-exam');
@@ -105,6 +109,9 @@ Route::group(['middleware' => [ 'auth']], function () {
     Route::delete('/computer-test/basic/true-false-question-delete/{id}', [BasicComputerTestController::class, 'trueFalseQuestionDelete']);
     Route::get('/computer-test/basic/create-question-set',[BasicComputerTestController::class,'createQuestionSet']);
     Route::post('/computer-test/basic/store-question-set',[BasicComputerTestController::class,'storeQuestionSet']);
+    Route::get('/computer-test/basic/question-set-list',[BasicComputerTestController::class,'showQuestionSetList']);
+    Route::get('/computer-test/basic/result/{id}', [BasicComputerTestController::class, 'showResult'])->name('basic-computer-test.result');
+
 
 
 });
@@ -117,6 +124,22 @@ Route::middleware(['auth', 'super_admin'])->group(function () {
 Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('/admin/remove/{id}', [AdminController::class, 'remove'])->name('admin.remove');
 });
+
+
+//examiner////////////
+Route::group(['middleware' => ['auth', 'examiner']], function () {
+
+    Route::get('/examiner/homepage', [ExaminerController::class, 'index'])->name('examiner.homepage');
+    Route::get('/examiner/completed-exams', [ExaminerController::class, 'showCompletedExams'])->name('examiner.completed-exams');
+    Route::get('/examiner/evaluate-exam/{exam_schedule_id}', [ExaminerController::class, 'evaluateExam'])->name('examiner.evaluate-exam');
+    Route::post('/examiner/submit-evaluation/{exam_schedule_id}', [ExaminerController::class, 'submitMarks'])->name('examiner.submit-evaluation');
+
+
+});
+Route::get('/examiner/print-exam-result/{id}', [ExaminerController::class, 'printResult'])->name('examiner.print-exam-result');
+
+
+
 
 
 Route::get('/member/homepage',[CourseController::class,'index']);

@@ -33,7 +33,7 @@ class ExamListController extends Controller
                 Exam::where('exam_id', $req->id)->update($data);
                 return redirect()->back()->with('success', 'Exam updated successfully');
             } else {
-                return redirect()->back()->with('fail', 'could not create new as  exam/course/type already exists!');
+                return redirect()->back()->with('fail', 'could not update!');
             }
         }
 

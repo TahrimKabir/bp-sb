@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\BasicComputerTestQuestion;
+use App\Models\BasicComputerTestResult;
+use App\Models\Exam_Schedule as ExamSchedule;
 use App\Models\QuestionSet;
 use App\Models\TypingTestQuestion;
 use Illuminate\Http\Request;
 
 class BasicComputerTestController extends Controller
 {
+
+
+    public function showQuestionSetList()
+    {
+        $questionSets = QuestionSet::where('type', 'basic')->get();
+        return view('computerTest.basic.question-list-page', compact('questionSets'));
+    }
     public function createMcqQuestion(){
         return view('computerTest.basic.create-mcq-question-page');
     }
@@ -113,5 +122,17 @@ class BasicComputerTestController extends Controller
         return redirect()->back()->with('success', 'Question set created successfully.');
     }
 
+    public function showResult($examScheduleId)
+    {
+        $examSchedule = ExamSchedule::with(['config.exam', 'member'])->findOrFail($examScheduleId);
+        $result = BasicComputerTestResult::where('exam_schedule_id', $examScheduleId)->first();;
+
+        $mcqQuestions = BasicComputerTestQuestion::whereIn('question_id', array_keys($result->result_data['mcq'] ?? []))->get();
+        $trueFalseQuestions = BasicComputerTestQuestion::whereIn('question_id', array_keys($result->result_data['true_false'] ?? []))->get();
+        $typingTestQuestions = TypingTestQuestion::whereIn('question_id', array_keys($result->result_data['typing_test'] ?? []))->get();
+
+
+        return view('computerTest.basic.result-page', compact('result', 'mcqQuestions', 'trueFalseQuestions', 'typingTestQuestions','examSchedule'));
+    }
     //
 }

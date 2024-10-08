@@ -119,6 +119,15 @@
 
                                             </label>
                                         </div>
+                                        <div class="col-md-6">
+                                            <label for="question-type" class="d-block">
+                                                Question Type
+                                                <select name="type" id="question-type" class="form-control" required>
+                                                    <option value="math">Math</option>
+                                                    <option value="others">Others</option>
+                                                </select>
+                                            </label>
+                                        </div>
 
                                     </div>
                                     <div class="row">

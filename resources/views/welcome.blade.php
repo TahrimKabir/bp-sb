@@ -95,6 +95,7 @@
                 <label for="loginType">Login Type</label>
                 <select class="form-control" id="loginType" name="loginType">
                     <option value="admin" selected>Admin</option>
+                    <option value="examiner">Examiner</option>
                     <option value="member">Member</option>
                 </select>
             </div>

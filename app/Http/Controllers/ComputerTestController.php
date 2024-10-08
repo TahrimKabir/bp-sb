@@ -12,7 +12,7 @@ class ComputerTestController extends Controller
     //
     public function showQuestionSetList()
     {
-        $questionSets = QuestionSet::all();
+        $questionSets = QuestionSet::where('type', 'advanced')->get();
         return view('computerTest.question-list-page', compact('questionSets'));
     }
     public function createQuestion(){

@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
 
 
-    protected $redirectTo = '/home';
+    
 
     public function __construct()
     {
@@ -22,6 +22,7 @@ class LoginController extends Controller
     protected function attemptLogin(Request $request)
     {
         if ($request->input('loginType') === 'member') {
+            // Member login
             $member = Member::where('mobile', $request->input('mobile'))
                 ->where('bpid', $request->input('bpid'))
                 ->first();
@@ -30,13 +31,26 @@ class LoginController extends Controller
                 Auth::guard('member')->login($member);
                 return redirect()->intended('/member/homepage/');
             }
+        } elseif ($request->input('loginType') === 'examiner') {
+            // Examiner login
+            $user = Auth::guard('web')->getProvider()->retrieveByCredentials(
+                $request->only('email', 'password')
+            );
+
+            if ($user && $user->role === 'examiner') {
+                // If user is an examiner, authenticate them
+                Auth::guard('web')->login($user);
+                return redirect()->intended('/examiner/homepage');
+            }
+        } else {
+            // Admin login (default to web guard)
+            return Auth::guard('web')->attempt(
+                $request->only('email', 'password'),
+                $request->filled('remember')
+            );
         }
 
-        // For admin login, attempt login with email and password directly
-        return Auth::guard('web')->attempt(
-            $request->only('email', 'password'), // Using only email and password fields from the request
-            $request->filled('remember')
-        );
+        return false;
     }
 
 
@@ -58,13 +72,20 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         if (Auth::guard('member')->check()) {
-            $member = Auth::guard('member')->user();
-            return redirect()->intended('/member/homepage/'); // Redirect member to member home
-        } else {
-            return redirect()->intended('/admin/homepage'); // Redirect admin to admin home
+            // Redirect member
+            return redirect()->intended('/member/homepage/');
+        } elseif (Auth::guard('web')->check()) {
+            // Redirect based on the user role
+            $user = Auth::guard('web')->user();
+            if ($user->role === 'examiner') {
+                return redirect()->intended('/examiner/homepage');
+            } else {
+                return redirect()->intended('/admin/homepage');
+            }
         }
-    }
 
+        return redirect('/home');
+    }
 
     public function logout(Request $request)
     {

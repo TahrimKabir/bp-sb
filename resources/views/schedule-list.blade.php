@@ -9,38 +9,38 @@
     @parent
 
     <!-- Content Wrapper. Contains page content -->
-@section('edit')
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+    @section('edit')
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
 
-        <!-- /.content-header -->
+            <!-- /.content-header -->
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row justify-content-center mt-4">
-                    <div class="col-12 justify-content-center">
-                        <div class="card">
-                            <div class="card-header clr-dark-green">
-                                <h3 class=" display-6 text-center">Schedule List</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <div id="message-container">
-                                    @if (session('success'))
-                                    <div class="alert alert-success">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-
-                                @if (session('fail'))
-                                    <div class="alert alert-danger">
-                                        {{ session('fail') }}
-                                    </div>
-                                @endif
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-12 justify-content-center">
+                            <div class="card">
+                                <div class="card-header clr-dark-green">
+                                    <h3 class=" display-6 text-center">Schedule List</h3>
                                 </div>
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <div id="message-container">
+                                        @if (session('success'))
+                                            <div class="alert alert-success">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+
+                                        @if (session('fail'))
+                                            <div class="alert alert-danger">
+                                                {{ session('fail') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
                                         <tr>
                                             <th>SL</th>
                                             <th>Exam</th>
@@ -50,50 +50,90 @@
                                             <th>Submission Time</th>
                                             <th>Exam pin</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <th>Result</th>
+                                            <th>Remove</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                    @if($schedule!=null)
-                                    @foreach($schedule as $s)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>@if($s->config!=null) @if($s->config->exam!=null){{$s->config->exam->exam_name}}@endif @endif</td>
-                                        <td>@if($s->member!=null){{$s->member->name_bn}}@endif</td>
-                                        <td>@if($s->member!=null){{$s->member->bpid}}@endif</td>
-                                        <td>{{$s->login_time}}</td>
-                                        <td>{{$s->submission_time}}</td>
-                                        <td>{{$s->password}}</td>
-                                        <td>{{$s->status}}</td>
-                                        <td><div class="col-12 d-flex justify-content-center">
-                                            <a href="{{asset('/delete/schedule/'.$s->id)}}" class="btn btn-xs btn-danger">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
-                                                    <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
-                                                  </svg>
-                                            </a>
-                                            <a href="{{asset('/edit/schedule/'.$s->id)}}" class="btn btn-warning btn-xs ml-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                                  </svg>
-                                            </a>
-                                           </div> </td>
-                                    </tr>
-                                    @endforeach
-                                    @endif
-                                    </tbody>
+                                        </thead>
+                                        <tbody>
+                                        @if($schedule!=null)
+                                            @foreach($schedule as $s)
+                                                <tr>
+                                                    <td>{{$loop->iteration}}</td>
+                                                    <td>@if($s->config!=null)
+                                                            @if($s->config->exam!=null)
+                                                                {{$s->config->exam->exam_name}}
+                                                            @endif
+                                                        @endif</td>
+                                                    <td>@if($s->member!=null)
+                                                            {{$s->member->name_bn}}
+                                                        @endif</td>
+                                                    <td>@if($s->member!=null)
+                                                            {{$s->member->bpid}}
+                                                        @endif</td>
+                                                    <td>{{$s->login_time}}</td>
+                                                    <td>{{$s->submission_time}}</td>
+                                                    <td>{{$s->password}}</td>
+                                                    <td>{{$s->status}}</td>
+                                                    <td class="text-center">
+                                                        @if($s->status == 'completed')
+                                                            @if($s->config->exam->type == 'basic_computer_test')
+                                                                <a href="{{ route('basic-computer-test.result', $s->id) }}" class="btn btn-success d-flex align-items-center justify-content-center w-100">
+                                                                    <i class="fas fa-check mr-2"></i> View Result
+                                                                </a>
+                                                            @elseif($s->config->exam->type == 'mcq')
+                                                                <a href="{{ route('iq-test.result', $s->id) }}" class="btn btn-success d-flex align-items-center justify-content-center w-100">
+                                                                    <i class="fas fa-check mr-2"></i> View Result
+                                                                </a>
+                                                            @elseif($s->config->exam->type == 'advanced_computer_test')
+                                                                @if($s->is_evaluated == 'yes')
+                                                                    <a href="{{ route('examiner.print-exam-result', $s->id) }}" class="btn btn-success d-flex align-items-center justify-content-center w-100">
+                                                                        <i class="fas fa-check mr-2"></i> View Result
+                                                                    </a>
+                                                                @else
+                                                                    <span class="badge badge-warning d-flex align-items-center justify-content-center w-100 p-2" style="font-size: 16px;">
+                    <i class="fas fa-hourglass-half mr-2"></i> Evaluation Pending
+                </span>
+                                                                @endif
+                                                            @endif
+                                                        @else
+                                                            <span class="badge badge-secondary d-flex align-items-center justify-content-center w-100 p-2" style="font-size: 16px;">
+            <i class="fas fa-times mr-2"></i> Unavailable
+        </span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-12 d-flex justify-content-center">
+                                                            <a href="{{asset('/delete/schedule/'.$s->id)}}"
+                                                               class="btn btn-xs btn-danger">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="currentColor"
+                                                                     class="bi bi-archive" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                                                                </svg>
+                                                            </a>
 
-                                </table>
+                                                        </div>
+                                                    </td>
+
+
+
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card-body -->
                         </div>
                     </div>
-                </div>
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-    </div>
-@endsection
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+    @endsection
 
 @endsection
 <!-- ./wrapper -->
@@ -122,42 +162,42 @@
     {{-- <script src="../../dist/js/demo.js"></script> --}}
     <!-- Page specific script -->
 
-<!-- AdminLTE for demo purposes -->
-{{-- <script src="../../dist/js/demo.js"></script> --}}
-<!-- Page specific script -->
-<script>
-    $(function() {
-        $("#example1").DataTable({
-            "responsive": true,
-            "lengthChange": false,
-            "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
+    <!-- AdminLTE for demo purposes -->
+    {{-- <script src="../../dist/js/demo.js"></script> --}}
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
         });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
 
-    var messageContainer = document.getElementById('message-container');
+            var messageContainer = document.getElementById('message-container');
 
 
-    if (messageContainer) {
+            if (messageContainer) {
 
-        setTimeout(function() {
+                setTimeout(function () {
 
-            messageContainer.style.display = 'none';
-        }, 4000);
-    }
-});
+                    messageContainer.style.display = 'none';
+                }, 4000);
+            }
+        });
 
-</script>
+    </script>
 @endsection

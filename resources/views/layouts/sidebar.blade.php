@@ -29,7 +29,11 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Dashboard -->
                 <li class="nav-item menu-open">
-                    <a href="{{ asset('/admin/homepage') }}" @if(request()->segment(1) == 'homepage') class="nav-link text-success py-3"
+                    <a href="@if(auth()->user()->role == 'admin')
+           {{ asset('/admin/homepage') }}
+       @elseif(auth()->user()->role == 'examiner')
+           {{ asset('/examiner/homepage') }}
+       @endif" @if(request()->segment(1) == 'homepage') class="nav-link text-success py-3"
                        @else class="nav-link" @endif>
                         {{-- <i class="far fa-circle nav-icon"></i> --}}
                         <i class="fas fa-tachometer-alt nav-icon"></i>
@@ -37,7 +41,7 @@
                     </a>
                 </li>
                 <!-- IQ Test -->
-                <li class="nav-item">
+                <li @if(request()->segment(1) == 'create-question'||request()->segment(1)=='questionlist' ) class="nav-item menu-open" @else class="nav-item" @endif >
                     <a href="#" class="nav-link">
                         {{-- <i class="nav-icon fas fa-tachometer-alt"></i> --}}
                         <i class="fas fa-brain nav-icon"></i>
@@ -152,10 +156,19 @@
                                         <p> Create Question Set</p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{asset('/computer-test/basic/question-set-list')}}"
+                                       @if(last(request()->segments()) == 'question-set-list') class="nav-link text-success"
+                                       @else class="nav-link" @endif>
+                                        <i class="fas fa-arrow-right nav-icon"></i>
+                                        <p> Question Set List</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <!-- Advanced Computer Test -->
-                        <li @if(request()->segment(1) == 'create-computer-test-question'||request()->segment(1)=='computer-test-question-list') class="nav-item menu-open" @else class="nav-item" @endif>
+                        <li @if(request()->segment(1) == 'create-computer-test-question'||request()->segment(1)=='computer-test-question-list' ||request()->segment(1)=='completed-exams') class="nav-item menu-open" @else class="nav-item" @endif>
                             <a href="#" class="nav-link">
                                 <i class="fas fa-desktop nav-icon"></i>
                                 <p>
@@ -180,11 +193,25 @@
                                         <p>Question List</p>
                                     </a>
                                 </li>
+
+                                @if(Auth::user()->role === 'examiner')
+                                <li class="nav-item">
+                                    <a href="{{ asset('/examiner/completed-exams') }}"
+                                       @if(request()->segment(1) == 'completed-exams') class="nav-link text-success"
+                                       @else class="nav-link" @endif>
+                                        <i class="fas fa-arrow-right nav-icon"></i>
+                                        <p>Evaluate exams</p>
+                                    </a>
+                                </li>
+                                @endif
+
                             </ul>
                         </li>
                     {{-- </ul> --}} <!--This code has to be checked -->
                 {{-- </li> --}}
 
+
+                @if(in_array(Auth::user()->role, ['super_admin', 'admin']))
                 <li class="nav-header">EXAM</li>
                 <!-- Exam -->
                 <li @if(request()->segment(1) == 'create-exam'||request()->segment(1)=='exam-list') class="nav-item menu-open" @else class="nav-item" @endif>
@@ -242,6 +269,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-header">Members</li>
                 <!-- Manage Members -->
                 <li @if(request()->segment(1) == 'add-member'||request()->segment(1)=='member-list') class="nav-item menu-open" @else class="nav-item" @endif>
@@ -271,6 +299,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
                 <!-- Manage Members -->
                 @if(Auth::user()->role === 'super_admin')
                 <li  class="nav-item" >

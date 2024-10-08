@@ -34,7 +34,7 @@
                                             <th>Details</th>
                                             {{-- <th>Course</th> --}}
                                             <th>Type</th>
-                                            <th>Status</th>
+
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -45,9 +45,9 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$e->exam_name}}</td>
                                         <td>{{$e->details}}</td>
-                                       
+
                                         <td>{{$e->type}}</td>
-                                        <td @if($e->status=='active') class="clr-dark-green" @else class="text-danger" @endif>{{$e->status}}</td>
+
                                         <td>
                                             <div class="col-12 d-flex justify-content-center">
                                                 <a href="{{asset('/delete/exam/'.$e->exam_id)}}" class="btn btn-xs btn-danger">

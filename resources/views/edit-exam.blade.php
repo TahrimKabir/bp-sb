@@ -17,7 +17,7 @@
                     <div class="col-sm-6">
                         <h1 class="m-0">Dashboard</h1>
                     </div>
-                  
+
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -91,10 +91,12 @@
                                             <label for="type" class="d-block mb-0">Select Type
                                                 <select name="type" id="type" class="select2 form-control"
                                                     style="width:100%;">
-                                                    <option value="MCQ"
-                                                        @if ($exam->type == 'MCQ') selected @endif>MCQ</option>
-                                                    <option value="IQ"
-                                                        @if ($exam->type == 'IQ') selected @endif>IQ</option>
+                                                    <option value="" >Select type</option>
+                                                    <option value="mcq" @if ($exam->type == 'mcq') selected @endif>MCQ</option>
+                                                    <option value="basic_computer_test" @if ($exam->type == 'basic_computer_test') selected @endif>Basic Computer Test</option>
+
+                                                    <option value="advanced_computer_test" @if ($exam->type == 'advanced_computer_test') selected @endif>Advanced Computer Test</option>
+
                                                 </select>
                                             </label>
                                         </div>

@@ -10,13 +10,13 @@ class QuestionListController extends Controller
     public function index()
     {
         $question = Mcq_question::all();
-        return view('question-list', compact('question'));
+        return view('iqTest.question-list', compact('question'));
     }
 
     public function edit($id)
     {
         $question = Mcq_question::where('question_id', $id)->first();
-        return view('edit-question', compact('question'));
+        return view('iqTest.edit-question', compact('question'));
     }
 
     public function update(Request $req)

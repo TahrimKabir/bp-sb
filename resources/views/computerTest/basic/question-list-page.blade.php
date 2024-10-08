@@ -64,8 +64,9 @@
                                         <tr>
                                             <th>SL No.</th>
                                             <th class="text-center">Question Set Name</th>
-                                            <th class="text-center">Number of Questions</th>
-{{--                                            <th>Action</th>--}}
+                                            <th class="text-center">Number of MCQ  Questions</th>
+                                            <th class="text-center">Number of True/false  Questions</th>
+                                            <th class="text-center">Number of Typing test  Questions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -74,7 +75,9 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td class="text-left">{{ $questionSet->question_set_name }}</td> <!-- Question Set Name -->
-                                                    <td>{{ $questionSet->questions->count() }}</td> <!-- Number of Questions -->
+                                                    <td>{{ $questionSet->num_of_mcq }}</td> 
+                                                    <td>{{ $questionSet->num_of_true_false }}</td> 
+                                                    <td>{{ $questionSet->num_of_typing_test }}</td> 
 {{--                                                    <td>--}}
 {{--                                                        <div class="d-flex justify-content-center">--}}
 {{--                                                            <!-- Delete Button -->--}}
