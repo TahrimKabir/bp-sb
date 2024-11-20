@@ -2,17 +2,29 @@
 
 @php
     use Illuminate\Support\Facades\DB;
-        if (isset($course) && $course->id_courses > 0) {
-            $course_id = (int) $course->id_courses;
 
-            $target_trainee = explode(",", $course->target_trainee);
+    if (isset($course) && $course->id_courses > 0) {
+        $course_id = (int) $course->id_courses;
+        $target_trainee = explode(",", $course->target_trainee);
 
-            if (empty($course) || !in_array($member['post'], $target_trainee)) {
-                 return redirect()->intended('/member/homepage/');
-            }
-        } else {
-             return redirect()->intended('/member/homepage/');
+        if (empty($course) || !in_array($member['post'], $target_trainee)) {
+            return redirect()->intended('/member/homepage/');
         }
+    } else {
+        return redirect()->intended('/member/homepage/');
+    }
+
+    // Fetch all lessons in this course
+    $lessons = DB::table('lessons')->where('courses_id', $course_id)->orderBy('lesson_no', 'asc')->get();
+
+    // Fetch the member's lesson statuses for this course
+    $lesson_statuses = DB::table('member_lesson_status')
+        ->where('member_id', $member->id)
+        ->where('course_id', $course_id)
+        ->pluck('status', 'lesson_id')
+        ->toArray();
+
+    $deactive = false; // Start with the first lesson active
 @endphp
 
     <!-- Header Illustration -->
@@ -32,53 +44,52 @@
     <div class="container">
         <div class="mb-3"><a href="{{ url('member/homepage') }}"><i class="fas fa-arrow-left"></i> ড্যাশবোর্ডে ফিরে চলুন </a></div>
         <div class="row">
-            @php
-                $course_status = DB::table('members_course_status')->where('member_id', $member->id)->where('course_id', $course_id)->first();
+            @foreach ($lessons as $index => $lesson)
+                @php
+                    // Check if the current lesson is marked as completed
+                    $lessonCompleted = isset($lesson_statuses[$lesson->id_lessons]) && $lesson_statuses[$lesson->id_lessons] === 'completed';
 
+                    // If the previous lesson was completed, the current one should be active
+                    $isActive = !$deactive;
 
-                $lessons = DB::table('lessons')->where('courses_id', $course_id)->orderBy('lesson_no', 'asc')->get();
-                $deactive = true;
-                $is_complete_course = true;
-                $deactive = false;
-                foreach ($lessons as $lesson) {
-            @endphp
-            <div class="col-lg-3 col-sm-6 wow fadeInUp my-3 {{ $deactive ? 'pe-none user-select-none' : '' }}" data-wow-delay="0.1s">
-                <div class="service-item pt-3 border rounded">
-                    <div class="p-4">
-                        <h6 class="text-end">পাঠ-{{ \App\Traits\BanglaConverter::en2bn($lesson->lesson_no) }}</h6>
-
-                        <div style="height: 3.6rem;">
-                            <h5 class="mb-3">{!! $lesson->title !!} </h5>
-                        </div>
-                        <hr>
-                        <span class="{{ $course_status->{"lesson_" . $lesson->lesson_no} && !$deactive ? 'text-success' : 'text-danger' }}">
-
-                            <i class="{{ $course_status->{'lesson_' . $lesson->lesson_no} && !$deactive ? 'fas fa-check-circle' : 'fas fa-circle-notch' }}"></i> {{ $course_status->{'lesson_' . $lesson->lesson_no} && !$deactive ? 'সম্পন্ন হয়েছে' : 'অসম্পূর্ণ' }}
-                        </span>
-                        <div class="d-grid mt-2">
-                            <a href="{{url('/member/course/lesson/'.$lesson->id_lessons)}}" class="btn btn-outline-{{ $deactive ? 'secondary' : ($course_status->{'lesson_' . $lesson->lesson_no} ? 'success' : 'primary') }}">
-                                @if($deactive)
-                                    পূর্ববর্তী পাঠ সম্পন্ন করুন
-                                @elseif($course_status->{'lesson_' . $lesson->lesson_no})
-                                    পুনরায় পঠন
-                                @else
-                                    শুরু করুন
-                                @endif
-                            </a>
+                    // Set deactivation for the next iteration based on current completion status
+                    if (!$lessonCompleted) {
+                        $deactive = true; // Disable future lessons
+                    }
+                @endphp
+                <div class="col-lg-3 col-sm-6 wow fadeInUp my-3 {{ !$isActive ? 'pe-none user-select-none' : '' }}" data-wow-delay="0.1s">
+                    <div class="service-item pt-3 border rounded">
+                        <div class="p-4">
+                            <h6 class="text-end">পাঠ-{{ \App\Traits\BanglaConverter::en2bn($lesson->lesson_no) }}</h6>
+                            <div style="height: 3.6rem;">
+                                <h5 class="mb-3">{!! $lesson->title !!} </h5>
+                            </div>
+                            <hr>
+                            <span class="{{ $lessonCompleted ? 'text-success' : 'text-danger' }}">
+                                <i class="{{ $lessonCompleted ? 'fas fa-check-circle' : 'fas fa-circle-notch' }}"></i>
+                                {{ $lessonCompleted ? 'সম্পন্ন হয়েছে' : 'অসম্পূর্ণ' }}
+                            </span>
+                            <div class="d-grid mt-2">
+                                <a href="{{ url('/member/course/lesson/' . $lesson->id_lessons) }}" class="btn btn-outline-{{ !$isActive ? 'secondary' : ($lessonCompleted ? 'success' : 'primary') }}">
+                                    @if(!$isActive)
+                                        পূর্ববর্তী পাঠ সম্পন্ন করুন
+                                    @elseif($lessonCompleted)
+                                        পুনরায় পঠন
+                                    @else
+                                        শুরু করুন
+                                    @endif
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            @php
-                if (!$course_status->{'lesson_' . $lesson->lesson_no}) {
-                    $deactive = true;
-                    $is_complete_course = false;
-                }
-            }
-            @endphp
-
-
-
+                @php
+                    // After processing each lesson, ensure the next lesson's activation is based on this lesson's completion
+                    if ($lessonCompleted) {
+                        $deactive = false; // Allow the next lesson to be active
+                    }
+                @endphp
+            @endforeach
         </div>
     </div>
 </div>

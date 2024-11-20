@@ -30,4 +30,7 @@ class Course extends Model
     {
         return $this->hasMany(Lesson::class, 'courses_id', 'id_courses');
     }
+    public function quizQuestions(){
+        return $this->hasMany(QuizQuestion::class,'course_id','id_courses');
+    }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Lesson;
+use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,161 +16,202 @@ class CourseController extends Controller
 
     use BanglaConverter;
 
+    public function showCourseList(){
+        $courses=Course::all();
+        return view('course.course-list',compact('courses'));
+    }
+
+    public function createCourse(){
+        return view ('course.create-course-page');
+    }
+
+
+
+    public function storeCourse(Request $request){
+        // Validate request data
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'status' => 'required|in:active,inactive',
+            'target_trainee' => 'required|array',
+            'target_trainee.*' => 'in:SI,ASI,SERGEANT,CONSTABLE,ASP,SP,INSPECTOR,INSP,NAIK',
+        ]);
+
+        // Find the maximum course_no value in the courses table
+        $maxCourseNo = Course::max('course_no');
+
+        // Create the course and set course_no to maxCourseNo + 1
+        $course = new Course();
+        $course->title = $validated['title'];
+        $course->status = $validated['status'];
+        $course->target_trainee = implode(',', $validated['target_trainee']);
+        $course->course_no = $maxCourseNo + 1;
+        $course->save();
+
+        return redirect()->back()->with('success', 'Course created successfully');
+    }
+    public function editCourse($id){
+        $course=Course::find($id);
+        if(!$course){
+            return redirect()->back()->with('fail','Course does not exist!');
+        }
+        return view('course.edit-course',compact('course'));
+    }
+
+    public function updateCourse(Request $request, $id)
+    {
+        // Validate the input
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'status' => 'required|in:active,inactive',
+            'target_trainee' => 'required|array',
+        ]);
+
+        // Find the course by ID
+        $course = Course::find($id);
+
+        if (!$course) {
+            return redirect()->back()->with('fail', 'Course not found.');
+        }
+
+        // Update the course with validated data
+        $course->title = $validatedData['title'];
+        $course->status = $validatedData['status'];
+        $course->target_trainee = implode(',', $validatedData['target_trainee']);
+        $course->save();
+
+        return redirect()->back()->with('success', 'Course updated successfully.');
+    }
+
+    public function deleteCourse($id)
+    {
+        $course = Course::find($id);
+
+        if (!$course) {
+            return redirect()->back()->with('fail', 'Course not found.');
+        }
+
+        $course->delete();
+        return redirect()->back()->with('success', 'Course deleted successfully.');
+    }
+
+
     public function index()
     {
         $member = Auth::guard('member')->user();
 
-        // Fetch all courses applicable for the member
-        $courses = DB::select("SELECT * FROM courses WHERE target_trainee LIKE '%" . $member->post . "%' ORDER BY course_no ASC");
+        // Fetch all courses applicable to the member
+        $courses = DB::table('courses')
+            ->where('target_trainee', 'LIKE', '%' . $member->post . '%')
+            ->orderBy('course_no', 'ASC')
+            ->get();
 
-        // Fetch the completed courses for the member
-        $completed_course = DB::select("SELECT * FROM members_course_status WHERE member_id = ? AND course_status = 'complete'", [$member->id]);
-
-        // Extract course IDs of completed courses
-        $completed_course_ids = array_column($completed_course, 'course_id');
-
-        // Iterate through all applicable courses
+        // Track the completed courses and their status
         foreach ($courses as $course) {
-            // Check if the course is completed by the member
-            $course_completed = in_array($course->id_courses, $completed_course_ids);
+            // Fetch total lessons for the course
+            $totalLessons = DB::table('lessons')
+                ->where('courses_id', $course->id_courses)
+                ->count();
 
-            // If the course is not completed, check if there is no entry in members_course_status table
-            if (!$course_completed) {
-                $course_status = DB::table('members_course_status')
-                    ->where('member_id', $member->id)
-                    ->where('course_id', $course->id_courses)
-                    ->exists();
+            // Fetch completed lessons count for the course
+            $completedLessonsCount = DB::table('member_lesson_status')
+                ->where('member_id', $member->id)
+                ->where('course_id', $course->id_courses)
+                ->where('status', 'completed')
+                ->count();
 
-                // If there is no entry for the course, insert a new row
-                if (!$course_status) {
-                    DB::table('members_course_status')->insert([
-                        'member_id' => $member->id,
-                        'course_id' => $course->id_courses,
-                       'bpid'=>$member->bpid
-                    ]);
-                }
-            }
+            // Calculate the completion percentage
+            $course->percent = $totalLessons ? ($completedLessonsCount / $totalLessons) * 100 : 0;
+
+            // Mark if the course is fully completed
+            $course->completed = $completedLessonsCount === $totalLessons;
         }
 
-        // Now, fetch all courses again as the member may have new entries in members_course_status table
-        $courses = DB::select("SELECT * FROM courses WHERE target_trainee LIKE '%" . $member->post . "%' ORDER BY course_no ASC");
-
-        // Iterate through the courses to calculate completion percentage
-        foreach ($courses as &$course) {
-            $total_lessons_result = DB::select("SELECT COUNT(*) as total FROM lessons WHERE courses_id = ?", [$course->id_courses]);
-            $total_lessons = $total_lessons_result[0]->total ;
-
-            $completed_lessons_result = DB::select("SELECT ( lesson_1 + lesson_2 + lesson_3 + lesson_4 + lesson_5 + lesson_6 + lesson_7 + lesson_8+lesson_9) as total FROM members_course_status WHERE member_id = ? AND course_id = ?", [$member->id, $course->id_courses]);
-
-
-            if (empty($completed_lessons_result)) {
-
-                $completed_lessons = 0;
-
-            } else {
-                $completed_lessons = $completed_lessons_result[0]->total;
-
-            }
-            if($total_lessons==0){
-                $percent=0;
-            }
-            else{
-                $percent = ($completed_lessons / $total_lessons) * 100;
-            }
-
-
-            $course->percent = $percent;
-
-            $course->completed = in_array($course->id_courses, $completed_course_ids);
-
-        }
-
-        return view('course.index', compact('courses', 'member', 'completed_course'));
+        return view('course.index', compact('courses', 'member'));
     }
+
 
 
 
     public function showCourseDetails($course_id)
     {
         $member = Auth::guard('member')->user();
-
-        $course_id = (int)$course_id;
-
         $course = DB::table('courses')->where('id_courses', $course_id)->first();
 
         if (!$course || !in_array($member->post, explode(',', $course->target_trainee))) {
             return redirect()->intended('/member/homepage/');
         }
 
-        $course_status = DB::table('members_course_status')
-            ->where('member_id', $member->id)
-            ->where('course_id', $course_id)
-            ->first();
-
+        // Fetch the lessons in the course
         $lessons = DB::table('lessons')
             ->where('courses_id', $course_id)
             ->orderBy('lesson_no', 'asc')
             ->get();
 
-
         $is_complete_course = true;
-$deactive=true;
+        $deactive = true;
+
+        // Check the completion status of each lesson
         foreach ($lessons as $lesson) {
-            if ($course_status  && !$course_status->{'lesson_' . $lesson->lesson_no}) {
-                $deactive = true;
+            $lessonStatus = DB::table('member_lesson_status')
+                ->where('member_id', $member->id)
+                ->where('course_id', $course_id)
+                ->where('lesson_id', $lesson->id_lessons)
+                ->first();
+
+            if (!$lessonStatus || $lessonStatus->status !== 'completed') {
                 $is_complete_course = false;
+                $deactive = true;
             }
         }
 
-        return view('course.course-details', compact('course', 'course_status', 'lessons', 'deactive', 'is_complete_course', 'member'));
+        return view('course.course-details', compact('course', 'lessons', 'deactive', 'is_complete_course', 'member'));
     }
+
 
 
     public function showLesson($lessonId)
     {
         $member = Auth::guard('member')->user();
 
-        // Check if lessonId is provided and valid
-        if (isset($lessonId) && $lessonId > 0) {
-            // Fetch the lesson from the database
-            $lesson = DB::table('lessons')->where('id_lessons', $lessonId)->first();
+        // Fetch the lesson along with its materials
+        $lesson = Lesson::with('materials')->find($lessonId);
 
-            // Check if the lesson exists
-            if ($lesson) {
-
-
-                    // Fetch course status from members_course_status table
-                    $courseStatus = DB::table('members_course_status')
-                        ->where('member_id', $member->id)
-                        ->where('course_id', $lesson->courses_id)
-                        ->first();
-
-                    if ($lesson->lesson_no > 1 && (!$courseStatus || !$courseStatus->{'lesson_' . ($lesson->lesson_no - 1)})) {
-                        return redirect()->intended('/member/course-details/' . $lesson->courses_id);
-                    }
-
-                   if ($courseStatus) {
-                        DB::table('members_course_status')
-                            ->where('id_members_course_status', $courseStatus->id_members_course_status)
-                            ->update(['lesson_' . $lesson->lesson_no => 1]);
-                    }
-
-                    // Load the lesson view
-                    return view('course.lesson', ['lesson' => $lesson]);
-
-            }
+        if (!$lesson) {
+            return redirect()->intended('/member/homepage/');
         }
 
+        // Check previous lesson's completion
+        $previousLessonStatus = DB::table('member_lesson_status')
+            ->where('member_id', $member->id)
+            ->where('course_id', $lesson->courses_id)
+            ->where('lesson_id', $lesson->lesson_no - 1)
+            ->where('status', 'completed')
+            ->exists();
 
-        return redirect()->intended('/member/homepage/');
+        if ($lesson->lesson_no > 1 && !$previousLessonStatus) {
+            return redirect()->intended('/member/course-details/' . $lesson->courses_id);
+        }
+
+        // Mark this lesson as "completed" in member_lesson_status
+        DB::table('member_lesson_status')->updateOrInsert(
+            [
+                'member_id' => $member->id,
+                'course_id' => $lesson->courses_id,
+                'lesson_id' => $lesson->id_lessons
+            ],
+            ['status' => 'completed']
+        );
+
+        return view('course.lesson', ['lesson' => $lesson]);
     }
 
 
-        public function showQuiz($lesson_id)
+
+    public function showQuiz($lesson_id)
     {
         $member = Auth::guard('member')->user();
 
-        // Validate course ID
+        // Validate lesson ID
         $lesson_id = (int)$lesson_id;
 
 
@@ -178,365 +222,56 @@ $deactive=true;
         return view('course.quiz', compact('lesson_id', 'member', 'questions_json'));
     }
 
-        public function updateQuizResult(Request $request)
+    public function updateQuizResult(Request $request)
+
     {
-
-
+        $member = Auth::guard('member')->user();
         if ($request->ajax() && $request->input('from') == 'member_panel') {
-
             $mark = $request->input('mark');
-
             $lessonId = $request->input('lesson_id');
+            $memberId = $member->id;
+            $courseId = $request->input('course_id'); // Assuming course_id is provided
 
-            // Update the course status in the database
             try {
-
+                // Prepare data to insert or update
                 $updateData = [
-
                     'quiz_mark' => $mark,
-
-                    'quiz_status' => 'completed' ,
-
+                    'quiz_status' => 'completed',
+                    'updated_at' => now(),
                 ];
 
-                DB::table('lessons')
-                    ->where('id_lessons', $lessonId)
-                    ->update($updateData);
+                // Check if there is already a record for this member, lesson, and course
+                $existingStatus = DB::table('member_lesson_status')
+                    ->where('member_id', $memberId)
+                    ->where('lesson_id', $lessonId)
+                    ->where('course_id', $courseId)
+                    ->first();
 
-                return response()->json(['status' => 'success', 'msg' => 'successfully updated']);
+                if ($existingStatus) {
+                    // Update the existing record
+                    DB::table('member_lesson_status')
+                        ->where('member_id', $memberId)
+                        ->where('lesson_id', $lessonId)
+                        ->where('course_id', $courseId)
+                        ->update($updateData);
+                } else {
+                    // Insert a new record if none exists
+                    $updateData['member_id'] = $memberId;
+                    $updateData['lesson_id'] = $lessonId;
+                    $updateData['course_id'] = $courseId;
+                    $updateData['created_at'] = now();
+
+                    DB::table('member_lesson_status')->insert($updateData);
+                }
+
+                return response()->json(['status' => 'success', 'msg' => 'Quiz status successfully updated']);
             } catch (\Exception $e) {
-                return response()->json(['status' => 'error', 'msg' => 'could not update quiz status']);
+                return response()->json(['status' => 'error', 'msg' => 'Could not update quiz status']);
             }
         }
 
         return response()->json(['status' => 'error', 'msg' => 'Invalid Request']);
     }
-
-
-//    public function showQuiz($course_id)
-//    {
-//        $member = Auth::guard('member')->user();
-//
-//        // Validate course ID
-//        $course_id = (int)$course_id;
-//
-//        // Retrieve course status
-//        $course_status = DB::select("SELECT id_members_course_status, course_id, exam FROM members_course_status WHERE member_id=? AND course_id=? LIMIT 1", [$member->id, $course_id]);
-//
-//        // Retrieve total number of lessons
-//        $total_lesson_result = DB::select("SELECT COUNT(*) as total FROM lessons WHERE courses_id=?", [$course_id]);
-//        $total_lesson = $total_lesson_result[0]->total;
-//
-//        // Retrieve completed lessons
-//        $complete_lesson_result = DB::select("SELECT (lesson_1+lesson_2+lesson_3+lesson_4+lesson_5+lesson_6+lesson_7+lesson_8) as total FROM members_course_status WHERE member_id=? AND course_id=?", [$member->id_members, $course_id]);
-//        $complete_lesson = $complete_lesson_result[0]->total;
-//
-//        // Redirect if course status does not meet requirements
-//        if (empty($course_status) || $course_status[0]->exam || $complete_lesson != $total_lesson) {
-//            return redirect()->route('course.details', ['course_id' => $course_id]);
-//        }
-//
-//        // Retrieve course information
-//        $course_info = DB::select("SELECT title, target_trainee FROM courses WHERE id_courses=? LIMIT 1", [$course_id]);
-//        $course = $course_info[0];
-//        $target_trainee = explode(",", $course->target_trainee);
-//
-//        // Redirect if member's post is not in target trainee
-//        if (!in_array($member->post, $target_trainee)) {
-//            return redirect()->route('index');
-//        }
-//
-//        // Retrieve quiz questions
-//        $questions = DB::select("SELECT * FROM questions WHERE course_id=? AND qus_cat='quiz' ORDER BY RAND() LIMIT 10", [$course_id]);
-//        $questions_json = json_encode($questions);
-//
-//        return view('course.quiz', compact('course_id', 'member', 'course', 'questions_json'));
-//    }
-
-
-//    public function showPreQuiz($course_id)
-//    {
-//
-//        $member = Auth::guard('member')->user();
-//
-//        $course = DB::table('courses')->where('id_courses', $course_id)->first();
-//
-//        if (!$course) {
-//            return redirect()->intended('/member/homepage/');
-//        }
-//
-//        $courseStatus = DB::table('members_course_status')
-//            ->where('member_id', $member->id)
-//            ->where('course_id', $course_id)
-//            ->first();
-//
-//        if (!$courseStatus) {
-//            return redirect()->intended('/member/course-details/' . $course_id);
-//        }
-//
-//        if ($courseStatus->pre_evalution) {
-//            $lesson = DB::table('lessons')->where('course_id', $course_id)->orderBy('lesson_no')->first();
-//
-//            return redirect()->intended('/member/course/lesson/' . $lesson->id_lessons);
-//        }
-//
-//        $radioQuestions = DB::table('questions')
-//            ->where('qus_cat', 'like', '%pre_evaluation%')
-//            ->where('ques_type', 'radio')
-//            ->get();
-//
-//        $checkboxQuestions = DB::table('questions')
-//            ->where('qus_cat', 'like', '%pre_evaluation%')
-//            ->where('ques_type', 'checkbox')
-//            ->get();
-//
-//        return view('course.pre_quiz', compact('course_id', 'course', 'courseStatus', 'radioQuestions', 'checkboxQuestions'));
-//    }
-//
-//    public function submitPreQuiz(Request $request, $course_id)
-//    {
-//        $member = Auth::guard('member')->user();
-//
-//        $course = DB::table('courses')->where('id_courses', $course_id)->first();
-//
-//        //  form submission and save survey data
-//        $status_table_id = DB::table('members_course_status')
-//            ->where('member_id', $member->id)
-//            ->where('course_id', $course_id)
-//            ->value('id_members_course_status');
-//
-//        $group_a = json_encode($request->input('answer1'));
-//        $group_b = json_encode($request->input('answer2'));
-//
-//        DB::table('survey')->insert([
-//            'member_id' => $member->id,
-//            'status_table_id' => $status_table_id,
-//            'evaluation_type' => 'pre',
-//            'group_a' => $group_a,
-//            'group_b' => $group_b,
-//            'created_at' => now(),
-//        ]);
-//
-//        // Update course status
-//        DB::table('members_course_status')
-//            ->where('id_members_course_status', $status_table_id)
-//            ->update([
-//                'pre_evalution' => 1,
-//                'course_status' => 'continue',
-//                'started_at' => now(),
-//            ]);
-//
-//        $lesson = DB::table('lessons')->where('courses_id', $course_id)->orderBy('lesson_no')->first();
-//
-//
-//        if ($lesson) {
-//            return view('course.pre_quiz_completed', compact('course', 'lesson'));
-//        } else {
-//
-//            return redirect()->intended('/member/course-details/' . $course_id);
-//        }
-//    }
-
-
-//    public function showQuiz($course_id)
-//    {
-//
-//        $member = Auth::guard('member')->user();
-//        return view('course.quiz', compact('course_id', 'member'));
-//    }
-//
-//    public function updateQuizResult(Request $request)
-//    {
-//        if ($request->ajax() && $request->input('from') == 'member_panel') {
-//            $tableId = $request->input('status_table_id');
-//            $mark = $request->input('mark');
-//            $courseId = $request->input('course_id');
-//
-//            // Update the course status in the database
-//            try {
-//                $updateData = [
-//                    'exam' => 1,
-//                    'exam_mark' => $mark,
-//                    'exam_date' => now(),
-//                    'course_status' => $courseId == 3 ? 'complete' : 'continue',
-//                    'complete_date' => $courseId == 3 ? now() : null,
-//                ];
-//
-//                DB::table('members_course_status')
-//                    ->where('id_members_course_status', $tableId)
-//                    ->update($updateData);
-//
-//                return response()->json(['status' => 'success', 'msg' => 'Successfully Updated']);
-//            } catch (\Exception $e) {
-//                return response()->json(['status' => 'error', 'msg' => 'Failed to update course status']);
-//            }
-//        }
-//
-//        return response()->json(['status' => 'error', 'msg' => 'Invalid Request']);
-//    }
-
-//    public function generateCertificate($courseId)
-//    {
-//
-//
-//
-//        $member = Auth::guard('member')->user();
-//
-//        $course = DB::table('courses')
-//            ->select('title', 'pims_id')
-//            ->where('id_courses', $courseId)
-//            ->first();
-//
-//
-//        $courseStatus = DB::table('members_course_status')
-//            ->select('complete_date', 'send_data_pims')
-//            ->where('member_id', $member->id)
-//            ->where('course_status', 'complete')
-//            ->where('course_id', $courseId)
-//            ->first();
-//
-//        if (!$member || !$course || !$courseStatus) {
-//            return redirect()->intended('/member/homepage/')->with('error', 'Certificate generation failed: Data not found.');
-//        }
-//
-//        // Update send_data_pims status if not already sent
-//        if ($courseStatus->send_data_pims == "NO") {
-////            $sendData = send_course_data($member->bpid, $course->pims_id, $courseStatus->complete_date, "");
-////
-////            if ($sendData == "send" || $sendData == "already-send") {
-////                $status = "YES";
-////            } else {
-////                $status = "PROBLEM";
-////            }
-//            $status='YES';
-//
-//            DB::table('members_course_status')
-//                ->where('member_id', $member->id)
-//                ->where('course_status', 'complete')
-//                ->where('course_id', $courseId)
-//                ->update(['send_data_pims' => $status, 'data_send_at' => now()]);
-//        }
-//
-//        // Update certificate_download status
-//        DB::table('members_course_status')
-//            ->where('member_id', $member->id)
-//            ->where('course_status', 'complete')
-//            ->where('course_id', $courseId)
-//            ->update(['certificate_download' => 'YES', 'certificate_download_at' => now()]);
-//
-//        // Generate HTML for the certificate
-//        $html = view('certificate', compact('member', 'course', 'courseStatus'))->render();
-//
-//        // Generate PDF
-//        $mpdf = new Mpdf([
-//            'default_font' => 'nikosh',
-//            'format' => 'A4-L',
-//            'default_font_size' => 10,
-//        ]);
-//
-//        $mpdf->SetMargins(0, 0, 28);
-//        $mpdf->SetWatermarkImage(public_path('img/certificate-bg.png'), 1, [285, 195], 'P');
-//        $mpdf->showWatermarkImage = true;
-//
-//        $mpdf->WriteHTML($html);
-//
-//        // Download the PDF
-//        $mpdf->Output($member->bpid . '_certificate_' . date("Y-m-d_h-ia") . '.pdf', 'D');
-//    }
-
-
-//    public function showPostQuizForm($courseId)
-//    {
-//        $member = Auth::guard('member')->user();
-//
-//        $courseStatus = DB::select("SELECT id_members_course_status, course_id, post_evalution FROM members_course_status WHERE member_id = ? AND course_id = ? LIMIT 1", [$member->id, $courseId]);
-//
-//        $course = DB::select("SELECT * FROM courses WHERE id_courses = ? LIMIT 1", [$courseId]);
-//
-//        // Redirect if data not found
-//        if (!$member || empty($course) || empty($courseStatus)) {
-//            return redirect()->route('index')->with('error', 'Data not found.');
-//        }
-//
-//        $course = $course[0];
-//
-//
-//        // Check if member is authorized to access the course
-//        $targetTrainee = explode(",", $course->target_trainee);
-//        if (!in_array($member->post, $targetTrainee)) {
-//            return redirect()->route('index')->with('error', 'Unauthorized access.');
-//        }
-//
-//        // Redirect if course status is invalid
-//        if (empty($courseStatus)) {
-//            return redirect()->route('details', ['course_id' => $courseId])->with('error', 'Course status not found.');
-//        }
-//
-//        $courseStatus = $courseStatus[0];
-//
-//        // Redirect if post evaluation already completed
-//        if ($courseStatus->post_evalution) {
-//            return redirect()->route('post_quiz.thank_you')->with('error', 'Post evaluation already completed.');
-//        }
-//
-//        // Fetch radio questions
-//        $radioQuestions = DB::select("SELECT id_questions, question FROM questions WHERE qus_cat LIKE '%post_evaluation%' AND ques_type = 'radio'");
-//
-//        // Fetch checkbox questions
-//        $checkboxQuestions = DB::select("SELECT id_questions, question FROM questions WHERE qus_cat LIKE '%post_evaluation%' AND ques_type = 'checkbox'");
-//
-//        return view('course.post_quiz', compact('course', 'courseStatus', 'radioQuestions', 'checkboxQuestions'));
-//    }
-//
-//
-//    public function submitPostQuiz(Request $request)
-//    {
-//        $member = Auth::guard('member')->user();
-//        $course_status_id = $request->input('status_table_id');
-//        $group_a = str_replace('"', '', json_encode($request->input('answer1')));
-//        $group_b = str_replace('"', '', json_encode($request->input('answer2')));
-//
-//
-//        DB::beginTransaction();
-//
-//        try {
-//            // Insert survey data
-//
-//
-//            DB::table('survey')->insert([
-//                'member_id' => $member->id,
-//                'status_table_id' => $course_status_id,
-//                'evaluation_type' => 'post',
-//                'group_a' => $group_a,
-//                'group_b' => $group_b,
-//                'created_at' => now(),
-//            ]);
-//
-//            // Update course status
-//            DB::table('members_course_status')
-//                ->where('id_members_course_status', $course_status_id)
-//                ->update([
-//                    'post_evalution' => 1,
-//                    'course_status' => 'complete',
-//                    'complete_date' => now(),
-//                ]);
-//
-//            // Fetch course details
-//            $course = DB::table('courses')
-//                ->join('members_course_status', 'courses.id_courses', '=', 'members_course_status.course_id')
-//                ->where('members_course_status.id_members_course_status', $course_status_id)
-//                ->first();
-//
-//            DB::commit();
-//
-//            // Pass course object to the view
-//            return view('course.post_quiz_success', compact('course'));
-//        } catch (\Exception $e) {
-//            dd($e);
-//            DB::rollback();
-//            return back()->with('error', 'Something went wrong! Please try again later.');
-//        }
-//    }
 
 
 }

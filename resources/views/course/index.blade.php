@@ -46,7 +46,7 @@
 
                             <h5 class="p-4">{{ $course->title }}</h5>
                             <div class="progress">
-                                <div class="progress-bar bg-{{ $course->percent >= 100 ? 'success' : 'primary' }}" style="width:{{ $course->percent }}%">{{ $course->percent }}%</div>
+                                <div class="progress-bar bg-{{ $course->percent >= 100 ? 'success' : 'primary' }}" style="width:{{ $course->percent }}%"></div>
                             </div>
                             <div class="d-grid mt-2">
                                 @if($course->id_courses==1)<a href="{{url('/member/course-details/'. $course->id_courses) }}" class="text-dark btn btn-outline-{{$course->percent >= 100 ? 'success' : 'primary' }}">{{ $course->percent >= 100 ? 'পুনরায় পঠন' : 'শুরু করুন' }}</a>

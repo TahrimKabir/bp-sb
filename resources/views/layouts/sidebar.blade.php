@@ -270,7 +270,129 @@
                     </ul>
                 </li>
 
-                <li class="nav-header">Members</li>
+                    <!-- Course Management -->
+                    <li class="nav-header">Course Management</li>
+                    <li @if(request()->segment(1) == 'admin/create-course' || request()->segment(1) == 'admin/course-list') class="nav-item menu-open" @else class="nav-item" @endif>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-book nav-icon"></i>
+                            <p>
+                                Course Management
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ asset('admin/create-course') }}"
+                                   @if(request()->segment(1) == 'admin/create-course') class="nav-link text-success"
+                                   @else class="nav-link" @endif>
+                                    <i class="fas fa-arrow-right nav-icon"></i>
+                                    <p>Create Course</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ asset('admin/course-list') }}"
+                                   @if(request()->segment(1) == 'admin/course-list') class="nav-link text-success"
+                                   @else class="nav-link" @endif>
+                                    <i class="fas fa-arrow-right nav-icon"></i>
+                                    <p>Course List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-header">LESSONS</li>
+                    <!-- Lesson -->
+                    <li @if(request()->segment(1) == 'create-lesson' || request()->segment(1) == 'lesson-list') class="nav-item menu-open" @else class="nav-item" @endif>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-book nav-icon"></i>
+                            <p>
+                                Lessons
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url('/admin/create-lesson') }}"
+                                   @if(request()->segment(1) == 'create-lesson') class="nav-link text-success"
+                                   @else class="nav-link" @endif>
+                                    <i class="fas fa-arrow-right nav-icon"></i>
+                                    <p>Create Lesson</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.lesson.list') }}"
+                                   @if(request()->segment(1) == 'lesson-list') class="nav-link text-success"
+                                   @else class="nav-link" @endif>
+                                    <i class="fas fa-arrow-right nav-icon"></i>
+                                    <p>Lesson List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="nav-header">Course Materials</li>
+                    <!-- Manage Course Materials -->
+                    <li @if(request()->segment(1) == 'add-materials'||request()->segment(1)=='material-list') class="nav-item menu-open" @else class="nav-item" @endif>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-book nav-icon"></i>
+                            <p>
+                                Manage Materials
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ asset('admin/add-materials') }}"
+                                   @if(request()->segment(1) == 'add-materials') class="nav-link text-success"
+                                   @else class="nav-link" @endif>
+                                    <i class="fas fa-arrow-right nav-icon"></i>
+                                    <p>Add Material</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ asset('admin/material-list') }}"
+                                   @if(request()->segment(1) == 'material-list') class="nav-link text-success"
+                                   @else class="nav-link" @endif>
+                                    <i class="fas fa-arrow-right nav-icon"></i>
+                                    <p>Material List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-header">Quiz Questions</li>
+                    <!-- Lesson -->
+                    <li @if(request()->segment(1) == 'quiz-question-list' || request()->segment(1) == 'create-quiz-question') class="nav-item menu-open" @else class="nav-item" @endif>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-book nav-icon"></i>
+                            <p>
+                                Quiz Questions
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url('/admin/create-quiz-question') }}"
+                                   @if(request()->segment(1) == 'create-quiz-question') class="nav-link text-success"
+                                   @else class="nav-link" @endif>
+                                    <i class="fas fa-arrow-right nav-icon"></i>
+                                    <p>Create Quiz Question</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('quiz-question-list') }}"
+                                   @if(request()->segment(1) == 'quiz-question-list') class="nav-link text-success"
+                                   @else class="nav-link" @endif>
+                                    <i class="fas fa-arrow-right nav-icon"></i>
+                                    <p>Quiz Question List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-header">Members</li>
                 <!-- Manage Members -->
                 <li @if(request()->segment(1) == 'add-member'||request()->segment(1)=='member-list') class="nav-item menu-open" @else class="nav-item" @endif>
                     <a href="#" class="nav-link">

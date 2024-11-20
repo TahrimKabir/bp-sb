@@ -64,6 +64,7 @@
                                             <th>Name</th>
                                             <th>Designation</th>
                                             <th>Post</th>
+                                            <th>Mobile No.</th>
                                             <th>Posting Area</th>
                                             <th>Action</th>
 
@@ -76,6 +77,7 @@
                                                 <td>{{ $member->name_bn }}</td>
                                                 <td>{{ $member->designation }}</td>
                                                 <td>{{ $member->post }}</td>
+                                                <td>{{ $member->mobile?? 'Unavailable' }}</td>
                                                 <td>{{ $member->posting_area }}</td>
                                                 <td><a href="{{url('/edit-member/'.$member->id)}}" class=" custom-btn btn btn-warning btn-xs ml-1">
                                                         <i class="bi bi-pencil-square"></i>

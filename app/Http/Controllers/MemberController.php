@@ -62,12 +62,15 @@ class MemberController extends Controller
     {
         // Validate the form data
         $validatedData = $request->validate([
-
-            'name_bn'=>'required',
-            'designation_bn'=>'required',
-            'post' => 'required',
-            'posting_area' => 'required',
-
+            'name' => 'required|string|max:255',
+            'designation' => 'nullable|string|max:255',
+            'designation_bn' => 'string|max:255',
+            'post' => 'required|string|max:255',
+            'name_bn' => 'string|max:255',
+            'posting_area' => 'string|max:255',
+            'mobile' => 'nullable|regex:/^01[3-9][0-9]{8}$/',
+            'dob' => 'nullable|date',
+            'joining_date' => 'nullable|date',
         ]);
 
 

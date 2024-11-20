@@ -2,7 +2,9 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-
+<IfModule mod_headers.c>
+    Header set Accept-Ranges bytes
+</IfModule>
     RewriteEngine On
 
     # Handle Authorization Header
@@ -18,4 +20,15 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    # Allow Access to PDF Files
+    <FilesMatch "\.pdf$">
+        SetHandler application/pdf
+        Options +Indexes
+        Require all granted
+    </FilesMatch>
+
+    # Allow access to storage directory
+    RewriteRule ^storage/(.*)$ storage/$1 [L]
 </IfModule>
+AddType application/pdf .pdf

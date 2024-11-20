@@ -30,4 +30,8 @@ class Lesson extends Model
     {
         return $this->belongsTo(Course::class, 'courses_id', 'id_courses');
     }
+
+    public function materials(){
+        return $this->hasMany(Material::class,'lesson_id','id_lessons');
+    }
 }

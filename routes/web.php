@@ -4,12 +4,15 @@ use App\Http\Controllers\BasicComputerTestController;
 use App\Http\Controllers\ComputerTestController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseListController;
+use App\Http\Controllers\CourseMaterialController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExamListController;
 use App\Http\Controllers\IqTestController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionListController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ScheduleListController;
 use App\Http\Controllers\TypingTestController;
@@ -42,7 +45,7 @@ Route::group(['middleware' => 'auth:web,member'], function () {
     Route::get('/course-list', [CourseListController::class, 'index']);
     // Add more routes accessible by both admin and member users here...
 });
-Route::group(['middleware' => [ 'auth']], function () {
+Route::group(['middleware' => ['auth']], function () {
 //    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/course-list', [CourseListController::class, 'index']);
     Route::get('/admin/change-password', [AdminController::class, 'changePassword'])->name('admin.change_password');
@@ -58,7 +61,7 @@ Route::group(['middleware' => [ 'auth']], function () {
     Route::get('/edit/question/{id}', [QuestionListController::class, 'edit']);
     Route::post('/question-updated', [QuestionListController::class, 'update'])->name('question-updated');
     Route::get('/delete/question/{id}', [QuestionListController::class, 'delete']);
-    Route::get('iq-test/result/{id}',[IqTestController::class,'showResult'])->name('iq-test.result');
+    Route::get('iq-test/result/{id}', [IqTestController::class, 'showResult'])->name('iq-test.result');
 
 // exam
     Route::get('/create-exam', [ExamController::class, 'index']);
@@ -78,41 +81,71 @@ Route::group(['middleware' => [ 'auth']], function () {
     Route::get('/delete/schedule/{id}', [ScheduleListController::class, 'delete']);
 
     //typing test questions
-    Route::get('/typing-test-question-list',[TypingTestController::class,'showQuestionList']);
-    Route::get('/create-typing-test-question',[TypingTestController::class,'createQuestion']);
-    Route::post('/store-typing-test-question',[TypingTestController::class,'storeQuestion']);
-    Route::get('/edit-typing-test-question/{id}',[TypingTestController::class,'editQuestion']);
-    Route::post('/update-typing-test-question',[TypingTestController::class,'updateQuestion']);
+    Route::get('/typing-test-question-list', [TypingTestController::class, 'showQuestionList']);
+    Route::get('/create-typing-test-question', [TypingTestController::class, 'createQuestion']);
+    Route::post('/store-typing-test-question', [TypingTestController::class, 'storeQuestion']);
+    Route::get('/edit-typing-test-question/{id}', [TypingTestController::class, 'editQuestion']);
+    Route::post('/update-typing-test-question', [TypingTestController::class, 'updateQuestion']);
     Route::delete('/delete-typing-test-question/{id}', [TypingTestController::class, 'deleteQuestion']);
 
 
     //Computer Test Questions
-    Route::get('/computer-test-question-list',[ComputerTestController::class,'showQuestionSetList']);
-    Route::get('/create-computer-test-question',[ComputerTestController::class,'createQuestion']);
-    Route::post('/store-computer-test-question',[ComputerTestController::class,'storeQuestion']);
+    Route::get('/computer-test-question-list', [ComputerTestController::class, 'showQuestionSetList']);
+    Route::get('/create-computer-test-question', [ComputerTestController::class, 'createQuestion']);
+    Route::post('/store-computer-test-question', [ComputerTestController::class, 'storeQuestion']);
 
 //    Member Management
-    Route::get('/member-list',[MemberController::class,'showMemberList']);
-    Route::get('/add-member',[MemberController::class,'addMember']);
-    Route::post('/store-member',[MemberController::class,'storeMember']);
-    Route::get('/edit-member/{id}',[MemberController::class,'editMember']);
-    Route::put('/update-member/{id}',[MemberController::class,'updateMember']);
+    Route::get('/member-list', [MemberController::class, 'showMemberList']);
+    Route::get('/add-member', [MemberController::class, 'addMember']);
+    Route::post('/store-member', [MemberController::class, 'storeMember']);
+    Route::get('/edit-member/{id}', [MemberController::class, 'editMember']);
+    Route::put('/update-member/{id}', [MemberController::class, 'updateMember']);
 
     //Basic computer test
-    Route::get('/computer-test/basic/create-mcq-question',[BasicComputerTestController::class,'createMcqQuestion']);
-    Route::post('/computer-test/basic/store-mcq-question',[BasicComputerTestController::class,'storeMcqQuestion']);
-    Route::get('/computer-test/basic/mcq-question-list',[BasicComputerTestController::class,'mcqQuestionList']);
+    Route::get('/computer-test/basic/create-mcq-question', [BasicComputerTestController::class, 'createMcqQuestion']);
+    Route::post('/computer-test/basic/store-mcq-question', [BasicComputerTestController::class, 'storeMcqQuestion']);
+    Route::get('/computer-test/basic/mcq-question-list', [BasicComputerTestController::class, 'mcqQuestionList']);
     Route::delete('/computer-test/basic/mcq-question-delete/{id}', [BasicComputerTestController::class, 'mcqQuestionDelete']);
-    Route::get('/computer-test/basic/create-true-false-question',[BasicComputerTestController::class,'createTrueFalseQuestion']);
-    Route::post('/computer-test/basic/store-true-false-question',[BasicComputerTestController::class,'storeTrueFalseQuestion']);
-    Route::get('/computer-test/basic/true-false-question-list',[BasicComputerTestController::class,'trueFalseQuestionList']);
+    Route::get('/computer-test/basic/create-true-false-question', [BasicComputerTestController::class, 'createTrueFalseQuestion']);
+    Route::post('/computer-test/basic/store-true-false-question', [BasicComputerTestController::class, 'storeTrueFalseQuestion']);
+    Route::get('/computer-test/basic/true-false-question-list', [BasicComputerTestController::class, 'trueFalseQuestionList']);
     Route::delete('/computer-test/basic/true-false-question-delete/{id}', [BasicComputerTestController::class, 'trueFalseQuestionDelete']);
-    Route::get('/computer-test/basic/create-question-set',[BasicComputerTestController::class,'createQuestionSet']);
-    Route::post('/computer-test/basic/store-question-set',[BasicComputerTestController::class,'storeQuestionSet']);
-    Route::get('/computer-test/basic/question-set-list',[BasicComputerTestController::class,'showQuestionSetList']);
+    Route::get('/computer-test/basic/create-question-set', [BasicComputerTestController::class, 'createQuestionSet']);
+    Route::post('/computer-test/basic/store-question-set', [BasicComputerTestController::class, 'storeQuestionSet']);
+    Route::get('/computer-test/basic/question-set-list', [BasicComputerTestController::class, 'showQuestionSetList']);
     Route::get('/computer-test/basic/result/{id}', [BasicComputerTestController::class, 'showResult'])->name('basic-computer-test.result');
 
+///Course Management
 
+    Route::get('/admin/create-course', [CourseController::class, 'createCourse']);
+    Route::post('/admin/store-course', [CourseController::class, 'storeCourse'])->name('courses.store');
+    Route::get('/admin/course-list', [CourseController::class, 'showCourseList']);
+    Route::get('/edit-course/{id}', [CourseController::class, 'editCourse'])->name('course.edit');
+    Route::post('/update-course/{id}', [CourseController::class, 'updateCourse'])->name('course.update');
+    Route::delete('/delete-course/{id}', [CourseController::class, 'deleteCourse'])->name('course.delete');
+
+    ///materials management
+    Route::get('admin/add-materials', [CourseMaterialController::class, 'addMaterials']);
+    Route::post('/admin/store-materials', [CourseMaterialController::class, 'storeMaterial'])->name('admin.store.materials');
+    Route::get('/admin/material-list', [CourseMaterialController::class, 'showMaterialList'])->name('admin.materials');
+    Route::delete('/admin/delete-materials/{id}', [CourseMaterialController::class, 'deleteMaterial'])->name('admin.materials.destroy');
+
+///lesson management
+
+    Route::get('/admin/create-lesson', [LessonController::class, 'createLesson']);
+    Route::post('/admin/store-lesson', [LessonController::class, 'storeLesson'])->name('lessons.store');
+    Route::get('admin/lesson-list', [LessonController::class, 'showLessonList'])->name('admin.lesson.list');
+    Route::delete('/delete-lesson/{id}', [LessonController::class, 'deleteLesson'])->name('lesson.delete');
+    Route::get('admin/edit-lesson/{id}', [LessonController::class, 'editLesson'])->name('lesson.edit');
+    Route::put('admin/update-lesson/{id}', [LessonController::class, 'updateLesson'])->name('lesson.update');
+
+    /// Quiz Question management
+    Route::get('admin/create-quiz-question', [QuizController::class, 'createQuestion']);
+    Route::post('/admin/store-quiz-question', [QuizController::class, 'storeQuestion'])->name('quiz-question-store');
+    Route::get('/admin/quiz-question-list/', [QuizController::class, 'quizQuestionList'])->name('quiz-question-list');
+    Route::get('admin/edit-quiz-question/{id}', [QuizController::class, 'editQuizQuestion']);
+    Route::put('admin/update-quiz-question/{id}', [QuizController::class, 'updateQuizQuestion'])->name('quiz-question-update');
+    Route::delete('admin/delete-quiz-question/{id}', [QuizController::class, 'deleteQuizQuestion'])->name('quiz-question.delete');
 
 });
 
@@ -121,8 +154,8 @@ Route::middleware(['auth', 'super_admin'])->group(function () {
     Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
-Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
-Route::delete('/admin/remove/{id}', [AdminController::class, 'remove'])->name('admin.remove');
+    Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/remove/{id}', [AdminController::class, 'remove'])->name('admin.remove');
 });
 
 
@@ -139,17 +172,12 @@ Route::group(['middleware' => ['auth', 'examiner']], function () {
 Route::get('/examiner/print-exam-result/{id}', [ExaminerController::class, 'printResult'])->name('examiner.print-exam-result');
 
 
-
-
-
-Route::get('/member/homepage',[CourseController::class,'index']);
-Route::get('/member/course-details/{id}',[CourseController::class,'showCourseDetails']);
-Route::get('/member/course/lesson/{lessson_id}',[CourseController::class,'showLesson']);
-Route::get('/member/course/quiz/{course_id}',[CourseController::class,'showQuiz']);
+Route::get('/member/homepage', [CourseController::class, 'index']);
+Route::get('/member/course-details/{id}', [CourseController::class, 'showCourseDetails']);
+Route::get('/member/course/lesson/{lessson_id}', [CourseController::class, 'showLesson']);
+Route::get('/member/course/quiz/{course_id}', [CourseController::class, 'showQuiz']);
 Route::post('/member/quiz-result-update', [CourseController::class, 'updateQuizResult'])->name('quiz-result-update');
 
-Route::get('member/course/pre-quiz/{course_id}',[CourseController::class,'showPreQuiz']);
+Route::get('member/course/pre-quiz/{course_id}', [CourseController::class, 'showPreQuiz']);
 Route::post('member/course/pre-quiz/{course_id}/submit', [CourseController::class, 'submitPreQuiz'])->name('pre-quiz.submit');
 
-Route::get('/post-quiz/{course_id}', [CourseController::class, 'showPostQuizForm']);
-Route::post('/post-quiz/submit', [CourseController::class, 'submitPostQuiz'])->name('post_quiz.submit');

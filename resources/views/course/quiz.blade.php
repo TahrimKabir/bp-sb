@@ -9,6 +9,7 @@
             $questions = json_encode(DB::select($questionQuery));
 
             $lesson = DB::table('lessons')->where('id_lessons', $lesson_id)->first();
+                $course_id = $lesson->courses_id;
 
 
 
@@ -152,6 +153,7 @@
                 $.post("{{ route('quiz-result-update') }}", {
                     from: "member_panel",
                     lesson_id:{{$lesson_id}},
+                    course_id:{{$course_id}},
                     mark: corr_ans,
 
                 })
