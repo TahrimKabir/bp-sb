@@ -99,11 +99,11 @@ class CourseController extends Controller
     {
         $member = Auth::guard('member')->user();
 
-        // Fetch all courses applicable to the member
         $courses = DB::table('courses')
-            ->where('target_trainee', 'LIKE', '%' . $member->post . '%')
+            ->whereRaw("FIND_IN_SET(?, target_trainee)", [$member->post])
             ->orderBy('course_no', 'ASC')
             ->get();
+
 
         // Track the completed courses and their status
         foreach ($courses as $course) {

@@ -24,12 +24,14 @@ class MemberController extends Controller
         $validatedData = $request->validate([
             'bpid' => 'required',
             'name' => 'required',
-            'designation' => 'required',
+            'name_bn'=>'required|string',
+            'designation' => 'nullable',
+            'designation_bn'=>'nullable|string',
             'post' => 'required',
             'posting_area' => 'required',
             'mobile' => 'required|regex:/^01[3-9][0-9]{8}$/',
-            'dob' => 'required|date',
-            'joining_date' => 'required|date',
+            'dob' => 'nullable|date',
+            'joining_date' => 'nullable|date',
         ]);
 
         // Check if the bpid already exists
@@ -62,13 +64,14 @@ class MemberController extends Controller
     {
         // Validate the form data
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'designation' => 'nullable|string|max:255',
-            'designation_bn' => 'string|max:255',
-            'post' => 'required|string|max:255',
-            'name_bn' => 'string|max:255',
-            'posting_area' => 'string|max:255',
-            'mobile' => 'nullable|regex:/^01[3-9][0-9]{8}$/',
+
+            'name' => 'required',
+            'name_bn'=>'required|string',
+            'designation' => 'nullable',
+            'designation_bn'=>'nullable|string',
+            'post' => 'required',
+            'posting_area' => 'required',
+            'mobile' => 'required|regex:/^01[3-9][0-9]{8}$/',
             'dob' => 'nullable|date',
             'joining_date' => 'nullable|date',
         ]);

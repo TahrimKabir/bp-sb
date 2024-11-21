@@ -13,7 +13,9 @@ class Member extends Model implements Authenticatable
     protected $fillable = [
         'bpid',
         'name',
+        'name_bn',
         'designation',
+        'designation_bn',
         'post',
         'posting_area',
         'mobile',

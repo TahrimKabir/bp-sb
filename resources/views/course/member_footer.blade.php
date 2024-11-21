@@ -1,18 +1,17 @@
 <!-- Footer Start -->
-
-<div class="container-fluid footer text-light footer p-5 wow fadeIn" data-wow-delay="0.1s" style="background: #008439;">
-
+<div class="container-fluid footer text-light p-5 mt-auto" style="background: #008439;">
     <div class="container">
         <div class="copyright">
             <div class="row justify-content-center">
-                <div class="col-md-6 text-center  mb-3 mb-md-0">
+                <div class="col-md-6 text-center mb-3 mb-md-0">
                     All Right Reserved &copy; BP-SB <?= date('Y') ?>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+<!-- Footer End -->
+
 <!-- Footer End -->
 <!-- Back to Top -->
 
