@@ -84,7 +84,7 @@ class LoginController extends Controller
             }
         }
 
-        return redirect('/home');
+        return redirect('/admin/homepage');
     }
 
     public function logout(Request $request)
