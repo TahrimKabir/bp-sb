@@ -148,7 +148,8 @@
                                                                                     data-target="#viewMaterialModal"
                                                                                     data-name="{{ $material->material_name }}"
                                                                                     data-type="{{ ucfirst($material->material_type) }}"
-                                                                                    data-url="{{ asset('/storage/' . $material->material_url) }}">
+                                                                                    {{-- data-url="{{ storage_path('app/public/' . $material->material_url) }}"> --}}
+                                                                                    data-url="{{ route('get.storage.file', ['filename' => $material->material_url]) }}">
                                                                                     View
                                                                                 </button>
                                                                                 <a href="#"

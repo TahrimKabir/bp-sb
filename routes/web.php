@@ -20,6 +20,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExaminerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,6 +125,21 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/edit-course/{id}', [CourseController::class, 'editCourse'])->name('course.edit');
     Route::post('/update-course/{id}', [CourseController::class, 'updateCourse'])->name('course.update');
     Route::delete('/delete-course/{id}', [CourseController::class, 'deleteCourse'])->name('course.delete');
+
+    Route::get('/get-file', function (Request $request) {
+        $path = storage_path('app/public/'. $request->filename);
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+
+        // Get the file's content and MIME type
+        $file = file_get_contents($path);
+        $type = mime_content_type($path);
+
+        // Return the file as a response
+        return Response::make($file, 200)->header("Content-Type", $type);
+    })->name('get.storage.file');
 
     ///materials management
     Route::get('admin/add-materials', [CourseMaterialController::class, 'addMaterials']);
