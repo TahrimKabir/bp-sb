@@ -75,9 +75,26 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="post" class="form-label">Post</label>
-                                                <input type="text" class="form-control" id="post" name="post"
-                                                       value="{{ $member->post }}" required >
+                                                <select class="form-control @error('post') is-invalid @enderror" id="post" name="post" required>
+                                                    <option value="">Select Post</option>
+                                                    <option value="ADD-DIG" {{ $member->post == 'ADD-DIG' ? 'selected' : '' }}>Additional-DIG</option>
+                                                    <option value="SP" {{ $member->post == 'SP' ? 'selected' : '' }}>Superintendent of Police (SP)</option>
+                                                    <option value="Add. SP" {{ $member->post == 'Add. SP' ? 'selected' : '' }}>Addl. Superintendent of Police (Add. SP)</option>
+                                                    <option value="ASP" {{ $member->post == 'ASP' ? 'selected' : '' }}>Assistant Superintendent of Police (ASP)</option>
+                                                    <option value="INSPECTOR" {{ $member->post == 'INSPECTOR' ? 'selected' : '' }}>Inspector of Police (Insp.)</option>
+                                                    <option value="SI" {{ $member->post == 'SI' ? 'selected' : '' }}>Sub-Inspector (SI)</option>
+                                                    <option value="SERGEANT" {{ $member->post == 'SERGEANT' ? 'selected' : '' }}>SERGEANT</option>
+                                                    <option value="ASI" {{ $member->post == 'ASI' ? 'selected' : '' }}>Assistant Sub-Inspector (ASI)
+                                                    </option>
+                                                    <option value="ATSI" {{ $member->post == 'ATSI' ? 'selected' : '' }}>ATSI</option>
+                                                    <option value="NAIK" {{ $member->post == 'NAIK' ? 'selected' : '' }}>Naik</option>
+                                                    <option value="CONSTABLE" {{ $member->post == 'CONSTABLE' ? 'selected' : '' }}>CONSTABLE</option>
+                                                </select>
+                                                @error('post')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
+
                                             <div class="col-md-6">
                                                 <label for="name_bn" class="form-label">Name (Bangla)</label>
                                                 <input type="text" class="form-control" id="name_bn" name="name_bn"
