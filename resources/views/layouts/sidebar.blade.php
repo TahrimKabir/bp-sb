@@ -28,7 +28,7 @@
         <nav class="mt-2" style="width: 100%;">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Dashboard -->
-                <li class="nav-item menu-open">
+                <li class="nav-item @if(request()->segment(2) == 'homepage') menu-open @endif">
                     <a href="@if(auth()->user()->role == 'admin')
            {{ asset('/admin/homepage') }}
        @elseif(auth()->user()->role == 'examiner')
@@ -272,7 +272,7 @@
 
                     <!-- Course Management -->
                     <li class="nav-header">Course Management</li>
-                    <li @if(request()->segment(1) == 'admin/create-course' || request()->segment(1) == 'admin/course-list') class="nav-item menu-open" @else class="nav-item" @endif>
+                    <li @if(request()->segment(2) == 'create-course' || request()->segment(2) == 'course-list') class="nav-item menu-open" @else class="nav-item" @endif>
                         <a href="#" class="nav-link">
                             <i class="fas fa-book nav-icon"></i>
                             <p>
@@ -283,7 +283,7 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ asset('admin/create-course') }}"
-                                   @if(request()->segment(1) == 'admin/create-course') class="nav-link text-success"
+                                   @if(request()->segment(2) == 'create-course') class="nav-link text-success"
                                    @else class="nav-link" @endif>
                                     <i class="fas fa-arrow-right nav-icon"></i>
                                     <p>Create Course</p>
@@ -291,7 +291,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ asset('admin/course-list') }}"
-                                   @if(request()->segment(1) == 'admin/course-list') class="nav-link text-success"
+                                   @if(request()->segment(2) == 'course-list') class="nav-link text-success"
                                    @else class="nav-link" @endif>
                                     <i class="fas fa-arrow-right nav-icon"></i>
                                     <p>Course List</p>
@@ -302,7 +302,7 @@
 
                     <li class="nav-header">LESSONS</li>
                     <!-- Lesson -->
-                    <li @if(request()->segment(1) == 'create-lesson' || request()->segment(1) == 'lesson-list') class="nav-item menu-open" @else class="nav-item" @endif>
+                    <li @if(request()->segment(2) == 'create-lesson' || request()->segment(2) == 'lesson-list') class="nav-item menu-open" @else class="nav-item" @endif>
                         <a href="#" class="nav-link">
                             <i class="fas fa-book nav-icon"></i>
                             <p>
@@ -313,7 +313,7 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ url('/admin/create-lesson') }}"
-                                   @if(request()->segment(1) == 'create-lesson') class="nav-link text-success"
+                                   @if(request()->segment(2) == 'create-lesson') class="nav-link text-success"
                                    @else class="nav-link" @endif>
                                     <i class="fas fa-arrow-right nav-icon"></i>
                                     <p>Create Lesson</p>
@@ -321,7 +321,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.lesson.list') }}"
-                                   @if(request()->segment(1) == 'lesson-list') class="nav-link text-success"
+                                   @if(request()->segment(2) == 'lesson-list') class="nav-link text-success"
                                    @else class="nav-link" @endif>
                                     <i class="fas fa-arrow-right nav-icon"></i>
                                     <p>Lesson List</p>
@@ -334,7 +334,7 @@
 
                     <li class="nav-header">Course Materials</li>
                     <!-- Manage Course Materials -->
-                    <li @if(request()->segment(1) == 'add-materials'||request()->segment(1)=='material-list') class="nav-item menu-open" @else class="nav-item" @endif>
+                    <li @if(request()->segment(2) == 'add-materials'||request()->segment(2)=='material-list') class="nav-item menu-open" @else class="nav-item" @endif>
                         <a href="#" class="nav-link">
                             <i class="fas fa-book nav-icon"></i>
                             <p>
@@ -345,7 +345,7 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ asset('admin/add-materials') }}"
-                                   @if(request()->segment(1) == 'add-materials') class="nav-link text-success"
+                                   @if(request()->segment(2) == 'add-materials') class="nav-link text-success"
                                    @else class="nav-link" @endif>
                                     <i class="fas fa-arrow-right nav-icon"></i>
                                     <p>Add Material</p>
@@ -353,7 +353,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ asset('admin/material-list') }}"
-                                   @if(request()->segment(1) == 'material-list') class="nav-link text-success"
+                                   @if(request()->segment(2) == 'material-list') class="nav-link text-success"
                                    @else class="nav-link" @endif>
                                     <i class="fas fa-arrow-right nav-icon"></i>
                                     <p>Material List</p>
@@ -364,7 +364,7 @@
 
                     <li class="nav-header">Quiz Questions</li>
                     <!-- Lesson -->
-                    <li @if(request()->segment(1) == 'quiz-question-list' || request()->segment(1) == 'create-quiz-question') class="nav-item menu-open" @else class="nav-item" @endif>
+                    <li @if(request()->segment(2) == 'quiz-question-list' || request()->segment(2) == 'create-quiz-question') class="nav-item menu-open" @else class="nav-item" @endif>
                         <a href="#" class="nav-link">
                             <i class="fas fa-book nav-icon"></i>
                             <p>
@@ -375,7 +375,7 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ url('/admin/create-quiz-question') }}"
-                                   @if(request()->segment(1) == 'create-quiz-question') class="nav-link text-success"
+                                   @if(request()->segment(2) == 'create-quiz-question') class="nav-link text-success"
                                    @else class="nav-link" @endif>
                                     <i class="fas fa-arrow-right nav-icon"></i>
                                     <p>Create Quiz Question</p>
@@ -383,7 +383,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('quiz-question-list') }}"
-                                   @if(request()->segment(1) == 'quiz-question-list') class="nav-link text-success"
+                                   @if(request()->segment(2) == 'quiz-question-list') class="nav-link text-success"
                                    @else class="nav-link" @endif>
                                     <i class="fas fa-arrow-right nav-icon"></i>
                                     <p>Quiz Question List</p>
@@ -451,7 +451,7 @@
                 <li class="nav-header">Settings</li>
                 <!-- Change Password -->
                 <li class="nav-item">
-                    <a href="{{ route('admin.change_password') }}" @if(request()->segment(1) == 'change-password') class="nav-link text-success"
+                    <a href="{{ route('admin.change_password') }}" @if(request()->segment(2) == 'change-password') class="nav-link text-success"
                     @else class="nav-link" @endif>
                         <i class="fas fa-unlock-alt nav-icon"></i>
                         <p>Change Password</p>

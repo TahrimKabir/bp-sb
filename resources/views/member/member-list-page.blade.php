@@ -56,7 +56,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <table id="member-list"
+                                    {{-- <table id="member-list"
                                            class="table table-bordered table-striped text-center align-middle">
                                         <thead>
                                         <tr>
@@ -86,6 +86,20 @@
                                         @endforeach
                                         </tbody>
 
+                                    </table> --}}
+
+                                    <table id="chunkedTable" class="display table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>BPID</th>
+                                                <th>Name</th>
+                                                <th>Designation</th>
+                                                <th>Post</th>
+                                                <th>Mobile No.</th>
+                                                <th>Posting Area</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
@@ -130,6 +144,31 @@
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#member-list_wrapper .col-md-6:eq(0)');
+        });
+
+        $(document).ready(function () {
+            $('#chunkedTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/member-list-chunk',
+                    type: 'GET', // Or 'GET' if you prefer
+                },
+                columns: [
+                    { data: 'bpid' },
+                    { data: 'name_bn' },
+                    { data: 'designation' },
+                    { data: 'post' },
+                    { data: 'mobile' },
+                    { data: 'posting_area' },
+                    {
+                        data: 'action', 
+                        orderable: false,
+                        searchable: false,
+                    }
+                ],
+                pageLength: 10, // Number of rows per chunk
+            });
         });
     </script>
 

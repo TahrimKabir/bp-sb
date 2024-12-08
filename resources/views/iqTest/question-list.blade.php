@@ -26,7 +26,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped text-center align-middle" >
+                                {{-- <table id="example1" class="table table-bordered table-striped text-center align-middle" >
                                     <thead>
                                         <tr >
                                             <th>SL No.</th>
@@ -76,6 +76,24 @@
                                      @endif
                                     </tbody>
 
+                                </table> --}}
+
+
+                                <table id="chunkedTable" class="display table table-striped w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>SL No.</th>
+                                            <th class="text-left">Question</th>
+                                            <th>Option1</th>
+                                            <th>Option2</th>
+                                            <th>Option3</th>
+                                            <th>Option4</th>
+                                            <th>Option5</th>
+                                            <th>Option6</th>
+                                            <th>correct Option</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
                                 </table>
                             </div>
                             <!-- /.card-body -->
@@ -126,16 +144,36 @@
             "autoWidth": false,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
     });
+
+
+    $(document).ready(function () {
+            $('#chunkedTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/questionlist-chunk',
+                    type: 'GET', // Or 'GET' if you prefer
+                },
+                columns: [
+                    { data: 'serial' },
+                    { data: 'question' },
+                    { data: 'option1' },
+                    { data: 'option2' },
+                    { data: 'option3' },
+                    { data: 'option4' },
+                    { data: 'option5' },
+                    { data: 'option6' },
+                    { data: 'correct_option' },
+                    {
+                        data: 'action', 
+                        orderable: false,
+                        searchable: false,
+                    }
+                ],
+                pageLength: 10, // Number of rows per chunk
+            });
+        });
 </script>
 
 <script>

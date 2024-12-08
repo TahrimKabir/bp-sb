@@ -58,14 +58,13 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <table id="example1"
+                                    {{-- <table id="example1"
                                            class="table table-bordered table-striped text-center align-middle">
                                         <thead>
                                         <tr>
                                             <th>SL No.</th>
                                             <th class="text-center">Question Set Name</th>
                                             <th class="text-center">Number of Questions</th>
-{{--                                            <th>Action</th>--}}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -75,26 +74,21 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td class="text-left">{{ $questionSet->question_set_name }}</td> <!-- Question Set Name -->
                                                     <td>{{ $questionSet->questions->count() }}</td> <!-- Number of Questions -->
-{{--                                                    <td>--}}
-{{--                                                        <div class="d-flex justify-content-center">--}}
-{{--                                                            <!-- Delete Button -->--}}
-{{--                                                            <form id="#" >--}}
-
-{{--                                                                <button  class="custom-btn btn btn-xs btn-danger ml-1" >--}}
-{{--                                                                    <i class="bi bi-trash-fill"></i>--}}
-{{--                                                                </button>--}}
-{{--                                                            </form>--}}
-{{--                                                            <!-- Edit Button -->--}}
-{{--                                                            <a href="#" class="custom-btn btn btn-warning btn-xs ml-1">--}}
-{{--                                                                <i class="bi bi-pencil-square"></i>--}}
-{{--                                                            </a>--}}
-{{--                                                        </div>--}}
-{{--                                                    </td>--}}
                                                 </tr>
                                             @endforeach
                                         @endif
                                         </tbody>
 
+                                    </table> --}}
+
+                                    <table id="chunkedTable" class="display table table-striped w-100">
+                                        <thead>
+                                            <tr>
+                                                <th>SL No.</th>
+                                                <th class="text-center">Question Set Name</th>
+                                                <th class="text-center">Number of Questions</th>
+                                            </tr>
+                                        </thead>
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
@@ -146,14 +140,22 @@
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+        });
+
+        $(document).ready(function () {
+            $('#chunkedTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/computer-test-question-list-chunk',
+                    type: 'GET', // Or 'GET' if you prefer
+                },
+                columns: [
+                    { data: 'serial' },
+                    { data: 'question_set_name' },
+                    { data: 'num_of_question', className: 'text-center' },
+                ],
+                pageLength: 10, // Number of rows per chunk
             });
         });
     </script>

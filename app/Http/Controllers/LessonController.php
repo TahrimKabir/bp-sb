@@ -12,10 +12,12 @@ class LessonController extends Controller
         $lessons=Lesson::all();
         return view('course.lesson.lesson-list',compact('lessons'));
     }
-public function createLesson(){
-    $courses=Course::all();
-    return view('course.lesson.add-lesson-page',compact('courses'));
-}
+
+    public function createLesson(){
+        $courses=Course::all();
+        return view('course.lesson.add-lesson-page',compact('courses'));
+    }
+    
     public function storeLesson(Request $request)
 
     {

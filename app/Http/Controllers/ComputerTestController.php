@@ -12,9 +12,60 @@ class ComputerTestController extends Controller
     //
     public function showQuestionSetList()
     {
-        $questionSets = QuestionSet::where('type', 'advanced')->get();
+        $questionSets = [];
         return view('computerTest.question-list-page', compact('questionSets'));
     }
+
+    public function showQuestionSetListChunk(Request $request)
+    {
+        // Extract the DataTable parameters
+        $start = $request->input('start', 0); // Starting row
+        $length = $request->input('length', 10); // Number of rows to fetch
+        $searchValue = $request->input('search.value'); // Search value (if any)
+        $orderColumnIndex = $request->input('order.0.column'); // Column index for sorting
+        $orderDirection = $request->input('order.0.dir', 'asc'); // Sorting direction
+
+        // Define sortable columns
+        $columns = ['question_set_id', 'question_set_name'];
+        $orderColumn = $columns[$orderColumnIndex] ?? 'id';
+
+        // Query the database
+        $query = QuestionSet::query();
+        $query->where('type', 'advanced');
+
+        // Apply search filter
+        if ($searchValue) {
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('question_set_name', 'like', "%$searchValue%");
+            });
+        }
+
+        // Get total count before applying pagination
+        $totalRecords = $query->count();
+
+        // Apply sorting and pagination
+        $data = $query->orderBy($orderColumn, $orderDirection)
+                      ->skip($start)
+                      ->take($length)
+                      ->get();
+        
+        // Append action column
+        $data->transform(function ($item, $index) use ($start) {
+            $item->serial = $start + $index + 1;
+            $item->num_of_question = $item->questions->count();
+            
+            return $item;
+        });
+
+        // Return response in DataTable-compatible format
+        return response()->json([
+            'draw' => $request->input('draw'), // Pass through DataTables draw parameter
+            'recordsTotal' => $totalRecords, // Total records without filtering
+            'recordsFiltered' => $totalRecords, // Total records after filtering
+            'data' => $data, // Paginated data
+        ]);
+    }
+
     public function createQuestion(){
         return view('computerTest.create-question-page');
     }

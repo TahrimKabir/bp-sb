@@ -26,15 +26,13 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped text-center">
+                                {{-- <table id="example1" class="table table-bordered table-striped text-center">
                                     <thead>
                                         <tr >
                                             <th>SL No.</th>
                                             <th>Name</th>
                                             <th>Details</th>
-                                            {{-- <th>Course</th> --}}
                                             <th>Type</th>
-
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -45,9 +43,7 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$e->exam_name}}</td>
                                         <td>{{$e->details}}</td>
-
                                         <td>{{$e->type}}</td>
-
                                         <td>
                                             <div class="col-12 d-flex justify-content-center">
                                                 <a href="{{asset('/delete/exam/'.$e->exam_id)}}" class="btn btn-xs btn-danger">
@@ -61,13 +57,25 @@
                                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                                       </svg>
                                                 </a>
-                                               </div>
+                                            </div>
                                         </td>
                                     </tr>
                                      @endforeach
                                      @endif
                                     </tbody>
 
+                                </table> --}}
+
+                                <table id="chunkedTable" class="display table table-striped w-100">
+                                    <thead>
+                                        <tr >
+                                            <th>SL No.</th>
+                                            <th>Name</th>
+                                            <th>Details</th>
+                                            <th>Type</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
                                 </table>
                             </div>
                             <!-- /.card-body -->
@@ -114,14 +122,28 @@
             "autoWidth": false,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
+    });
+
+    $(document).ready(function () {
+        $('#chunkedTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '/exam-list-chunk',
+                type: 'GET', // Or 'GET' if you prefer
+            },
+            columns: [
+                { data: 'serial' },
+                { data: 'exam_name' },
+                { data: 'details' },
+                { data: 'type' },
+                {
+                    data: 'action', 
+                    orderable: false,
+                    searchable: false,
+                }
+            ],
+            pageLength: 10, // Number of rows per chunk
         });
     });
 </script>

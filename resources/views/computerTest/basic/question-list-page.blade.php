@@ -58,7 +58,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <table id="example1"
+                                    {{-- <table id="example1"
                                            class="table table-bordered table-striped text-center align-middle">
                                         <thead>
                                         <tr>
@@ -78,26 +78,23 @@
                                                     <td>{{ $questionSet->num_of_mcq }}</td> 
                                                     <td>{{ $questionSet->num_of_true_false }}</td> 
                                                     <td>{{ $questionSet->num_of_typing_test }}</td> 
-{{--                                                    <td>--}}
-{{--                                                        <div class="d-flex justify-content-center">--}}
-{{--                                                            <!-- Delete Button -->--}}
-{{--                                                            <form id="#" >--}}
-
-{{--                                                                <button  class="custom-btn btn btn-xs btn-danger ml-1" >--}}
-{{--                                                                    <i class="bi bi-trash-fill"></i>--}}
-{{--                                                                </button>--}}
-{{--                                                            </form>--}}
-{{--                                                            <!-- Edit Button -->--}}
-{{--                                                            <a href="#" class="custom-btn btn btn-warning btn-xs ml-1">--}}
-{{--                                                                <i class="bi bi-pencil-square"></i>--}}
-{{--                                                            </a>--}}
-{{--                                                        </div>--}}
-{{--                                                    </td>--}}
                                                 </tr>
                                             @endforeach
                                         @endif
                                         </tbody>
 
+                                    </table> --}}
+
+                                    <table id="chunkedTable" class="display table table-striped w-100">
+                                        <thead>
+                                            <tr>
+                                                <th>SL No.</th>
+                                                <th class="text-center">Question Set Name</th>
+                                                <th class="text-center">Number of MCQ  Questions</th>
+                                                <th class="text-center">Number of True/false  Questions</th>
+                                                <th class="text-center">Number of Typing test  Questions</th>
+                                            </tr>
+                                        </thead>
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
@@ -149,14 +146,24 @@
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+        });
+
+        $(document).ready(function () {
+            $('#chunkedTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/computer-test/basic/question-set-list-chunk',
+                    type: 'GET', // Or 'GET' if you prefer
+                },
+                columns: [
+                    { data: 'serial' },
+                    { data: 'question_set_name' },
+                    { data: 'num_of_mcq' },
+                    { data: 'num_of_true_false' },
+                    { data: 'num_of_typing_test' },
+                ],
+                pageLength: 10, // Number of rows per chunk
             });
         });
     </script>

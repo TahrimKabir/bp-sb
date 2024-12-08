@@ -11,8 +11,60 @@ class MemberController extends Controller
 
     public function showMemberList()
     {
-        $members = Member::all();
+        $members = [];
         return view('member.member-list-page', compact('members'));
+    }
+
+    public function showMemberListChunk(Request $request)
+    {
+        // Extract the DataTable parameters
+        $start = $request->input('start', 0); // Starting row
+        $length = $request->input('length', 10); // Number of rows to fetch
+        $searchValue = $request->input('search.value'); // Search value (if any)
+        $orderColumnIndex = $request->input('order.0.column'); // Column index for sorting
+        $orderDirection = $request->input('order.0.dir', 'asc'); // Sorting direction
+
+        // Define sortable columns
+        $columns = ['bpid', 'name_bn', 'designation', 'post', 'mobile', 'posting_area']; // Adjust column names to match your table
+        $orderColumn = $columns[$orderColumnIndex] ?? 'id';
+
+        // Query the database
+        $query = Member::query();
+
+        // Apply search filter
+        if ($searchValue) {
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('bpid', 'like', "%$searchValue%")
+                  ->orWhere('name_bn', 'like', "%$searchValue%")
+                  ->orWhere('designation', 'like', "%$searchValue%")
+                  ->orWhere('post', 'like', "%$searchValue%")
+                  ->orWhere('mobile', 'like', "%$searchValue%")
+                  ->orWhere('posting_area', 'like', "%$searchValue%");
+            });
+        }
+
+        // Get total count before applying pagination
+        $totalRecords = $query->count();
+
+        // Apply sorting and pagination
+        $data = $query->orderBy($orderColumn, $orderDirection)
+                      ->skip($start)
+                      ->take($length)
+                      ->get();
+
+        // Append action column
+        $data->transform(function ($item) {
+            $item->action = '<a href="' . url("/edit-member/".$item->id) . '" class="custom-btn btn btn-warning btn-xs ml-1"><i class="bi bi-pencil-square"></i></a>';
+            return $item;
+        });
+
+        // Return response in DataTable-compatible format
+        return response()->json([
+            'draw' => $request->input('draw'), // Pass through DataTables draw parameter
+            'recordsTotal' => $totalRecords, // Total records without filtering
+            'recordsFiltered' => $totalRecords, // Total records after filtering
+            'data' => $data, // Paginated data
+        ]);
     }
     public function addMember(){
         return view('member.member-add-page');

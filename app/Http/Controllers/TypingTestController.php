@@ -10,9 +10,59 @@ class TypingTestController extends Controller
 {
     public function showQuestionList()
     {
-        $questionList = TypingTestQuestion::all();
+        $questionList = [];
         return view('typingTest.question-list-page', compact('questionList'));
     }
+
+    public function showQuestionListChunk(Request $request)
+    {
+        // Extract the DataTable parameters
+        $start = $request->input('start', 0); // Starting row
+        $length = $request->input('length', 10); // Number of rows to fetch
+        $searchValue = $request->input('search.value'); // Search value (if any)
+        $orderColumnIndex = $request->input('order.0.column'); // Column index for sorting
+        $orderDirection = $request->input('order.0.dir', 'asc'); // Sorting direction
+
+        // Define sortable columns
+        $columns = ['question_id', 'content', 'time_in_seconds']; // Adjust column names to match your table
+        $orderColumn = $columns[$orderColumnIndex] ?? 'question_id';
+
+        // Query the database
+        $query = TypingTestQuestion::query();
+
+        // Apply search filter
+        if ($searchValue) {
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('content', 'like', "%$searchValue%")
+                  ->orWhere('time_in_seconds', 'like', "%$searchValue%");
+            });
+        }
+
+        // Get total count before applying pagination
+        $totalRecords = $query->count();
+
+        // Apply sorting and pagination
+        $data = $query->orderBy($orderColumn, $orderDirection)
+                      ->skip($start)
+                      ->take($length)
+                      ->get();
+        
+        // Append action column
+        $data->transform(function ($item, $index) use ($start) {
+            $item->serial = $start + $index + 1;
+            $item->action = view('partials.question-actions', ['question' => $item])->render();
+            return $item;
+        });
+
+        // Return response in DataTable-compatible format
+        return response()->json([
+            'draw' => $request->input('draw'), // Pass through DataTables draw parameter
+            'recordsTotal' => $totalRecords, // Total records without filtering
+            'recordsFiltered' => $totalRecords, // Total records after filtering
+            'data' => $data, // Paginated data
+        ]);
+    }
+
    public function createQuestion(){
         return view('typingTest.create-question-page');
    }

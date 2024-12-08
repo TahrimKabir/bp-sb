@@ -54,7 +54,7 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <table id="example1" class="table table-bordered table-striped text-center align-middle">
+                                    {{-- <table id="example1" class="table table-bordered table-striped text-center align-middle">
                                         <thead>
                                         <tr>
                                             <th>SL No.</th>
@@ -94,6 +94,19 @@
                                             @endforeach
                                         @endif
                                         </tbody>
+                                    </table> --}}
+
+                                    <table id="chunkedTable" class="display table table-striped w-100">
+                                        <thead>
+                                            <tr>
+                                                <th>SL No.</th>
+                                                <th>Course Title</th>
+                                                <th>Course No.</th>
+                                                <th>Status</th>
+                                                <th>Target Trainee</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
@@ -144,14 +157,29 @@
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+        });
+
+        $(document).ready(function () {
+            $('#chunkedTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/admin/course-list-chunk',
+                    type: 'GET', // Or 'GET' if you prefer
+                },
+                columns: [
+                    { data: 'serial' },
+                    { data: 'title' },
+                    { data: 'course_no' },
+                    { data: 'status' },
+                    { data: 'target_trainee' },
+                    {
+                        data: 'action', 
+                        orderable: false,
+                        searchable: false,
+                    }
+                ],
+                pageLength: 10, // Number of rows per chunk
             });
         });
     </script>
