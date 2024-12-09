@@ -8,16 +8,32 @@ use App\Models\Lesson;
 class LessonController extends Controller
 {
 
-    public function showLessonList(){
-        $lessons=Lesson::all();
-        return view('course.lesson.lesson-list',compact('lessons'));
+
+    public function getLessons(Request $request)
+    {
+        $courseId = $request->input('course_id');
+        $lessons = Lesson::where('courses_id', $courseId)->get();
+
+        return response()->json([
+            'lessons' => $lessons
+        ]);
     }
+    public function showLessonList($courseId = null)
+    {
+        // If course_id is provided, fetch lessons for that course, otherwise fetch all lessons
+        $lessons = $courseId
+            ? Lesson::where('courses_id', $courseId)->get()
+            : Lesson::all();
+
+        return view('course.lesson.lesson-list', compact('lessons', 'courseId'));
+    }
+
 
     public function createLesson(){
         $courses=Course::all();
         return view('course.lesson.add-lesson-page',compact('courses'));
     }
-    
+
     public function storeLesson(Request $request)
 
     {

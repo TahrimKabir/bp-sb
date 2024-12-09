@@ -10,11 +10,23 @@ use Illuminate\Http\Request;
 
 class ScheduleListController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $schedule = Exam_Schedule::all();
-        return view('schedule-list', compact('schedule'));
+        $selectedConfigId = $request->input('exam_config_id'); // Get selected configuration ID from request
+        $schedule = collect(); // Default to an empty collection
+        $examConfigurations = Exam_configuration::all(); // Fetch all configurations for the dropdown
+
+        // If a specific configuration ID is selected, fetch related schedules
+        if ($selectedConfigId) {
+            $schedule = Exam_Schedule::with(['config', 'member'])
+                ->where('exam_config_id', $selectedConfigId)
+                ->get()
+                ->groupBy('exam_config_id');
+        }
+
+        return view('schedule-list', compact('schedule', 'examConfigurations', 'selectedConfigId'));
     }
+
 
     public function edit($id)
     {
@@ -41,7 +53,7 @@ class ScheduleListController extends Controller
 
     public function delete($id)
     {
-     Exam_Schedule::where('id',$id)->delete(); 
+     Exam_Schedule::where('id',$id)->delete();
      return redirect()->back()->with('fail', 'record deleted');
     }
 }

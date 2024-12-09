@@ -86,7 +86,7 @@
                                                     <option value="SP" {{ old('post') == 'SP' ? 'selected' : '' }}>
                                                         Superintendent of Police (SP)
                                                     </option>
-                                                    <option value="Add. SP" {{ old('post') == 'SP' ? 'selected' : '' }}>
+                                                    <option value="Add. SP" {{ old('post') == 'Add. SP' ? 'selected' : '' }}>
                                                         Addl. Superintendent of Police (Add. SP)
                                                     </option>
 

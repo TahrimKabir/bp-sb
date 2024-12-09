@@ -9,7 +9,7 @@
             <section class="content p-4">
                 <div class="container-fluid">
                     <div class="row justify-content-center">
-                        <div class="col-12 justify-content-center">
+                        <div class="col-md-8">
                             <div class="card">
                                 <div id="message-container">
                                     @if (session('success'))
@@ -33,33 +33,29 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="card-header clr-dark-green">
-                                    <h3 class="text-center display-6 mb-0">
-                                        <i class="fas fa-folder-plus mr-2"></i> Add New Course Materials
-                                    </h3>
+                                <div class="card-header text-white bg-dark">
+                                    <h4 class="text-center mb-0">
+                                        <i class="fas fa-folder-plus mr-2"></i> Add Course Material
+                                    </h4>
                                 </div>
                                 <div class="card-body">
                                     <form action="{{ route('admin.store.materials') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group">
-                                            <label for="lesson_id"> Select Lesson</label>
-                                            <select class="form-control" name="lesson_id" id="lesson_id">
-                                                @foreach ($lessons as $lesson)
-                                                    <option value="{{ $lesson->id_lessons }}">{{ $lesson->title }}</option>
-                                                @endforeach
-                                            </select>
+                                            <label for="lesson_id">Lesson</label>
+                                            <input type="text" class="form-control" id="lesson_id_display" value="{{ $lesson->title }}" disabled>
+                                            <input type="hidden" name="lesson_id" id="lesson_id" value="{{ $lesson->id_lessons }}">
                                         </div>
 
-                                        <!-- First Material section -->
-                                        <div class="card mb-4 shadow-lg p-3 rounded border material-card"
-                                             style="background-color: #f9f9f9; border: 2px solid #28a745; border-radius: 10px;">
-                                            <div class="card-header bg-secondary text-white">
-                                                <h5 class="mb-0"><i class="fas fa-layer-group mr-2"></i> Material 1</h5>
+                                        <!-- Material section -->
+                                        <div class="card shadow-sm mb-3">
+                                            <div class="card-header clr-dark-green text-white">
+                                                <h5 class="mb-0"><i class="fas fa-layer-group mr-2"></i> Material</h5>
                                             </div>
                                             <div class="card-body">
                                                 <div class="form-group">
-                                                    <label for="material_type_0">Material Type</label>
-                                                    <select class="form-control material_type" name="materials[0][material_type]" id="material_type_0">
+                                                    <label for="material_type">Material Type</label>
+                                                    <select class="form-control material_type" name="material_type" id="material_type">
                                                         <option value="pdf">PDF</option>
                                                         <option value="audio">Audio</option>
                                                         <option value="video">Video</option>
@@ -68,26 +64,19 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="material_name_0"> Material Name (Optional)</label>
-                                                    <input type="text" class="form-control" name="materials[0][material_name]" id="material_name_0" placeholder="Enter material name (optional)">
+                                                    <label for="material_name">Material Name (Optional)</label>
+                                                    <input type="text" class="form-control" name="material_name" id="material_name" placeholder="Enter material name (optional)">
                                                 </div>
 
-                                                <div id="material_url_container_0" class="form-group">
-                                                    <!-- Input will be dynamically generated -->
+                                                <div id="material_url_container" class="form-group">
+                                                    <!-- Input will be dynamically updated -->
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- Additional material sections -->
-                                        <div id="additional-materials"></div>
-
-                                        <button type="button" class="btn btn-outline-secondary mb-4" id="add-material-btn">
-                                            <i class="fas fa-plus-circle mr-2"></i> Add Another Material
-                                        </button>
-
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary">
-                                                <i class="fas fa-upload mr-2"></i> Submit Materials
+                                        <div class="form-group text-center">
+                                            <button type="submit" class="btn clr-dark-green">
+                                                <i class="fas fa-upload mr-2"></i> Submit Material
                                             </button>
                                         </div>
                                     </form>
@@ -115,11 +104,9 @@
 
     <script>
         $(document).ready(function() {
-            let materialCount = 1;
-
             // Function to update the file input based on material type
-            function updateFileInput(materialTypeSelect, count) {
-                let fileInputContainer = $(`#material_url_container_${count}`);
+            function updateFileInput(materialTypeSelect) {
+                let fileInputContainer = $('#material_url_container');
                 let materialType = materialTypeSelect.val();
 
                 // Remove existing input field
@@ -127,73 +114,33 @@
 
                 if (materialType === 'pdf') {
                     fileInputContainer.append(`
-                        <label for="material_url_${count}"><i class="fas fa-file-pdf mr-2"></i> Upload PDF</label>
-                        <input type="file" class="form-control" name="materials[${count}][material_url]" id="material_url_${count}" accept=".pdf">
+                        <label for="material_url"><i class="fas fa-file-pdf mr-2"></i> Upload PDF</label>
+                        <input type="file" class="form-control" name="material_url" id="material_url" accept=".pdf">
                     `);
                 } else if (materialType === 'audio') {
                     fileInputContainer.append(`
-                        <label for="material_url_${count}"><i class="fas fa-file-audio mr-2"></i> Upload Audio</label>
-                        <input type="file" class="form-control" name="materials[${count}][material_url]" id="material_url_${count}" accept="audio/*">
+                        <label for="material_url"><i class="fas fa-file-audio mr-2"></i> Upload Audio</label>
+                        <input type="file" class="form-control" name="material_url" id="material_url" accept="audio/*">
                     `);
                 } else if (materialType === 'video') {
                     fileInputContainer.append(`
-                        <label for="material_url_${count}"><i class="fas fa-file-video mr-2"></i> Upload Video</label>
-                        <input type="file" class="form-control" name="materials[${count}][material_url]" id="material_url_${count}" accept="video/*">
+                        <label for="material_url"><i class="fas fa-file-video mr-2"></i> Upload Video</label>
+                        <input type="file" class="form-control" name="material_url" id="material_url" accept="video/*">
                     `);
                 } else if (materialType === 'link') {
                     fileInputContainer.append(`
-                        <label for="material_url_${count}"><i class="fas fa-link mr-2"></i> Enter External Link</label>
-                        <input type="text" class="form-control" name="materials[${count}][material_url]" id="material_url_${count}" placeholder="Enter link here">
+                        <label for="material_url"><i class="fas fa-link mr-2"></i> Enter External Link</label>
+                        <input type="text" class="form-control" name="material_url" id="material_url" placeholder="Enter link here">
                     `);
                 }
             }
 
-            // Initial update for the first material
-            updateFileInput($('#material_type_0'), 0);
+            // Initial update for the material input
+            updateFileInput($('#material_type'));
 
-            // Add material handler
-            $('#add-material-btn').click(function() {
-                materialCount++;
-
-                $('#additional-materials').append(`
-                    <div class="card mb-4 shadow-lg p-3 rounded border material-card"
-                         >
-                        <div class="card-header bg-secondary text-white">
-                            <h5 class="mb-0"><i class="fas fa-layer-group mr-2"></i> Material ${materialCount}</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="material_type_${materialCount}">Material Type</label>
-                                <select class="form-control material_type" name="materials[${materialCount}][material_type]" id="material_type_${materialCount}">
-                                    <option value="pdf">PDF</option>
-                                    <option value="audio">Audio</option>
-                                    <option value="video">Video</option>
-                                    <option value="link">External Link</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="material_name_${materialCount}"> Material Name (Optional)</label>
-                                <input type="text" class="form-control" name="materials[${materialCount}][material_name]" id="material_name_${materialCount}" placeholder="Enter material name (optional)">
-                            </div>
-                            <div id="material_url_container_${materialCount}" class="form-group">
-                                <!-- Input will be dynamically updated -->
-                            </div>
-                        </div>
-                    </div>
-                `);
-
-                // Update the file input for the newly added material
-                $(`#material_type_${materialCount}`).on('change', function() {
-                    updateFileInput($(this), materialCount);
-                });
-
-                // Initialize with the first option (PDF)
-                updateFileInput($(`#material_type_${materialCount}`), materialCount);
-            });
-
-            // Update input when the material type changes for the first material
-            $('#material_type_0').on('change', function() {
-                updateFileInput($(this), 0);
+            // Update input when the material type changes
+            $('#material_type').on('change', function() {
+                updateFileInput($(this));
             });
         });
     </script>

@@ -55,25 +55,28 @@ class CourseController extends Controller
                       ->skip($start)
                       ->take($length)
                       ->get();
-        
+
         // Append action column
         $data->transform(function ($item, $index) use ($start) {
             $item->serial = $start + $index + 1;
             $item->status = ucfirst($item->status);
             $item->target_trainee = str_replace(',', ', ', $item->target_trainee);
+
+            // Add action buttons: Edit, Delete, and Show Lessons
             $item->action = '<div class="col-12 d-flex justify-content-center">
-                                <button type="button" class="btn btn-xs btn-danger" onclick="confirmDelete(' . $item->id_courses . ')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
-                                        <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
-                                    </svg>
-                                </button>
-                                <a href="' . url('/edit-course/' . $item->id_courses) . '" class="btn btn-warning btn-xs ml-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                    </svg>
-                                </a>
-                            </div>';
+                        <button type="button" class="btn btn-xs btn-danger" onclick="confirmDelete(' . $item->id_courses . ')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
+                                <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                        </button>
+                        <a href="' . url('/edit-course/' . $item->id_courses) . '" class="btn btn-warning btn-xs ml-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                        </a>
+                        <a href="' . url('admin/lesson-list/' . $item->id_courses) . '" class="btn btn-info btn-xs ml-1">Show Lessons</a>
+                    </div>';
             return $item;
         });
 
@@ -98,7 +101,7 @@ class CourseController extends Controller
             'title' => 'required|string|max:255',
             'status' => 'required|in:active,inactive',
             'target_trainee' => 'required|array',
-            'target_trainee.*' => 'in:SI,ASI,SERGEANT,CONSTABLE,ASP,SP,INSPECTOR,INSP,NAIK',
+            'target_trainee.*' => 'in:SI,ASI,SERGEANT,CONSTABLE,ASP,SP,INSPECTOR,INSP,NAIK,ATSI,Add. SP,ADD-DIG',
         ]);
 
         // Find the maximum course_no value in the courses table

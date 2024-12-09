@@ -1,203 +1,101 @@
-{{-- start --}}
 @extends('dashboard')
-@section('style')
-    @include('layouts.dataTable')
-    <link rel="stylesheet" href="{{ asset('custom/main.css') }}">
-@endsection
 
 @section('main')
     @parent
 
-    <!-- Content Wrapper. Contains page content -->
     @section('edit')
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-
-            <!-- /.content-header -->
-
-            <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
                     <div class="row justify-content-center mt-4">
                         <div class="col-12 justify-content-center">
                             <div class="card">
                                 <div class="card-header clr-dark-green">
-                                    <h3 class=" display-6 text-center">Schedule List</h3>
+                                    <h3 class="display-6 text-center">Schedule List</h3>
                                 </div>
-                                <!-- /.card-header -->
                                 <div class="card-body">
-                                    <div id="message-container">
-                                        @if (session('success'))
-                                            <div class="alert alert-success">
-                                                {{ session('success') }}
+                                    <!-- Filter Form -->
+                                    <form method="GET" action="{{ route('schedule.index') }}" class="mb-4">
+                                        <div class="form-group row">
+                                            <label for="exam_config_id" class="col-sm-2 col-form-label">Select Exam Configuration:</label>
+                                            <div class="col-sm-8">
+                                                <select name="exam_config_id" id="exam_config_id" class="form-control">
+                                                    <option value="">-- Select Configuration --</option>
+                                                    @foreach ($examConfigurations as $config)
+                                                        <option value="{{ $config->id }}"
+                                                            {{ $selectedConfigId == $config->id ? 'selected' : '' }}>
+                                                            {{ $config->name ?? 'Unnamed Configuration' }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                        @endif
+                                            <div class="col-sm-2">
+                                                <button type="submit" class="btn btn-primary">Filter</button>
+                                            </div>
+                                        </div>
+                                    </form>
 
-                                        @if (session('fail'))
-                                            <div class="alert alert-danger">
-                                                {{ session('fail') }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <table id="example1" class="table table-bordered table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th>SL</th>
-                                            <th>Exam</th>
-                                            <th>Selected Police</th>
-                                            <th>Police Id</th>
-                                            <th>Login Time</th>
-                                            <th>Submission Time</th>
-                                            <th>Exam pin</th>
-                                            <th>Status</th>
-                                            <th>Result</th>
-                                            <th>Remove</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @if($schedule!=null)
-                                            @foreach($schedule as $s)
+                                    <!-- Display Schedules -->
+                                    @if ($selectedConfigId && $schedule->isEmpty())
+                                        <div class="alert alert-info text-center">
+                                            No schedules found for the selected configuration.
+                                        </div>
+                                    @elseif ($selectedConfigId)
+                                        @foreach ($schedule as $configId => $schedules)
+                                            <h3 class="text-center">Exam Configuration: {{ $schedules->first()->config->name ?? 'Unnamed Configuration' }}</h3>
+
+                                            <table id="example1" class="table table-bordered table-striped">
+                                                <thead>
                                                 <tr>
-                                                    <td>{{$loop->iteration}}</td>
-                                                    <td>@if($s->config!=null)
-                                                            @if($s->config->exam!=null)
-                                                                {{$s->config->exam->exam_name}}
-                                                            @endif
-                                                        @endif</td>
-                                                    <td>@if($s->member!=null)
-                                                            {{$s->member->name_bn}}
-                                                        @endif</td>
-                                                    <td>@if($s->member!=null)
-                                                            {{$s->member->bpid}}
-                                                        @endif</td>
-                                                    <td>{{$s->login_time}}</td>
-                                                    <td>{{$s->submission_time}}</td>
-                                                    <td>{{$s->password}}</td>
-                                                    <td>{{$s->status}}</td>
-                                                    <td class="text-center">
-                                                        @if($s->status == 'completed')
-                                                            @if($s->config->exam->type == 'basic_computer_test')
-                                                                <a href="{{ route('basic-computer-test.result', $s->id) }}" class="btn btn-success d-flex align-items-center justify-content-center w-100">
-                                                                    <i class="fas fa-check mr-2"></i> View Result
-                                                                </a>
-                                                            @elseif($s->config->exam->type == 'mcq')
-                                                                <a href="{{ route('iq-test.result', $s->id) }}" class="btn btn-success d-flex align-items-center justify-content-center w-100">
-                                                                    <i class="fas fa-check mr-2"></i> View Result
-                                                                </a>
-                                                            @elseif($s->config->exam->type == 'advanced_computer_test')
-                                                                @if($s->is_evaluated == 'yes')
-                                                                    <a href="{{ route('examiner.print-exam-result', $s->id) }}" class="btn btn-success d-flex align-items-center justify-content-center w-100">
-                                                                        <i class="fas fa-check mr-2"></i> View Result
-                                                                    </a>
-                                                                @else
-                                                                    <span class="badge badge-warning d-flex align-items-center justify-content-center w-100 p-2" style="font-size: 16px;">
-                    <i class="fas fa-hourglass-half mr-2"></i> Evaluation Pending
-                </span>
-                                                                @endif
-                                                            @endif
-                                                        @else
-                                                            <span class="badge badge-secondary d-flex align-items-center justify-content-center w-100 p-2" style="font-size: 16px;">
-            <i class="fas fa-times mr-2"></i> Unavailable
-        </span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <div class="col-12 d-flex justify-content-center">
-                                                            <a href="{{asset('/delete/schedule/'.$s->id)}}"
-                                                               class="btn btn-xs btn-danger">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                     height="16" fill="currentColor"
-                                                                     class="bi bi-archive" viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
-                                                                </svg>
-                                                            </a>
-
-                                                        </div>
-                                                    </td>
-
-
-
+                                                    <th>SL</th>
+                                                    <th>Exam</th>
+                                                    <th>Selected Police</th>
+                                                    <th>Police Id</th>
+                                                    <th>Login Time</th>
+                                                    <th>Submission Time</th>
+                                                    <th>Exam Pin</th>
+                                                    <th>Status</th>
+                                                    <th>Result</th>
+                                                    <th>Remove</th>
                                                 </tr>
-                                            @endforeach
-                                        @endif
-                                        </tbody>
-
-                                    </table>
+                                                </thead>
+                                                <tbody>
+                                                @foreach ($schedules as $key => $s)
+                                                    <tr>
+                                                        <td>{{ $key + 1 }}</td>
+                                                        <td>{{ $s->config->exam->exam_name ?? 'N/A' }}</td>
+                                                        <td>{{ $s->member->name_bn ?? 'N/A' }}</td>
+                                                        <td>{{ $s->member->bpid ?? 'N/A' }}</td>
+                                                        <td>{{ $s->login_time ?? 'N/A' }}</td>
+                                                        <td>{{ $s->submission_time ?? 'N/A' }}</td>
+                                                        <td>{{ $s->password ?? 'N/A' }}</td>
+                                                        <td>{{ $s->status ?? 'N/A' }}</td>
+                                                        <td class="text-center">
+                                                            @if ($s->status == 'completed')
+                                                                <a href="{{ route('exam.result', $s->id) }}" class="btn btn-success">
+                                                                    View Result
+                                                                </a>
+                                                            @else
+                                                                <span class="badge badge-secondary">Unavailable</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ asset('/delete/schedule/'.$s->id) }}" class="btn btn-xs btn-danger">
+                                                                <i class="fas fa-trash"></i> Remove
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        @endforeach
+                                    @endif
                                 </div>
-                                <!-- /.card-body -->
                             </div>
                         </div>
                     </div>
-                </div><!-- /.container-fluid -->
+                </div>
             </section>
-            <!-- /.content -->
         </div>
     @endsection
-
-@endsection
-<!-- ./wrapper -->
-
-<!-- jQuery -->
-@section('script')
-    <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- DataTables  & Plugins -->
-    <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('plugins/jszip/jszip.min.js')}}"></script>
-    <script src="{{asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
-    <script src="{{asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
-    <!-- AdminLTE for demo purposes -->
-    {{-- <script src="../../dist/js/demo.js"></script> --}}
-    <!-- Page specific script -->
-
-    <!-- AdminLTE for demo purposes -->
-    {{-- <script src="../../dist/js/demo.js"></script> --}}
-    <!-- Page specific script -->
-    <script>
-        $(function () {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            var messageContainer = document.getElementById('message-container');
-
-
-            if (messageContainer) {
-
-                setTimeout(function () {
-
-                    messageContainer.style.display = 'none';
-                }, 4000);
-            }
-        });
-
-    </script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Material;
 use Illuminate\Http\Request;
@@ -9,6 +10,18 @@ use Illuminate\Support\Facades\Storage;
 
 class CourseMaterialController extends Controller
 {
+
+    public function addMaterial($lesson_id)
+    {
+        $lesson = Lesson::find($lesson_id);
+
+        if (!$lesson) {
+            return redirect()->back()->with('fail', 'Lesson not found.');
+        }
+
+        return view('course.add-materials-page', compact('lesson'));
+    }
+
     public function addMaterials(){
         $lessons=Lesson::all();
         return view('course.add-materials-page',compact('lessons'));
@@ -73,25 +86,35 @@ class CourseMaterialController extends Controller
 
     public function showMaterialList(Request $request)
     {
-        // Get the lessons to populate the filter dropdown
-        $lessons = Lesson::all();
 
-        // Check if a lesson filter is applied
-        $selectedLessonId = $request->input('lesson_filter');
+        $selectedCourseId = $request->get('course_filter', '');
+        $selectedLessonId = $request->get('lesson_filter', '');
 
-        // Query materials, optionally filter by lesson if a filter is applied
-        if ($selectedLessonId) {
-            // Get materials for the selected lesson
-            $materials = Lesson::with('materials')
-                ->where('id_lessons', $selectedLessonId)
-                ->get();
-        } else {
-            // Get all lessons with their materials
-            $materials = Lesson::with('materials')->get();
+        // Get all courses for the dropdown
+        $courses = Course::all();
+
+        // Get lessons filtered by course and lesson filters, eager load materials
+        $lessonsQuery = Lesson::query();
+
+        // Filter lessons by course
+        if ($selectedCourseId) {
+            $lessonsQuery->where('courses_id', $selectedCourseId);
         }
 
-        return view('course.material-list', compact('materials', 'lessons', 'selectedLessonId'));
+        // Filter lessons by selected lesson if it's set
+        if ($selectedLessonId) {
+            $lessonsQuery->where('id_lessons', $selectedLessonId);
+        }
+
+        // Eager load the materials for each lesson
+        $lessons = $lessonsQuery->with('materials')->get();
+
+        // Pass necessary data to the view
+
+        return view('course.material-list', compact('lessons', 'courses', 'selectedCourseId', 'selectedLessonId'));
     }
+
+
 
 
     public function deleteMaterial($id)
