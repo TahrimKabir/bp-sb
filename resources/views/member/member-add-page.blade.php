@@ -266,6 +266,11 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </form>
                                         </div>
+                                        <div class="card-footer text-right">
+                                            <a href="{{ asset('/excel-template/bulk-members-tamplate.xlsx') }}" download="bulk-members-tamplate.xlsx" class="btn btn-sm btn-success">
+                                                Download Excel Template
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
