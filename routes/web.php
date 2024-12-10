@@ -105,8 +105,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/member-list-chunk', [MemberController::class, 'showMemberListChunk']);
     Route::get('/add-member', [MemberController::class, 'addMember']);
     Route::post('/store-member', [MemberController::class, 'storeMember']);
+    Route::post('/store-bulk-member', [MemberController::class, 'storeBulkMember']);
     Route::get('/edit-member/{id}', [MemberController::class, 'editMember']);
     Route::put('/update-member/{id}', [MemberController::class, 'updateMember']);
+    Route::get('/delete-member/{id}', [MemberController::class, 'deleteMember']);
 
     //Basic computer test
     Route::get('/computer-test/basic/create-mcq-question', [BasicComputerTestController::class, 'createMcqQuestion']);

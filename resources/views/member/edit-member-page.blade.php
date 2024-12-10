@@ -50,31 +50,21 @@
                                         @method('PUT')
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <label for="bpid" class="form-label">BPID</label>
+                                                <label for="bpid" class="form-label">BPID <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="bpid" name="bpid"
                                                        value="{{ $member->bpid }}" readonly>
                                             </div>
+
                                             <div class="col-md-6">
-                                                <label for="name" class="form-label">Name</label>
-                                                <input type="text" class="form-control" id="name" name="name"
-                                                       value="{{ $member->name }}" >
+                                                <label for="name_bn" class="form-label">Name (Bangla) <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="name_bn" name="name_bn"
+                                                       value="{{ $member->name_bn }}" required>
                                             </div>
                                         </div>
+                                        
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <label for="designation" class="form-label">Designation</label>
-                                                <input type="text" class="form-control" id="designation"
-                                                       name="designation" value="{{ $member->designation }}" >
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="designation_bn" class="form-label">Designation (Bangla)</label>
-                                                <input type="text" class="form-control" id="designation_bn"
-                                                       name="designation_bn" value="{{ $member->designation_bn }}" required>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <label for="post" class="form-label">Post</label>
+                                                <label for="post" class="form-label">Post <span class="text-danger">*</span></label>
                                                 <select class="form-control @error('post') is-invalid @enderror" id="post" name="post" required>
                                                     <option value="">Select Post</option>
                                                     <option value="ADD-DIG" {{ $member->post == 'ADD-DIG' ? 'selected' : '' }}>Additional-DIG</option>
@@ -96,22 +86,36 @@
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label for="name_bn" class="form-label">Name (Bangla)</label>
-                                                <input type="text" class="form-control" id="name_bn" name="name_bn"
-                                                       value="{{ $member->name_bn }}" required>
+                                                <label for="name" class="form-label">Name (English)</label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                       value="{{ $member->name }}" >
                                             </div>
                                         </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="designation" class="form-label">Designation</label>
+                                                <input type="text" class="form-control" id="designation"
+                                                       name="designation" value="{{ $member->designation }}" >
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="designation_bn" class="form-label">Designation (Bangla)</label>
+                                                <input type="text" class="form-control" id="designation_bn"
+                                                       name="designation_bn" value="{{ $member->designation_bn }}">
+                                            </div>
+                                        </div>
+
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="posting_area" class="form-label">Posting Area</label>
                                                 <input type="text" class="form-control" id="posting_area"
-                                                       name="posting_area" value="{{ $member->posting_area }}" required>
+                                                       name="posting_area" value="{{ $member->posting_area }}">
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="mobile" class="form-label">Mobile</label>
+                                                <label for="mobile" class="form-label">Mobile <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="mobile" name="mobile"
                                                        value="{{ $member->mobile }}"  pattern="01[3-9][0-9]{8}"
-                                                       title="Please enter a valid Bangladeshi mobile number">
+                                                       title="Please enter a valid Bangladeshi mobile number" required>
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -145,6 +149,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+    
     <!-- Bootstrap 4 -->
     <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- AdminLTE App -->

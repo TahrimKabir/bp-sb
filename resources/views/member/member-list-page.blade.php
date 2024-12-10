@@ -91,6 +91,7 @@
                                     <table id="chunkedTable" class="display table table-striped" style="width:100%">
                                         <thead>
                                             <tr>
+                                                <th>SL No</th>
                                                 <th>BPID</th>
                                                 <th>Name</th>
                                                 <th>Designation</th>
@@ -155,6 +156,7 @@
                     type: 'GET', // Or 'GET' if you prefer
                 },
                 columns: [
+                    { data: 'serial' },
                     { data: 'bpid' },
                     { data: 'name_bn' },
                     { data: 'designation' },
