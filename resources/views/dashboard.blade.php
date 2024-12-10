@@ -355,58 +355,80 @@ $completedExamsCount = Exam_Schedule::where('status', 'completed')->count();
                                                 </div>
 
                                                 {{-- Course Management --}}
+                                                {{-- Course Management --}}
                                                 <div class="p-3 bg-white rounded">
-                                                    <h5 class="border-bottom pb-1">Available courses</h5>
+                                                    <h5 class="border-bottom pb-1">Course Management</h5>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div id="accordionExample">
-                                                                @foreach($courses as $course)
+                                                            <div class="accordion" id="accordionExample">
+                                                                @foreach ($courses as $course)
                                                                     <div class="card my-2">
                                                                         <div class="card-header" id="heading{{ $course->id_courses }}">
                                                                             <h2 class="mb-0">
-                                                                                <button
-                                                                                    class="btn btn-link btn-block text-left text-dark font-weight-bold"
-                                                                                    type="button"
-                                                                                    @if($course->status === 'inactive') disabled @endif
-                                                                                    data-toggle="collapse"
-                                                                                    @if($course->status === 'inactive') data-target="#" @else data-target="#collapse{{ $course->id_courses }}" @endif
-                                                                                    aria-expanded="false"
-                                                                                    aria-controls="collapse{{ $course->id_courses }}">
-                                                                                    {{ $course->title }} <!-- Displaying course name dynamically -->
-                                                                                    @if($course->status === 'inactive')
-                                                                                        <span class="text-danger">(Inactive)</span> <!-- Indicate that the course is inactive -->
-                                                                                    @endif
+                                                                                <button class="btn btn-link btn-block text-left text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapse{{ $course->id_courses }}" aria-expanded="false" aria-controls="collapse{{ $course->id_courses }}">
+                                                                                    {{ $course->title }}
                                                                                     <i class="fas fa-chevron-right float-right"></i>
                                                                                 </button>
                                                                             </h2>
                                                                         </div>
 
-                                                                        <div id="collapse{{ $course->id_courses }}" class="collapse"
-                                                                             aria-labelledby="heading{{ $course->id_courses }}"
-                                                                             data-parent="#accordionExample">
+                                                                        <div id="collapse{{ $course->id_courses }}" class="collapse" aria-labelledby="heading{{ $course->id_courses }}" data-parent="#accordionExample">
                                                                             <div class="card-body">
-                                                                                @if($course->lessons->isEmpty())
-                                                                                    <p class="text-muted">No lessons available for this course.</p>
-                                                                                @else
-                                                                                    <h5 class="font-weight-bold">List of Lessons:</h5> <!-- Clarification header -->
-                                                                                    <ul class="list-group">
-                                                                                        @foreach($course->lessons as $lesson)
-                                                                                            <li class="list-group-item">
-                                                                                                {{ $lesson->title }} <!-- Display lesson titles dynamically -->
-                                                                                            </li>
-                                                                                        @endforeach
-                                                                                    </ul>
-                                                                                @endif
+                                                                                <div class="row">
+                                                                                    <div class="col-md-4">
+                                                                                        <a href="{{url('admin/lesson-list/' . $course->id_courses)}}">
+                                                                                            <div class="card text-white" style="background: #e06b1e;">
+                                                                                                <div class="row card-body p-2 d-flex align-items-center">
+                                                                                                    <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                                                                                        <i class="fa fa-list-alt fa-2x" aria-hidden="true"></i>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 d-flex align-items-center justify-content-center">
+                                                                                                        <h6 class="pt-2">Lesson Plan Management</h6>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </a>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-4">
+                                                                                        <a href="{{ url('admin/material-list?course_filter=' . $course->id_courses) }}">
+                                                                                            <div class="card" style="background: #9149F0;">
+                                                                                                <div class="row card-body p-2 d-flex align-items-center">
+                                                                                                    <div class="col-md-3 d-flex align-items-center justify-content-center text-white">
+                                                                                                        <i class="fas fa-cog fa-2x" aria-hidden="true"></i>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 d-flex align-items-center justify-content-center">
+                                                                                                        <h6 class="text-white pt-2">Manage Course Materials</h6>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </a>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-4">
+                                                                                        <a href="#">
+                                                                                            <div class="card" style="background: #00639e;">
+                                                                                                <div class="row card-body p-2 d-flex align-items-center">
+                                                                                                    <div class="col-md-3 d-flex align-items-center justify-content-center text-white">
+                                                                                                        <i class="fas fa-cog fa-2x" aria-hidden="true"></i>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-9 d-flex align-items-center justify-content-center">
+                                                                                                        <h6 class="text-white pt-2">Quiz Ques. Configuration</h6>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
                                                             </div>
-
-
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>

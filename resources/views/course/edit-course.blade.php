@@ -54,11 +54,11 @@
                                         <div class="form-group">
                                             <label for="target_trainee">Target Trainee</label><br>
                                             @php
-                                                $trainees = ['SI', 'ASI', 'SERGEANT', 'CONSTABLE', 'ASP', 'SP', 'INSPECTOR', 'NAIK'];
+                                                $trainees = ["ADD-DIG", "SP", "Add. SP", "ASP", "INSPECTOR", "SI", "SERGEANT", "ASI", "ATSI", "NAIK", "CONSTABLE"];
                                                 $selected_trainees = explode(',', $course->target_trainee); // Convert string to array
                                             @endphp
                                             @foreach($trainees as $trainee)
-                                                <div class="form-check form-check-inline">
+                                                <div class="form-check ">
                                                     <input class="form-check-input" type="checkbox" name="target_trainee[]" value="{{ $trainee }}" {{ in_array($trainee, $selected_trainees) ? 'checked' : '' }}>
                                                     <label class="form-check-label">{{ $trainee }}</label>
                                                 </div>

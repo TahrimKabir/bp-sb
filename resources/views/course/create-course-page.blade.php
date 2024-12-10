@@ -55,41 +55,61 @@
                                         <div class="form-group">
                                             <label>Target Trainee:</label><br>
                                             <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="ADD-DIG" id="trainee_add_dig">
+                                                <label class="form-check-label" for="trainee_add_dig">Additional-DIG</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="SP" id="trainee_sp">
+                                                <label class="form-check-label" for="trainee_sp"> Superintendent of Police (SP)</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="Add. SP" id="trainee_add_sp">
+                                                <label class="form-check-label" for="trainee_add_sp">  Addl. Superintendent of Police (Add. SP)</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="ASP" id="trainee_asp">
+                                                <label class="form-check-label" for="trainee_asp"> Assistant Superintendent of Police (ASP)</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="INSPECTOR" id="trainee_inspector">
+                                                <label class="form-check-label" for="trainee_inspector">Inspector of Police (Insp.)</label>
+                                            </div>
+                                            <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="target_trainee[]" value="SI" id="trainee_si">
                                                 <label class="form-check-label" for="trainee_si">SI</label>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="ASI" id="trainee_asi">
-                                                <label class="form-check-label" for="trainee_asi">ASI</label>
-                                            </div>
+
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="target_trainee[]" value="SERGEANT" id="trainee_sergeant">
                                                 <label class="form-check-label" for="trainee_sergeant">Sergeant</label>
                                             </div>
+
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="CONSTABLE" id="trainee_constable">
-                                                <label class="form-check-label" for="trainee_constable">Constable</label>
+                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="ASI" id="trainee_asi">
+                                                <label class="form-check-label" for="trainee_asi">ASI</label>
                                             </div>
+
+
+
+
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="ASP" id="trainee_asp">
-                                                <label class="form-check-label" for="trainee_asp">ASP</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="SP" id="trainee_sp">
-                                                <label class="form-check-label" for="trainee_sp">SP</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="INSPECTOR" id="trainee_inspector">
-                                                <label class="form-check-label" for="trainee_inspector">Inspector</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="INSP" id="trainee_insp">
-                                                <label class="form-check-label" for="trainee_insp">INSP</label>
+                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="ATSI" id="trainee_atsi">
+                                                <label class="form-check-label" for="trainee_atsi">ATSI</label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="target_trainee[]" value="NAIK" id="trainee_naik">
                                                 <label class="form-check-label" for="trainee_naik">Naik</label>
                                             </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="target_trainee[]" value="CONSTABLE" id="trainee_constable">
+                                                <label class="form-check-label" for="trainee_constable">Constable</label>
+                                            </div>
+
+
                                         </div>
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>

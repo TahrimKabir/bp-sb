@@ -9,6 +9,7 @@ class BasicComputerTestQuestion extends Model
 {
     use HasFactory;
     protected $table="basic_computer_test_questions";
+    protected $primaryKey="question_id";
     protected $fillable=[
         'question_content',
         'question_type',

@@ -332,35 +332,7 @@
 
 
 
-                    <li class="nav-header">Course Materials</li>
-                    <!-- Manage Course Materials -->
-                    <li @if(request()->segment(2) == 'add-materials'||request()->segment(2)=='material-list') class="nav-item menu-open" @else class="nav-item" @endif>
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-book nav-icon"></i>
-                            <p>
-                                Manage Materials
-                                <i class="right fas fa-angle-right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ asset('admin/add-materials') }}"
-                                   @if(request()->segment(2) == 'add-materials') class="nav-link text-success"
-                                   @else class="nav-link" @endif>
-                                    <i class="fas fa-arrow-right nav-icon"></i>
-                                    <p>Add Material</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ asset('admin/material-list') }}"
-                                   @if(request()->segment(2) == 'material-list') class="nav-link text-success"
-                                   @else class="nav-link" @endif>
-                                    <i class="fas fa-arrow-right nav-icon"></i>
-                                    <p>Material List</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+
 
                     <li class="nav-header">Quiz Questions</li>
                     <!-- Lesson -->
