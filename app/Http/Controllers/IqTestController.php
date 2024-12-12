@@ -12,7 +12,7 @@ class IqTestController extends Controller
     public function showResult($examScheduleId){
 
         $examSchedule = ExamSchedule::with(['config.exam', 'member'])->findOrFail($examScheduleId);
-        $result = Result::where('exam_schedule_id', $examScheduleId)->first();;
+        $result = Result::where('exam_schedule_id', $examScheduleId)->first();
         return view('iqTest.result-page', compact('result','examSchedule'));
     }
 
