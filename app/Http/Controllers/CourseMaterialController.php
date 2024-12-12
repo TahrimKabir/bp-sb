@@ -22,63 +22,63 @@ class CourseMaterialController extends Controller
         return view('course.add-materials-page', compact('lesson'));
     }
 
-    public function addMaterials(){
-        $lessons=Lesson::all();
-        return view('course.add-materials-page',compact('lessons'));
-    }
+
 
     public function storeMaterial(Request $request)
     {
+        // Validate the lesson ID and material type
         $request->validate([
             'lesson_id' => 'required|exists:lessons,id_lessons',
-            'materials.*.material_type' => 'required|in:pdf,audio,video,link',
-            'materials.*.material_name' => 'nullable|string|max:255',
+            'material_type' => 'required|in:pdf,audio,video,link',
+            'material_name' => 'nullable|string|max:255',
         ]);
 
-        // Custom validation for `material_url` depending on `material_type`
-        foreach ($request->materials as $key => $material) {
-            if ($material['material_type'] === 'link') {
-                if (!isset($material['material_url']) || !filter_var($material['material_url'], FILTER_VALIDATE_URL)) {
-                    return redirect()->back()
-                        ->withErrors(["materials.$key.material_url" => 'The material URL must be a valid URL.'])
-                        ->withInput();
-                }
-            } else {
-                if (!$request->hasFile("materials.$key.material_url")) {
-                    return redirect()->back()
-                        ->withErrors(["materials.$key.material_url" => 'The material URL must be a file.'])
-                        ->withInput();
-                }
+        // Conditional validation for `material_url`
+        if ($request->material_type === 'link') {
+            $request->validate([
+                'material_url' => 'required|string|url',
+            ]);
+        } else {
+            $request->validate([
+                'material_url' => 'required|file',
+            ]);
 
-                $file = $request->file("materials.$key.material_url");
-                if (!in_array($file->getClientOriginalExtension(), ['pdf', 'mp3', 'mp4'])) {
-                    return redirect()->back()
-                        ->withErrors(["materials.$key.material_url" => 'The material URL must be a file of type: pdf, mp3, or mp4.'])
-                        ->withInput();
-                }
-            }
-        }
+            // Validate file extension based on the material type
+            $file = $request->file('material_url');
+            $allowedExtensions = match ($request->material_type) {
+                'pdf' => ['pdf'],
+                'audio' => ['mp3', 'wav', 'aac'],
+                'video' => ['mp4', 'avi', 'mkv'],
+                default => []
+            };
 
-        // Save materials
-        foreach ($request->materials as $key => $materialData) {
-            $material = new Material();
-            $material->lesson_id = $request->lesson_id;
-            $material->material_type = $materialData['material_type'];
-            $material->material_name = $materialData['material_name'] ?? null;
-
-            if ($materialData['material_type'] !== 'link') {
-                $file = $request->file("materials.$key.material_url");
-                $filePath = $file->store('materials', 'public');
-                $material->material_url = $filePath;
-            } else {
-                $material->material_url = $materialData['material_url'];
+            if (!in_array($file->getClientOriginalExtension(), $allowedExtensions)) {
+                return redirect()->back()
+                    ->withErrors(['material_url' => 'The material must be a valid file type for the selected material type.'])
+                    ->withInput();
             }
 
-            $material->save();
+            // Store the file
+            $filePath = $file->store('materials', 'public');
         }
 
-        return redirect()->back()->with('success', 'Materials added successfully!');
+        // Save material to the database
+        $material = new Material();
+        $material->lesson_id = $request->lesson_id;
+        $material->material_type = $request->material_type;
+        $material->material_name = $request->material_name ?? null;
+
+        if ($request->material_type === 'link') {
+            $material->material_url = $request->material_url;
+        } else {
+            $material->material_url = $filePath;
+        }
+
+        $material->save();
+        return redirect()->to('admin/material-list?lesson_filter='.$material->lesson_id)
+            ->with('success', 'Material Added successfully.');
     }
+
 
 
 
@@ -120,7 +120,7 @@ class CourseMaterialController extends Controller
     public function deleteMaterial($id)
     {
         $material = Material::findOrFail($id);
-
+$lessonId=$material->lesson_id;
         // Check if the material type is not 'link' and the file exists in storage
         if ($material->material_type !== 'link' && $material->material_url) {
             // Use Laravel's Storage facade to delete the file
@@ -130,9 +130,10 @@ class CourseMaterialController extends Controller
         }
 
 
+
         $material->delete();
 
-        return redirect()->route('admin.materials')
+        return redirect()->to('admin/material-list?lesson_filter='.$lessonId)
             ->with('success', 'Material deleted successfully.');
     }
 }

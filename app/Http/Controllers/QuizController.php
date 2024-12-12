@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
 
-    public function createQuestion(){
-        $courses=Course::with('lessons')->where('status',['active'])->get();
-        return view('course.quiz.add-quiz-question-page',compact('courses'));
+    public function createQuestion($lessonId)
+    {
+        $lesson = Lesson::with('course')->findOrFail($lessonId); // Fetch a single lesson with its associated course
+        return view('course.quiz.add-quiz-question-page', compact('lesson'));
     }
+
     public function storeQuestion(Request $request){
         $validate=$request->validate([
             'question'=>'required|string|max:255',
@@ -40,13 +43,14 @@ class QuizController extends Controller
         return back()->with('success','Question added successfully');
     }
 
-    public function quizQuestionList()
+    public function quizQuestionList($lesson_id)
     {
         $quizQuestions = [];
-        return view('course.quiz.quiz-question-list', compact('quizQuestions'));
+        $lesson = Lesson::with('course')->findOrFail($lesson_id);
+        return view('course.quiz.quiz-question-list', compact('quizQuestions','lesson'));
     }
 
-    public function quizQuestionListChunk(Request $request)
+    public function quizQuestionListChunk(Request $request, $lesson_id)
     {
         // Extract the DataTable parameters
         $start = $request->input('start', 0); // Starting row
@@ -59,18 +63,18 @@ class QuizController extends Controller
         $columns = ['question_id', 'lesson_id', 'course_id', 'question', 'a', 'b', 'c', 'd', 'answer'];
         $orderColumn = $columns[$orderColumnIndex] ?? 'question_id';
 
-        // Query the database
-        $query = QuizQuestion::query();
+        // Query the database for questions related to the given lesson_id
+        $query = QuizQuestion::where('lesson_id', $lesson_id);
 
         // Apply search filter
         if ($searchValue) {
             $query->where(function ($q) use ($searchValue) {
                 $q->where('question', 'like', "%$searchValue%")
-                  ->orWhere('a', 'like', "%$searchValue%")
-                  ->orWhere('b', 'like', "%$searchValue%")
-                  ->orWhere('c', 'like', "%$searchValue%")
-                  ->orWhere('d', 'like', "%$searchValue%")
-                  ->orWhere('answer', 'like', "%$searchValue%");
+                    ->orWhere('a', 'like', "%$searchValue%")
+                    ->orWhere('b', 'like', "%$searchValue%")
+                    ->orWhere('c', 'like', "%$searchValue%")
+                    ->orWhere('d', 'like', "%$searchValue%")
+                    ->orWhere('answer', 'like', "%$searchValue%");
             });
         }
 
@@ -79,10 +83,10 @@ class QuizController extends Controller
 
         // Apply sorting and pagination
         $data = $query->orderBy($orderColumn, $orderDirection)
-                      ->skip($start)
-                      ->take($length)
-                      ->get();
-        
+            ->skip($start)
+            ->take($length)
+            ->get();
+
         // Append action column
         $data->transform(function ($item, $index) use ($start) {
             $item->serial = $start + $index + 1;
@@ -95,13 +99,13 @@ class QuizController extends Controller
             $item->lesson_title = @$item->lesson->title;
 
             $item->action = '<div class="col-12 d-flex justify-content-center">
-                                    <button type="button" class="btn btn-danger btn-xs" onclick="confirmDelete(' . $item->question_id . ')">
-                                        Delete
-                                    </button>
-                                    <a href="' . url('admin/edit-quiz-question/' . $item->question_id) . '" class="btn btn-warning btn-xs ml-1">
-                                        Edit
-                                    </a>
-                            </div>';
+                                <button type="button" class="btn btn-danger btn-xs" onclick="confirmDelete(' . $item->question_id . ')">
+                                    Delete
+                                </button>
+                                <a href="' . url('admin/edit-quiz-question/' . $item->question_id) . '" class="btn btn-warning btn-xs ml-1">
+                                    Edit
+                                </a>
+                        </div>';
             return $item;
         });
 
@@ -113,6 +117,7 @@ class QuizController extends Controller
             'data' => $data, // Paginated data
         ]);
     }
+
 
     public function editQuizQuestion($id)
     {

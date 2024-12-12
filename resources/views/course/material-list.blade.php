@@ -140,7 +140,11 @@
                                                             <div class="lesson-title text-center ">
                                                                 {{ $lesson->title }}
                                                             </div>
-
+                                                            <div class="mt-3 mb-3 mx-3 text-lg-right">
+                                                                <a href="{{url('admin/add-materials/'.$lesson->id_lessons)}}" class="btn btn-success btn-xs">
+                                                                    <i class="fas fa-plus-circle mr-2"></i> Add Material
+                                                                </a>
+                                                            </div>
                                                             <table class="table table-bordered table-striped">
                                                                 <thead>
                                                                 <tr>
@@ -185,7 +189,7 @@
                                     <!-- Show No Materials Found Message -->
                                     @if($noMaterialsFound)
                                         <div class="no-materials-message">
-                                            No materials found for the selected filters.
+                                            No materials found .
                                         </div>
                                     @endif
 

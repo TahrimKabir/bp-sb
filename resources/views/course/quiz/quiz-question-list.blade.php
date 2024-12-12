@@ -13,7 +13,8 @@
         <div class="content-wrapper">
 
             <!-- Delete Confirmation Modal -->
-            <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+            <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
+                 aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -23,7 +24,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                                Are you sure you want to delete this Question? This action cannot be undone.
+                            Are you sure you want to delete this Question? This action cannot be undone.
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -46,76 +47,47 @@
                     <div class="row justify-content-center mt-4">
                         <div class="col-12 justify-content-center">
                             <div class="card">
-                                <div class="card-header clr-dark-green">
-                                    <h3 class=" display-6 text-center">Question List</h3>
+                                <div class="card-header clr-dark-green text-center">
+                                    <h2 class="display-5 mb-3">Quiz Questions</h2>
+                                    <h5 class="mb-0">
+        <span style="font-size: 1.5rem; font-weight: bold; color: #ffc107; text-transform: uppercase;">
+            Course:
+        </span>
+                                        <span class="text-white"
+                                              style="font-size: 1.25rem;">{{ $lesson->course->title }}</span>
+                                    </h5>
+                                      <h5>
+                                        <span
+                                            style="font-size: 1.5rem; font-weight: bold; color: #ffc107; text-transform: uppercase;">
+            Lesson:
+        </span>
+                                        <span class="text-white" style="font-size: 1.25rem;">{{ $lesson->title }}</span>
+                                    </h5>
                                 </div>
+
+
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    {{-- <table id="example1" class="table table-bordered table-striped text-center align-middle" >
+                                    <div class="mt-3 mb-3 mx-3 text-lg-right">
+                                        <a href="{{ url('admin/create-quiz-question/'.$lesson->id_lessons) }}" class="btn btn-success btn-lg">
+                                            <i class="fas fa-plus-circle mr-2"></i> Add New Question
+                                        </a>
+                                    </div>
+
+                                    <table id="chunkedTable" class="display table table-striped w-100">
                                         <thead>
-                                        <tr >
+                                        <tr>
                                             <th>SL No.</th>
                                             <th class="text-left">Question</th>
                                             <th>Option_a</th>
                                             <th>Option_b</th>
                                             <th>Option_c</th>
                                             <th>Option_d</th>
-
                                             <th>correct Option</th>
-                                            <th >Course</th>
-                                            <th >Lesson</th>
+                                            <th>Course</th>
+                                            <th>Lesson</th>
                                             <th>Action</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        @if($quizQuestions!=null)
-                                            @foreach($quizQuestions as $question)
-                                                <tr class="align-middle">
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td class="text-left">  {!! $question->question !!}
-                                                    </td>
-                                                    <td class="align-middle @if($question->answer=='a') clr-dark-green @endif ">{{$question->a}}</td>
-                                                    <td class="align-middle @if($question->answer=='b') clr-dark-green @endif ">{{$question->b}}</td>
-                                                    <td class="align-middle @if($question->answer=='c') clr-dark-green @endif ">{{$question->c}}</td>
-                                                    <td class="align-middle @if($question->answer=='d') clr-dark-green @endif ">{{$question->d}}</td>
-
-                                                    <td>{{$question->answer}}</td>
-                                                    <td>{{$question->course->title}}</td>
-                                                    <td>{{$question->lesson->title}}</td>
-                                                    <td>
-                                                        <div class="col-12 d-flex justify-content-center">
-
-                                                                <button type="button" class="btn btn-danger btn-xs" onclick="confirmDelete({{ $question->question_id }})">
-                                                                    Delete
-                                                                </button>
-                                                                <a href="{{ url('admin/edit-quiz-question/' . $question->question_id) }}" class="btn btn-warning btn-xs ml-1">
-                                                                    Edit
-                                                                </a>
-
-
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
-                                        </tbody>
-
-                                    </table> --}}
-
-                                    <table id="chunkedTable" class="display table table-striped w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>SL No.</th>
-                                                <th class="text-left">Question</th>
-                                                <th>Option_a</th>
-                                                <th>Option_b</th>
-                                                <th>Option_c</th>
-                                                <th>Option_d</th>
-                                                <th>correct Option</th>
-                                                <th >Course</th>
-                                                <th >Lesson</th>
-                                                <th>Action</th>
-                                            </tr>
                                         </thead>
                                     </table>
                                 </div>
@@ -160,7 +132,7 @@
     {{-- <script src="../../dist/js/demo.js"></script> --}}
     <!-- Page specific script -->
     <script>
-        $(function() {
+        $(function () {
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
@@ -170,25 +142,27 @@
         });
 
         $(document).ready(function () {
+            var lessonId = {{ $lesson->id_lessons }}; // Pass lesson ID from the view
+
             $('#chunkedTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/admin/quiz-question-list-chunk',
-                    type: 'GET', // Or 'GET' if you prefer
+                    url: '/admin/quiz-question-list-chunk/' + lessonId,
+                    type: 'GET',
                 },
                 columns: [
-                    { data: 'serial' },
-                    { data: 'question' },
-                    { data: 'a' },
-                    { data: 'b' },
-                    { data: 'c' },
-                    { data: 'd' },
-                    { data: 'answer' },
-                    { data: 'course_title' },
-                    { data: 'lesson_title' },
+                    {data: 'serial'},
+                    {data: 'question'},
+                    {data: 'a'},
+                    {data: 'b'},
+                    {data: 'c'},
+                    {data: 'd'},
+                    {data: 'answer'},
+                    {data: 'course_title'},
+                    {data: 'lesson_title'},
                     {
-                        data: 'action', 
+                        data: 'action',
                         orderable: false,
                         searchable: false,
                     }
@@ -196,26 +170,27 @@
                 pageLength: 10, // Number of rows per chunk
             });
         });
+
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
 
             var messageContainer = document.getElementById('message-container');
 
 
             if (messageContainer) {
 
-                setTimeout(function() {
+                setTimeout(function () {
 
                     messageContainer.style.display = 'none';
                 }, 4000);
             }
         });
 
-        function confirmDelete(id){
-            let deleteForm=document.getElementById('deleteQuestionForm');
-            deleteForm.action="{{url('admin/delete-quiz-question')}}/"+id;
+        function confirmDelete(id) {
+            let deleteForm = document.getElementById('deleteQuestionForm');
+            deleteForm.action = "{{url('admin/delete-quiz-question')}}/" + id;
             $('#deleteConfirmationModal').modal('show');
 
         }

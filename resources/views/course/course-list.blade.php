@@ -59,12 +59,13 @@
                                     <table id="chunkedTable" class="display table table-striped w-100">
                                         <thead>
                                             <tr>
-                                                <th>SL No.</th>
-                                                <th>Course Title</th>
-                                                <th>Course No.</th>
-                                                <th>Status</th>
-                                                <th>Target Trainee</th>
-                                                <th>Action</th>
+                                                <th class="text-center">SL No.</th>
+                                                <th class="text-center">Course Title</th>
+                                                <th class="text-center">Course No.</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Target Trainee</th>
+
+                                                <th class="text-center">Action</th>
 
                                             </tr>
                                         </thead>

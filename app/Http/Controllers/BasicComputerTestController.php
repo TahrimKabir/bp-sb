@@ -240,6 +240,52 @@ class BasicComputerTestController extends Controller
         return redirect()->back()->with('success', 'Question set created successfully.');
     }
 
+    public function editQuestionSet($id)
+    {
+        // Find the QuestionSet by ID
+        $questionSet = QuestionSet::findOrFail($id);
+        $totalMcqQuestions = BasicComputerTestQuestion::where('question_type', 'mcq')->count();
+        $totalTrueFalseQuestions = BasicComputerTestQuestion::where('question_type', 'true_false')->count();
+        $totalTypingTestQuestions = TypingTestQuestion::count();
+
+        return view('computerTest.basic.question-set-edit', compact('questionSet','totalMcqQuestions', 'totalTrueFalseQuestions', 'totalTypingTestQuestions'));
+    }
+
+    public function updateQuestionSet(Request $request, $id)
+    {
+        // Find the existing question set
+        $questionSet = QuestionSet::findOrFail($id);
+
+        // Validate the request
+        $request->validate([
+            'question_set_name' => 'required|string',
+            'num_of_mcq' => 'required|integer|min:1',
+            'num_of_true_false' => 'required|integer|min:1',
+            'num_of_typing_test' => 'required|integer|min:1',
+        ]);
+
+        // Update the question set
+        $questionSet->update($request->all());
+
+        // Redirect back with success message
+        return redirect()->to('/computer-test/basic/question-set-list')->with('success', 'Question Set updated successfully!');
+    }
+
+
+    public function deleteQuestionSet($id)
+    {
+        try {
+            $questionSet = QuestionSet::findOrFail($id);
+            $questionSet->delete();
+
+            return response()->json(['success' => 'Question set deleted successfully!']);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
+    }
+
+
     public function showResult($examScheduleId)
     {
         $examSchedule = ExamSchedule::with(['config.exam', 'member'])->findOrFail($examScheduleId);

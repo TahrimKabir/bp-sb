@@ -24,7 +24,7 @@ class ScheduleListController extends Controller
                 ->groupBy('exam_config_id');
         }
 
-        return view('schedule-list', compact('schedule', 'examConfigurations', 'selectedConfigId'));
+        return view('Examschedule.schedule-list', compact('schedule', 'examConfigurations', 'selectedConfigId'));
     }
 
 

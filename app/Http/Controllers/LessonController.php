@@ -29,10 +29,12 @@ class LessonController extends Controller
     }
 
 
-    public function createLesson(){
-        $courses=Course::all();
-        return view('course.lesson.add-lesson-page',compact('courses'));
+    public function createLesson($courseId)
+    {
+        $course = Course::findOrFail($courseId); // Ensure the course exists
+        return view('course.lesson.add-lesson-page', compact('course'));
     }
+
 
     public function storeLesson(Request $request)
 
@@ -69,26 +71,34 @@ class LessonController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-
-
             'courses_id' => 'required|exists:courses,id_courses',
         ]);
 
         $lesson = Lesson::findOrFail($id);
+
+        // Update the lesson with validated data
         $lesson->update($validated);
 
-        return redirect()->route('admin.lesson.list')->with('success', 'Lesson updated successfully!');
+        // Redirect to the lesson list with the courseId of the updated lesson
+        return redirect()->route('admin.lesson.list', ['courseId' => $lesson->courses_id])
+            ->with('success', 'Lesson updated successfully!');
     }
+
     public function deleteLesson($id)
     {
         // Find the lesson by its ID
         $lesson = Lesson::findOrFail($id);
 
+        // Retrieve the course ID before deleting the lesson
+        $courseId = $lesson->courses_id;
+
         // Delete the lesson
         $lesson->delete();
 
-        // Redirect back with success message
-        return redirect()->route('admin.lesson.list')->with('success', 'Lesson deleted successfully!');
+        // Redirect to the lesson list with the courseId of the deleted lesson
+        return redirect()->route('admin.lesson.list', ['courseId' => $courseId])
+            ->with('success', 'Lesson deleted successfully!');
     }
+
 
 }

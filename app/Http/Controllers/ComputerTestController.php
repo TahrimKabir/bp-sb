@@ -13,7 +13,7 @@ class ComputerTestController extends Controller
     public function showQuestionSetList()
     {
         $questionSets = [];
-        return view('computerTest.question-list-page', compact('questionSets'));
+        return view('computerTest.advanced.question-list-page', compact('questionSets'));
     }
 
     public function showQuestionSetListChunk(Request $request)
@@ -48,12 +48,12 @@ class ComputerTestController extends Controller
                       ->skip($start)
                       ->take($length)
                       ->get();
-        
+
         // Append action column
         $data->transform(function ($item, $index) use ($start) {
             $item->serial = $start + $index + 1;
             $item->num_of_question = $item->questions->count();
-            
+
             return $item;
         });
 
@@ -67,7 +67,7 @@ class ComputerTestController extends Controller
     }
 
     public function createQuestion(){
-        return view('computerTest.create-question-page');
+        return view('computerTest.advanced.create-question-page');
     }
 
 //    public function editQuestion($id)

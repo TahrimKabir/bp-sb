@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class ScheduleController extends Controller
 {
 
-    public function index()
+    public function createSchedule()
     {
         $rank = Member::select('post', 'designation_bn')->distinct()->get();
         $member = Member::leftJoin('results', 'members.bpid', '=', 'results.bpid')
@@ -25,7 +25,7 @@ class ScheduleController extends Controller
             ->get();
 
         $exam = Exam::all();
-        return view('create-schedule', compact('rank', 'member', 'exam'));
+        return view('Examschedule.create-schedule', compact('rank', 'member', 'exam'));
     }
 
     public function store(Request $request)
@@ -94,5 +94,60 @@ class ScheduleController extends Controller
             return redirect()->back()->with('fail', 'Configuration name/exam/date already exists!');
         }
     }
+
+
+    public function showAddMembersForm($configurationId)
+    {
+        // Fetch the specific exam configuration by ID
+        $examConfiguration = Exam_configuration::findOrFail($configurationId);
+        if (now() >= $examConfiguration->start_time) {
+            return redirect()->back()->with('fail', 'The exam has already started. You cannot add new members.');
+        }
+
+
+
+
+
+        $alreadyAddedMemberIds = Exam_Schedule::where('exam_config_id', $configurationId)
+            ->pluck('bpid')
+            ->toArray();
+
+        $member = Member::whereNotIn('bpid', $alreadyAddedMemberIds)->get();
+
+        $rank = Member::select('post', 'designation_bn')->distinct()->get();
+
+
+        return view('examSchedule.add-members', compact('examConfiguration','rank','member'));
+    }
+
+
+    public function addMembers(Request $request)
+    {
+        $validated = $request->validate([
+            'exam_config_id' => 'required|exists:exam_configuration,id',
+            'bpid' => 'required|array|min:1',
+
+        ]);
+
+        $examConfig = Exam_configuration::find($validated['exam_config_id']);
+
+        // Ensure the current time is before the start time of the exam
+        if (now() >= $examConfig->start_time) {
+            return redirect()->back()->with('fail', 'You cannot add members after the exam start time.');
+        }
+
+        // Add new members to the Exam_Schedule table
+        foreach ($validated['bpid'] as $bpid) {
+            Exam_Schedule::create([
+                'bpid' => $bpid,
+                'exam_config_id' => $examConfig->id,
+                'password' => random_int(100000, 999999), // Generate a random password
+            ]);
+        }
+
+        return redirect()->to('/schedule-list?exam_config_id='.$examConfig->id)->with('success', 'Members added successfully!');
+
+    }
+
 
 }

@@ -35,7 +35,7 @@
                                 <div class="card-header clr-dark-green">
 
                                     <h3 class="text-center display-6 mb-0">
-                                        Edit Question
+                                        Create Quiz Question
                                     </h3>
                                 </div>
                                 <div class="card-body">
@@ -43,34 +43,30 @@
                                         @csrf
 
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <label for="course_id" class="d-block">Course</label>
-                                                <select name="course_id" id="course_id" class="form-control">
-                                                    <option value="">Select a Course</option>
-                                                    @foreach($courses as $course)
-                                                        <option value="{{ $course->id_courses }}"
-                                                        >
-                                                            {{ $course->title }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="course_title" class="font-weight-bold">Course</label>
+                                                <input
+                                                    type="text"
+                                                    id="course_title"
+                                                    class="form-control"
+                                                    value="{{ $lesson->course->title }}"
+                                                    readonly>
                                             </div>
 
-                                            <div class="col-md-6">
-                                                <label for="lesson_id" class="d-block">Lesson</label>
-                                                <select name="lesson_id" id="lesson_id" class="form-control">
-                                                    <option value="">Select a Lesson</option>
-                                                    @foreach($courses as $course)
-                                                        @foreach($course->lessons as $lesson)
-                                                            <option value="{{ $lesson->id_lessons }}"
-                                                                    data-course="{{ $course->id_courses }}"
-                                                            >
-                                                                {{ $lesson->title }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endforeach
-                                                </select>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="lesson_title" class="font-weight-bold">Lesson</label>
+                                                <input
+                                                    type="text"
+                                                    id="lesson_title"
+                                                    class="form-control"
+                                                    value="{{ $lesson->title }}"
+                                                    readonly>
+                                                <input type="hidden" name="lesson_id" value="{{ $lesson->id_lessons }}">
                                             </div>
+
+
+
+
 
 
                                             <div class="col-md-12">

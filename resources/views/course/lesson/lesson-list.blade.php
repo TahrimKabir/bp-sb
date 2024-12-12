@@ -39,18 +39,45 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+
+                        @if(session('fail'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('fail') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                     <div class="row justify-content-center mt-4">
                         <div class="col-12 justify-content-center">
                             <div class="card">
                                 <div class="card-header clr-dark-green">
                                     <h3 class="display-6 text-center">
                                         @if($courseId)
-                                          {{ $lessons->first()->course->title ?? 'No Lesson Available' }}
+                                            {{ $lessons->first()->course->title ?? 'No Lesson Available' }}
                                         @else
                                             All Lessons
                                         @endif
                                     </h3>
                                 </div>
+
+                                @if($courseId)
+                                    <div class="mt-3 mb-3 mx-3 text-lg-right">
+                                        <a href="{{ url('admin/create-lesson/' . $courseId) }}" class="btn btn-success btn-lg">
+                                            <i class="fas fa-plus-circle mr-2"></i> Create New Lesson
+                                        </a>
+                                    </div>
+                                @endif
+
+
                                 <div class="card-body">
 
                                     <table id="example1" class="table table-bordered table-striped text-center align-middle">
@@ -60,6 +87,7 @@
                                             <th>Lesson Title</th>
                                             <th>Lesson No.</th>
                                             <th>Course Materials</th>
+                                            <th>Quiz Questions</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -80,7 +108,7 @@
                                                     <td>
                                                         <div class=" d-flex justify-content-center">
                                                             <a href="{{ url('admin/material-list?lesson_filter=' . $lesson->id_lessons. '&course_filter=' . $lesson->courses_id) }}" class="btn btn-info btn mx-2">
-                                                                View Materials
+                                                                <i class="fas fa-folder mr-2"></i> View Materials
                                                             </a>
                                                             <a href="{{url('admin/add-materials/'.$lesson->id_lessons)}}"  class="btn btn-secondary btn mx-2">
                                                                 <i class="fas fa-folder-plus mr-2"></i> Add Material
@@ -88,14 +116,29 @@
 
                                                         </div>
                                                     </td>
+
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            <!-- Quiz Questions Button -->
+                                                            <a href="{{url('/admin/quiz-question-list/'.$lesson->id_lessons)}}" class="btn btn-info btn mx-2">
+                                                                <i class="fas fa-question-circle mr-2"></i> Quiz Questions
+                                                            </a>
+
+                                                            <!-- Add Question Button -->
+                                                            <a href="{{url('admin/create-quiz-question/'.$lesson->id_lessons)}}" class="btn btn-secondary btn mx-2">
+                                                                <i class="fas fa-plus-circle mr-2"></i> Add Question
+                                                            </a>
+                                                        </div>
+                                                    </td>
+
                                                     <td>
                                                         <div class="d-flex justify-content-center">
 
                                                             <a href="{{ url('admin/edit-lesson/' . $lesson->id_lessons) }}" class="btn btn-warning btn ml-1 mx-2">
-                                                                Edit
+                                                                <i class="fas fa-edit"></i>    Edit
                                                             </a>
                                                             <button type="button" class="btn btn-danger btn ml-1 mx-2" onclick="confirmDelete({{ $lesson->id_lessons }})">
-                                                                Delete
+                                                                <i class="fas fa-trash"></i>  Delete
                                                             </button>
                                                         </div>
                                                     </td>
