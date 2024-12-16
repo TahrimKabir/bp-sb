@@ -377,13 +377,11 @@ $completedExamsCount = Exam_Schedule::where('status', 'completed')->count();
                                                                         <div id="collapse{{ $course->id_courses }}" class="collapse" aria-labelledby="heading{{ $course->id_courses }}" data-parent="#accordionExample">
                                                                             <div class="card-body">
                                                                                 <div class="row">
-                                                                                    <div class="col-md-4">
+                                                                                    <div class="col-md-12">
                                                                                         <a href="{{url('admin/lesson-list/' . $course->id_courses)}}">
                                                                                             <div class="card text-white" style="background: #e06b1e;">
                                                                                                 <div class="row card-body p-2 d-flex align-items-center">
-                                                                                                    <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                                                                                        <i class="fa fa-list-alt fa-2x" aria-hidden="true"></i>
-                                                                                                    </div>
+
                                                                                                     <div class="col-md-9 d-flex align-items-center justify-content-center">
                                                                                                         <h6 class="pt-2">Lesson Plan Management</h6>
                                                                                                     </div>
@@ -392,35 +390,9 @@ $completedExamsCount = Exam_Schedule::where('status', 'completed')->count();
                                                                                         </a>
                                                                                     </div>
 
-                                                                                    <div class="col-md-4">
-                                                                                        <a href="{{ url('admin/material-list?course_filter=' . $course->id_courses) }}">
-                                                                                            <div class="card" style="background: #9149F0;">
-                                                                                                <div class="row card-body p-2 d-flex align-items-center">
-                                                                                                    <div class="col-md-3 d-flex align-items-center justify-content-center text-white">
-                                                                                                        <i class="fas fa-cog fa-2x" aria-hidden="true"></i>
-                                                                                                    </div>
-                                                                                                    <div class="col-md-9 d-flex align-items-center justify-content-center">
-                                                                                                        <h6 class="text-white pt-2">Manage Course Materials</h6>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </a>
-                                                                                    </div>
 
-                                                                                    <div class="col-md-4">
-                                                                                        <a href="#">
-                                                                                            <div class="card" style="background: #00639e;">
-                                                                                                <div class="row card-body p-2 d-flex align-items-center">
-                                                                                                    <div class="col-md-3 d-flex align-items-center justify-content-center text-white">
-                                                                                                        <i class="fas fa-cog fa-2x" aria-hidden="true"></i>
-                                                                                                    </div>
-                                                                                                    <div class="col-md-9 d-flex align-items-center justify-content-center">
-                                                                                                        <h6 class="text-white pt-2">Quiz Ques. Configuration</h6>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </a>
-                                                                                    </div>
+
+
                                                                                 </div>
                                                                             </div>
                                                                         </div>
