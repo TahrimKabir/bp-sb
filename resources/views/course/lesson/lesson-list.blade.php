@@ -107,7 +107,7 @@
                                                     <td>{{ $lesson->lesson_no }}</td>
                                                     <td>
                                                         <div class=" d-flex justify-content-center">
-                                                            <a href="{{ url('admin/material-list?lesson_filter=' . $lesson->id_lessons. '&course_filter=' . $lesson->courses_id) }}" class="btn btn-info btn mx-2">
+                                                            <a href="{{ url('admin/material-list?lesson_filter=' . $lesson->id_lessons) }}" class="btn btn-info btn mx-2">
                                                                 <i class="fas fa-folder mr-2"></i> View Materials
                                                             </a>
                                                             <a href="{{url('admin/add-materials/'.$lesson->id_lessons)}}"  class="btn btn-secondary btn mx-2">
