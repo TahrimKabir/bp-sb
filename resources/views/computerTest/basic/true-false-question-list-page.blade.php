@@ -96,7 +96,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <table id="example1"
+                                    {{-- <table id="example1"
                                            class="table table-bordered table-striped text-center align-middle">
                                         <thead>
                                         <tr>
@@ -138,6 +138,17 @@
                                         @endif
                                         </tbody>
 
+                                    </table> --}}
+
+                                    <table id="chunkedTable" class="display table table-striped w-100">
+                                        <thead>
+                                            <tr>
+                                                <th>SL No.</th>
+                                                <th class="text-center">Question</th>
+                                                <th class="text-center">Answer</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
@@ -150,8 +161,7 @@
         </div>
     @endsection
 
-@endsection
-<!-- ./wrapper -->
+    <!-- ./wrapper -->
 {{-- Confirmation Modal --}}
 <div id="confirmationModal" class="modal">
     <div class="modal-content">
@@ -161,6 +171,8 @@
         <button type="button" onclick="closeModal()" class="btn btn-secondary">Cancel</button>
     </div>
 </div>
+
+@endsection
 <!-- jQuery -->
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -198,14 +210,27 @@
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+        });
+
+        $(document).ready(function () {
+            $('#chunkedTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/computer-test/basic/true-false-question-list-chunk',
+                    type: 'GET', // Or 'GET' if you prefer
+                },
+                columns: [
+                    { data: 'serial' },
+                    { data: 'question_content' },
+                    { data: 'correct_answer' },
+                    {
+                        data: 'action', 
+                        orderable: false,
+                        searchable: false,
+                    }
+                ],
+                pageLength: 10, // Number of rows per chunk
             });
         });
     </script>
