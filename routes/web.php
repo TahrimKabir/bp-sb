@@ -95,7 +95,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/store-typing-test-question', [TypingTestController::class, 'storeQuestion']);
     Route::get('/edit-typing-test-question/{id}', [TypingTestController::class, 'editQuestion']);
     Route::post('/update-typing-test-question', [TypingTestController::class, 'updateQuestion']);
-    Route::delete('/delete-typing-test-question/{id}', [TypingTestController::class, 'deleteQuestion']);
+    Route::get('/delete-typing-test-question/{id}', [TypingTestController::class, 'deleteQuestion']);
 
 
     //Computer Test Questions

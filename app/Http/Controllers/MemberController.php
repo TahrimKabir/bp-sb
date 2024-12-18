@@ -224,7 +224,6 @@ class MemberController extends Controller
     {
         // Validate the form data
         $validatedData = $request->validate([
-
             'name' => 'nullable',
             'name_bn'=>'required|string',
             'designation' => 'nullable',
