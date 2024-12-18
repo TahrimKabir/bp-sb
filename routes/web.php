@@ -175,7 +175,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('admin/add-materials/{lesson_id}', [CourseMaterialController::class, 'addMaterial']);
     Route::post('/admin/store-materials', [CourseMaterialController::class, 'storeMaterial'])->name('admin.store.materials');
     Route::get('/admin/material-list', [CourseMaterialController::class, 'showMaterialList'])->name('admin.materials');
-    Route::get('/admin/delete-materials/{id}', [CourseMaterialController::class, 'deleteMaterial'])->name('admin.materials.destroy');
+    Route::delete('/admin/delete-materials/{id}', [CourseMaterialController::class, 'deleteMaterial'])->name('admin.materials.destroy');
 
 
 ///lesson management

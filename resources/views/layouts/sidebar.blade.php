@@ -12,17 +12,6 @@
             </div>
         </div> --}}
 
-        <!-- SidebarSearch Form -->
-        <div class="form-inline mt-2">
-            <div class="input-group" data-widget="sidebar-search">
-            <input class="form-control form-control-sidebar bg-white" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-                <button class="btn btn-sidebar bg-success">
-                <i class="fas fa-search fa-fw text-white"></i>
-                </button>
-            </div>
-            </div>
-        </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2" style="width: 100%;">

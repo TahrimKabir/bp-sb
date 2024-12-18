@@ -164,8 +164,11 @@
                                                                                     data-target="#viewMaterialModal"
                                                                                     data-name="{{ $material->material_name }}"
                                                                                     data-type="{{ ucfirst($material->material_type) }}"
-                                                                                    {{-- data-url="{{ route('get.storage.file', ['filename' => $material->material_url]) }}"> --}}
-                                                                                    data-url="{{ env('APP_URL') }}/get-file?filename={{ $material->material_url }}">
+                                                                                    @if($material->material_type != 'link')
+                                                                                        data-url="{{ env('APP_URL') }}/get-file?filename={{ $material->material_url }}"
+                                                                                    @else
+                                                                                        data-url="{{ $material->material_url }}"
+                                                                                @endif>
                                                                                 View
                                                                             </button>
                                                                             <a href="#"
@@ -176,6 +179,7 @@
                                                                                 Delete
                                                                             </a>
                                                                         </td>
+
                                                                     </tr>
                                                                 @endforeach
                                                                 </tbody>
