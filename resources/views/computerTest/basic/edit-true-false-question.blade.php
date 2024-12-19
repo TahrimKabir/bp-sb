@@ -67,7 +67,7 @@
                                         <!-- Submit Button -->
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <button class="btn btn-sm clr-dark-green text-white form-control">Update</button>
+                                                <button class="btn btn-success">Update</button>
                                             </div>
                                         </div>
                                     </form>

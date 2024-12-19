@@ -83,10 +83,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/schedule-created', [ScheduleController::class, 'store'])->name('store-schedule');
     Route::get('/add-member-to-schedule/{configurationID}', [ScheduleController::class, 'showAddMembersForm']);
     Route::post('/store-member-to-schedule', [ScheduleController::class, 'addMembers']);
+    Route::get('/schedule/{id}', [ScheduleListController::class, 'show'])->name('schedule.show');
+
     Route::get('/schedule-list', [ScheduleListController::class, 'index'])->name('schedule.index');
     Route::get('/edit/schedule/{id}', [ScheduleListController::class, 'edit']);
-    Route::post('/schedule-updated', [ScheduleListController::class, 'update'])->name('update-schedule');
+    Route::put('/update/schedule/{id}', [ScheduleListController::class, 'update'])->name('update-schedule');
+
     Route::get('/delete/schedule/{id}', [ScheduleListController::class, 'delete']);
+// Route for deleting exam schedule configuration
+    Route::delete('/exam-configuration/{id}', [ScheduleListController::class, 'deleteConfiguration'])->name('exam.configuration.destroy');
 
     //typing test questions
     Route::get('/typing-test-question-list', [TypingTestController::class, 'showQuestionList']);

@@ -35,11 +35,15 @@
                                     <form action="{{ url('/computer-test/basic/mcq-question-update/' . $question->question_id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-
-                                        <div class="form-group">
-                                            <label for="question_content">Question</label>
-                                            <textarea class="form-control" id="question_content" name="question_content" rows="3" required>{{ $question->question_content }}</textarea>
-                                        </div>
+                                        <label for="" class="d-block">Question
+                                            <textarea id="summernote" name="question_content">
+                                                  {{$question->question_content}}
+                                                </textarea>
+                                        </label>
+{{--                                        <div class="form-group">--}}
+{{--                                            <label for="question_content">Question</label>--}}
+{{--                                            <textarea class="form-control" id="question_content" name="question_content" rows="3" required>{{ $question->question_content }}</textarea>--}}
+{{--                                        </div>--}}
 
                                         <div class="form-group">
                                             <label for="option1">Option 1</label>

@@ -114,7 +114,7 @@
                                             @foreach($mcqQuestions as $key => $question)
                                                 <tr class="align-middle">
                                                     <td class="p-3">{{ $loop->iteration }}</td>
-                                                    <td > {{ $question->question_content}}
+                                                    <td > {!! $question->question_content !!}
                                                     </td>
                                                     <td class="p-3 @if($question->correct_answer == 1) clr-dark-green @endif"> {{$question->option1}}</td>
                                                     <td class="p-3 @if($question->correct_answer == 2) clr-dark-green @endif"> {{$question->option2}}</td>

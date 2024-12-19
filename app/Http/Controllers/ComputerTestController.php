@@ -101,7 +101,7 @@ class ComputerTestController extends Controller
         ]);
 
 
-        $this->processComputerTestQuestions($request, $questionSet->id);
+        $this->processComputerTestQuestions($request, $questionSet->question_set_id);
 
         return redirect()->back()->with('success', 'Question set created successfully');
     }
