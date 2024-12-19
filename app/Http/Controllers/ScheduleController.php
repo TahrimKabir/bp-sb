@@ -104,10 +104,6 @@ class ScheduleController extends Controller
             return redirect()->back()->with('fail', 'The exam has already started. You cannot add new members.');
         }
 
-
-
-
-
         $alreadyAddedMemberIds = Exam_Schedule::where('exam_config_id', $configurationId)
             ->pluck('bpid')
             ->toArray();
@@ -117,7 +113,7 @@ class ScheduleController extends Controller
         $rank = Member::select('post', 'designation_bn')->distinct()->get();
 
 
-        return view('examSchedule.add-members', compact('examConfiguration','rank','member'));
+        return view('Examschedule.add-members', compact('examConfiguration','rank','member'));
     }
 
 

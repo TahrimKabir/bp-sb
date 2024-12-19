@@ -167,6 +167,11 @@ class MemberController extends Controller
 
         unset($rows[0]);
 
+        // Filter unique rows using array_unique with serialization
+        $rows = array_map('serialize', $rows);
+        $rows = array_unique($rows);
+        $rows = array_map('unserialize', $rows);
+
         $validPostValues = ['ASI', 'ADD-DIG', 'ATSI', 'CONSTABLE', 'INSPECTOR', 'SI', 'SERGEANT'];
 
         foreach ($rows as $row) {
@@ -219,7 +224,6 @@ class MemberController extends Controller
     {
         // Validate the form data
         $validatedData = $request->validate([
-
             'name' => 'nullable',
             'name_bn'=>'required|string',
             'designation' => 'nullable',

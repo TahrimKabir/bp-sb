@@ -100,7 +100,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/store-typing-test-question', [TypingTestController::class, 'storeQuestion']);
     Route::get('/edit-typing-test-question/{id}', [TypingTestController::class, 'editQuestion']);
     Route::post('/update-typing-test-question', [TypingTestController::class, 'updateQuestion']);
-    Route::delete('/delete-typing-test-question/{id}', [TypingTestController::class, 'deleteQuestion']);
+    Route::get('/delete-typing-test-question/{id}', [TypingTestController::class, 'deleteQuestion']);
 
 
     //Computer Test Questions
@@ -125,17 +125,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/computer-test/basic/create-mcq-question', [BasicComputerTestController::class, 'createMcqQuestion']);
     Route::post('/computer-test/basic/store-mcq-question', [BasicComputerTestController::class, 'storeMcqQuestion']);
     Route::get('/computer-test/basic/mcq-question-list', [BasicComputerTestController::class, 'mcqQuestionList']);
+    Route::get('/computer-test/basic/mcq-question-list-chunk', [BasicComputerTestController::class, 'mcqQuestionListChunk']);
     Route::get('/computer-test/basic/mcq-question-edit/{id}', [BasicComputerTestController::class, 'editMcqQuestion']);
     Route::put('/computer-test/basic/mcq-question-update/{question}', [BasicComputerTestController::class, 'updateMcqQuestion'])->name('mcq.update');
-    Route::delete('/computer-test/basic/mcq-question-delete/{id}', [BasicComputerTestController::class, 'mcqQuestionDelete']);
+    Route::get('/computer-test/basic/mcq-question-delete/{id}', [BasicComputerTestController::class, 'mcqQuestionDelete']);
 
     //true false questions
     Route::get('/computer-test/basic/create-true-false-question', [BasicComputerTestController::class, 'createTrueFalseQuestion']);
     Route::post('/computer-test/basic/store-true-false-question', [BasicComputerTestController::class, 'storeTrueFalseQuestion']);
     Route::get('/computer-test/basic/true-false-question-list', [BasicComputerTestController::class, 'trueFalseQuestionList']);
+    Route::get('/computer-test/basic/true-false-question-list-chunk', [BasicComputerTestController::class, 'trueFalseQuestionListChunk']);
     Route::get('computer-test/basic/edit-true-false-question/{id}', [BasicComputerTestController::class, 'editTrueFalseQuestion']);
     Route::put('computer-test/basic/update-true-false-question/{id}', [BasicComputerTestController::class, 'updateTrueFalseQuestion']);
-    Route::delete('/computer-test/basic/true-false-question-delete/{id}', [BasicComputerTestController::class, 'trueFalseQuestionDelete']);
+    Route::get('/computer-test/basic/true-false-question-delete/{id}', [BasicComputerTestController::class, 'trueFalseQuestionDelete']);
 
     //question sets
     Route::get('/computer-test/basic/create-question-set', [BasicComputerTestController::class, 'createQuestionSet']);
