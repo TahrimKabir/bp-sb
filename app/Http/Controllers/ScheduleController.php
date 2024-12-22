@@ -141,7 +141,7 @@ class ScheduleController extends Controller
             ]);
         }
 
-        return redirect()->to('/schedule-list?exam_config_id='.$examConfig->id)->with('success', 'Members added successfully!');
+        return redirect()->route('schedule.show',$examConfig->id)->with('success', 'Members added successfully!');
 
     }
 
